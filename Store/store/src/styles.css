@@ -1,0 +1,29 @@
+.App {
+  font-family: sans-serif;
+  text-align: center;
+}
+.box {
+  background-color: lightgrey;
+  width: 300px;
+  border: 15px solid green;
+  padding: 50px;
+  margin: 20px;
+}
+table
+
+ {
+  border: 1px solid black;
+  width:200px;
+  height: 10px;
+  padding: 5px;
+ }
+ body{
+  background-image: linear-gradient(to right, #53a6ef, #C8D3EB);
+ }
+ input[type=text] {
+  background-color: white;
+ 
+  background-position: 10px 10px;
+  background-repeat: no-repeat;
+  padding-left: 40px;
+}
