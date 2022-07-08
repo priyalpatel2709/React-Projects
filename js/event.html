@@ -1,0 +1,64 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=
+    , initial-scale=1.0">
+    <title>Document</title>
+    <style>
+        h1{
+            color: rgb(243, 5, 5);
+            margin-left: 40px;
+        }
+        .a1{
+            width: 320px;
+            padding: 10px;
+            border: 5px solid rgb(37, 121, 232);
+            margin: 0;
+        }
+        .a2{
+            width: 220px;
+            padding: 10px;
+            border: 5px solid rgb(62, 13, 223);
+            margin: 0;
+        }  
+        .a3{
+            width: 120px;
+            padding: 10px;
+            border: 5px solid rgb(84, 227, 12);
+            margin: 0;
+        }
+   
+    </style>
+</head>
+<body>
+    <div class="a1"><h1>1st</h1>
+        <div class="a2"><h1>2nd</h1>
+            <div class="a3"><h1>3rd</h1></div>
+        </div>
+    </div>
+<p id="demo1"></p>    
+<p id="demo2"></p>    
+<p id="demo3"></p>    
+</body>
+<script>
+const frist =document.querySelector(".a1")
+const sec =document.querySelector(".a2")
+const last =document.querySelector(".a3")
+
+frist.addEventListener('click',
+e=>{ console.log('1st')
+document.getElementById("demo1").innerHTML = '1st';},
+{capture : true}
+)
+sec.addEventListener('click',e=>{
+    document.getElementById("demo2").innerHTML = '2nd';
+    console.log('2nd');
+})
+last.addEventListener('click',e=>{
+    console.log('3rd');
+    document.getElementById("demo3").innerHTML = '3rd';
+})
+</script>
+</html>

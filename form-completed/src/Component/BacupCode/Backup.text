@@ -1,0 +1,191 @@
+// <!-- <!-- <!-- <div class="mb-3">
+//     <label for="exampleFormControlInput1" class="form-label">
+//       Email address
+//     </label>
+//     <input
+//       type="email"
+//       class="form-control"
+//       id="exampleFormControlInput1"
+//       placeholder="name@example.com"
+//     />
+//   </div>
+//   <div class="mb-3">
+//     <label for="exampleFormControlTextarea1" class="form-label">
+//       Example textarea
+//     </label>
+//     <textarea
+//       class="form-control"
+//       id="exampleFormControlTextarea1"
+//       rows="3"
+//     ></textarea>
+//   </div> -->
+
+//   <!-- <div class="mb-3">
+//     <input class="Male" type="radio"  id="radio1"/>
+//     <label >Male</label>
+//   </div>
+
+//   <div class="mb-3">
+//     <input class="Female" type="radio"  id="radio2"/>
+//     <label>FEMALE</label>
+//   </div> --> -->
+
+
+//   -------------------------------------------------------------------------------------------------
+//   <div className="mb-3 ">
+//     Name : <input type="text" />
+//    </div>
+
+//    <div className="mb-3 ">
+//      Last Name : <input type="text" />
+//    </div>
+//    <div className="mb-3 ">
+//      Address : <input type="text" />
+//    </div>
+
+//    <div className="mb-3 ">
+//      <>gender : </>
+//      <input  id="Male" type="radio" name="gender"  />
+//      <label>Male</label>
+//      <input id="Female" type="radio" name="gender" />
+//      <label>Female</label>
+//    </div>
+
+
+//    <div class="mb-3">
+//     <input type="checkbox" name="language">
+//     <label> Example checkbox</label>
+//   </div> 
+
+  
+//   // console.log(`frist name :- ${fristname}`)
+//   // console.log(`lrist name :- ${phonenumber}`)
+//   // console.log(`address :- ${address}`)
+//   // console.log(`gender :-${gender}`)
+//   // console.log(`fav language:-${lan}`)
+//   // console.log(`fav language:-${lan1}`)
+
+//    -->
+
+//    //--------------radio button-------------------
+//    <!-- <input  id="Male"  value='male' type="radio" name=" gender1" onChange={(event)=>setGender(event.target.value)} />
+//    <label>Male</label>
+//    <input id="Female" value='female' type="radio" name="gender1" onChange={(event)=>setGender(event.target.value)} />
+//    <label>Female</label> -->
+//    <!-- <input id="Female" type="radio" name="gender" onChange={(event)=>setGender(event.target.value)}/>
+//    <label>Female</label> -->
+
+//    //<--------------------------working form------------------------------------->
+// import React from "react";
+// import { useState } from "react";
+
+
+
+// export default function Form() {
+//     // let newTime = new Date().toLocaleTimeString();
+
+//     const [fristname, setFristname] = useState('');
+//     const [upfristname, setUpFristname] = useState('');
+//     const [phonenumber, setPhonenumber] = useState('');
+//     const [upphonenumber, setUpPhonenumber] = useState('');
+//     const [address, setAddname] = useState('');
+//     const [upaddress, setUPAddname] = useState('');
+//     const [gender, setGender] = useState(null);
+//     const [upgender, setUpGender] = useState(null);
+//     const [lan, setLan] = useState(null);
+//     const [uplan, setUpLan] = useState(null);
+//     const [lan1, setLan1] = useState(null);
+//     const [uplan1, setUpLan1] = useState(null);
+//     // const [newCTime, setNewCTime] = useState(newTime);
+    
+
+//     // const MyFunction=(fristname,phonenumber,address,gender,lan,lan1)=> {
+//     const myFunction=()=> {
+
+
+//         console.log('clicked');
+
+//         const  info = {fristname,phonenumber,address,gender,lan,lan1}
+//         console.log(info);
+//         setUpFristname(fristname)
+//         setUpPhonenumber(phonenumber)
+//         setUPAddname(address)
+//         setUpGender(gender)
+//         setUpLan(lan)
+//         setUpLan1(lan1)
+
+//            }    
+    
+//         //   let updated =()=>{
+//         //     newTime = new Date().toLocaleTimeString();
+//         //     setNewCTime(newTime)
+//         //   }
+    
+    
+ 
+//   return (
+ 
+//     <!-- <div>
+//       <form>
+//         <div className="container"  id="myForm">
+//             <div className="mb-3" >
+//                 <label/>Name :- 
+//                 <input type="text" value={fristname} onChange={(event)=>setFristname(event.target.value)} />
+            
+//             </div>
+//             <div className="mb-3" >
+//                 <label/>Phone number :-
+//                 <input type="tel" value={phonenumber} onChange={(event)=>setPhonenumber(event.target.value)} />
+//             </div>            
+//             <div className="mb-3" >
+//                 <label/>Address :- 
+//                 <input type="text" value={address} onChange={(event)=>setAddname(event.target.value)} />
+
+//             </div>
+//             <div className="mb-3 ">
+//             <>gender : </>
+//             <input  id="Male" value='male' type="radio" name="gender" onChange={(event)=>setGender(event.target.value)} />
+//             <label>Male</label>
+//             <input id="Female" value='female' type="radio" name="gender" onChange={(event)=>setGender(event.target.value)}/>
+//             <label>Female</label>
+//             </div>
+
+//             <div className= "mb-3"><label>fav language:-</label>
+//                 <div className="mb-2">
+//                     <input type="checkbox"  value='react' name="language" onChange={(event)=>setLan(event.target.value)}/>
+//                     <label> react</label>
+//                 </div>
+//                 <div className="mb-2">
+//                     <input type="checkbox" value='java' name="language" onChange={(event)=>setLan1(event.target.value)}/>
+//                     <label> java</label>
+//                 </div>
+
+//             </div> 
+
+//             <input type="button" onClick={myFunction} value="Submit form"></input>       
+//         </div>
+
+
+//       </form><hr /><hr /><hr />
+  
+
+//       <div className="mb-3">
+//           <h6>your name is {upfristname} </h6>
+//           <h6>your phonenumber is {upphonenumber} </h6>
+//           <h6>your address is {upaddress} </h6>
+//           <h6>your gender is {upgender} </h6>
+//           <h6>your fav. lan is {uplan} </h6>
+//           <h6>your  2nd fav.lan is {uplan1} </h6>
+//       </div>
+//     </div>
+//   );
+// } -->
+// //<------------------------------------------------------------------------------------------------>
+// // <tr>
+// // <td>maya</td>
+// // <td>tya</td>
+
+// // </tr>
+
+checkbox
+&nbsp;&nbsp;

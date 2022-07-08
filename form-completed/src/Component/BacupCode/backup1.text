@@ -1,0 +1,114 @@
+import React from "react";
+import { useState } from "react";
+
+
+
+export default function Form() {
+
+
+    const [fristname, setFristname] = useState('');
+
+    const [phonenumber, setPhonenumber] = useState('');
+
+    const [address, setAddname] = useState('');
+
+    const [gender, setGender] = useState(null);
+
+    const [lan, setLan] = useState(null);
+
+    const [lan1, setLan1] = useState(null);
+    const [data, setData] = useState([]);
+
+
+    const myFunction= () => {
+        
+
+        console.log('clicked');
+
+        const  info = {fristname,phonenumber,address,gender,lan,lan1}
+        const arr = Array(info);
+
+        console.log(arr);
+
+        setData(arr)
+
+    }
+
+ 
+  return (
+    <div>
+
+      <form>
+        <div className="container"  id="myForm">
+            <div className="mb-3" >
+                <label/>Name :- 
+                <input type="text" value={fristname} onChange={(event)=>setFristname(event.target.value)} />
+            
+            </div>
+            <div className="mb-3" >
+                <label/>Phone number :-
+                <input type="tel" value={phonenumber} onChange={(event)=>setPhonenumber(event.target.value)} />
+            </div>            
+            <div className="mb-3" >
+                <label/>Address :- 
+                <input type="text" value={address} onChange={(event)=>setAddname(event.target.value)} />
+
+            </div>
+            <div className="mb-3 ">
+            <>gender : </>
+            <input  id="Male" value='male' type="radio" name="gender" onChange={(event)=>setGender(event.target.value)} />
+            <label>Male</label>
+            <input id="Female" value='female' type="radio" name="gender" onChange={(event)=>setGender(event.target.value)}/>
+            <label>Female</label>
+            </div>
+
+            <div className= "mb-3"><label>fav language:-</label>
+                <div className="mb-2">
+                    <input type="checkbox"  value='react' name="language" onChange={(event)=>setLan(event.target.value)}/>
+                    <label> react</label>
+                </div>
+                <div className="mb-2">
+                    <input type="checkbox" value='java' name="language" onChange={(event)=>setLan1(event.target.value)}/>
+                    <label> java</label>
+                </div>
+
+            </div> 
+
+            <input type="button" onClick={myFunction} value="Submit form"></input>       
+        </div>
+
+
+
+      </form><hr/>
+      <div className="container">
+
+          <table>
+              <thead>
+                 <tr> 
+                  <th>name</th>
+                  <th>phonenumber</th>
+                  <th>address</th>
+                  <th>gender</th>
+                  <th>most fav. language</th>
+                  <th>2nd fav. language</th>
+                 </tr> 
+              </thead>
+              <tbody>
+                  {data.map((data1)=>(
+                        <tr>
+                            <td>{data1.fristname}</td>
+                            <td>{data1.phonenumber}</td>
+                            <td>{data1.address}</td>
+                            <td>{data1.gender}</td>
+                            <td>{data1.lan}</td>
+                            <td>{data1.lan1}</td>
+                        </tr>
+                  ))}
+
+              </tbody>
+            
+          </table>
+      </div>     
+    </div>
+  );
+}
