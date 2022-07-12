@@ -1,11 +1,12 @@
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect,useRef  } from "react";
 import { items } from "./itemList";
 import Sport from "./Sport";
 import Electronics from "./Electronics";
 
 const Itme1 = () => {
+  const inputElement = useRef();
   const [alldata, setAlldata] = useState(items);
-  const [ai, setAi] = useState(items.length);
+  const [total_items_length, setTotal_items_length] = useState(items.length);
   
   let Electronicsdata = alldata.filter((item) => item.category === "Electronics");
   let sportitemdata = alldata.filter((item) => item.category === "Sporting Goods");
@@ -83,7 +84,8 @@ const Itme1 = () => {
   };
   let al = search_s_data.length + search_s_data.length;
   useEffect(() => {
-   setAi(al);
+   setTotal_items_length(al);
+   focusInput()
   });
 
   const checkHandler = () => {
@@ -95,10 +97,13 @@ const Itme1 = () => {
   };
 
   let t = Number(en) + Number(sn);
-  console.log(ai);
+  console.log(total_items_length);
+  const focusInput = () => {
+    inputElement.current.focus();
+  };
   return (
     <>
-      <input type="text" placeholder="search..." onChange={checkHandler1} />{" "}
+      <input type="text" placeholder="search..." onChange={checkHandler1}  ref={inputElement}/>{" "}
       <br />
       <input
         type="checkbox"
@@ -107,7 +112,7 @@ const Itme1 = () => {
         onChange={checkHandler}
       />
       <label htmlFor="checkbox">Only show products in stock </label>
-      {Number(ai)>0 && <h1>Total Items :- {ai}</h1>}
+      {Number(total_items_length)>0 && <h1>Total Items :- {total_items_length}</h1>}
       <div className="App">
         {search_e_data.length>0 && <h1>Electronics</h1>}
         {electronics}
@@ -117,7 +122,7 @@ const Itme1 = () => {
         {sport}
        
       </div>
-     { Number(t)>0 && <h1>Total :- {t.toFixed(2)} </h1>}
+     { Number(t)>0 && <h1>Total :-{t.toLocaleString("en-US", {style: "currency", currency: "USD"})} </h1>}
       {t == 0 && <h1 style={{color : 'red'}}>Not Found</h1>}
     </>
   );
