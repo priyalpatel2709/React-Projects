@@ -40,12 +40,12 @@ const Itme3 = () => {
   
   let sstr = s_price.join(" ").replace(/\$/g," ").split(" ");
   let sstr1 = s_price.join("+").replace(/\$/g," ")
-  let e_total =  eval(sstr1.toString()) ;
+  let e_total =  eval(sstr1) ;
   
 
   let ssum = sstr.reduce((a, b) => a + Number(b), 0);
   let sn = ssum.toFixed(2);
-  let sn1 = e_total.toFixed(2);
+  let sn1 = e_total;
   console.log(sn);
   console.log(sn1);
 
@@ -56,10 +56,10 @@ const Itme3 = () => {
   
   let str = e_price.join(" ").replace(/\$/g," ").split(" ");
   let str1 = e_price.join("+").replace(/\$/g," ");
-  let sport_total =  eval(str1.toString()) ;
+  let sport_total =  eval(str1) ;
   let esum = str.reduce((a, b) => a + Number(b), 0);
   let en = esum.toFixed(2);  
-  let en1 = sport_total.toFixed(2);  
+  let en1 = sport_total;  
   console.log(en);
   console.log(en1);
 
@@ -110,7 +110,7 @@ const Itme3 = () => {
 
 //   let t = Number(en) + Number(sn)
   let t = Number(en1) + Number(sn1)
-
+  console.log(t);
   const focusInput = () => {
     inputElement.current.focus();
   };
