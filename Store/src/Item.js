@@ -38,7 +38,6 @@ const Itme = () => {
   let estr = eta.join("");
   var epri = estr.replace(/\$/g, " ");
   let earr = epri.split(" ");
-
   let esum = earr.reduce((a, b) => a + Number(b), 0);
   let en = esum.toFixed(2);
 

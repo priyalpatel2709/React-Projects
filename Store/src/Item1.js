@@ -36,13 +36,13 @@ const Itme1 = () => {
 
 
 
-  let sta = (search_s_data || filter_s_data).map((e) => e.price);
-  let sstr = sta.join("+").replace(/\$/g, "");
-   let sn =  eval(sstr.toString()) ;
+  let sport_price = (search_s_data || filter_s_data).map((e) => e.price);
+  let sstr = sport_price.join("+").replace(/\$/g,"");
+   let sport_total =  eval(sstr.toString()) ;
   //------------------------------------------------------------------------
-  let eta = (search_e_data || filter_e_data).map((e) => e.price);
-  let estr = eta.join("+").replace(/\$/g, "");
-  let en = eval(estr.toString());
+  let electronics_price = (search_e_data || filter_e_data).map((e) => e.price);
+  let estr = electronics_price.join("+").replace(/\$/g, "");
+  let electronics_total = eval(estr.toString());
 
   const electronics = search_e_data.map((e) => (
     <div>
@@ -88,7 +88,7 @@ const Itme1 = () => {
     isChecked ? setFilter_s_data(sportitemdata) : setFilter_s_data(temp1);
   };
 
-  let t = Number(en) + Number(sn);
+  let t = Number(electronics_total) + Number(sport_total);
   // console.log(total_items_length);
   const focusInput = () => {
     inputElement.current.focus();
@@ -114,7 +114,7 @@ const Itme1 = () => {
         {sport}
        
       </div>
-     { Number(t)>0 && <h1>Total :-{t.toLocaleString("en-US", {style: "currency", currency: "USD"})} </h1>}
+     { Number(t)>0 && <h1>Total :-{t.toLocaleString("electronics_total-US", {style: "currency", currency: "USD"})} </h1>}
       {t == 0 && <h1 style={{color : 'red'}}>Not Found</h1>}
     </>
   );
