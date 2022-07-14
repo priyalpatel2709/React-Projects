@@ -3,7 +3,7 @@ import { items } from "./itemList";
 import Sport from "./Sport";
 import Electronics from "./Electronics";
 
-const Itme1 = () => {
+const Itme3 = () => {
   const inputElement = useRef();
   const [alldata, setAlldata] = useState(items);
   const [total_items_length, setTotal_items_length] = useState(items.length);
@@ -39,9 +39,15 @@ const Itme1 = () => {
   let s_price = (search_s_data || filter_s_data).map((e) => e.price);
   
   let sstr = s_price.join(" ").replace(/\$/g," ").split(" ");
+  let sstr1 = s_price.join("+").replace(/\$/g," ")
+  let e_total =  eval(sstr1.toString()) ;
+  
+
   let ssum = sstr.reduce((a, b) => a + Number(b), 0);
   let sn = ssum.toFixed(2);
+  let sn1 = e_total.toFixed(2);
   console.log(sn);
+  console.log(sn1);
 
   //  console.log(typeof sport_total);
   //------------------------------------------------------------------------
@@ -49,9 +55,13 @@ const Itme1 = () => {
 
   
   let str = e_price.join(" ").replace(/\$/g," ").split(" ");
+  let str1 = e_price.join("+").replace(/\$/g," ");
+  let sport_total =  eval(str1.toString()) ;
   let esum = str.reduce((a, b) => a + Number(b), 0);
   let en = esum.toFixed(2);  
+  let en1 = sport_total.toFixed(2);  
   console.log(en);
+  console.log(en1);
 
   const electronics = search_e_data.map((e) => (
     <div>
@@ -98,7 +108,8 @@ const Itme1 = () => {
     isChecked ? setFilter_s_data(sportitemdata) : setFilter_s_data(temp1);
   };
 
-  let t = Number(en) + Number(sn)
+//   let t = Number(en) + Number(sn)
+  let t = Number(en1) + Number(sn1)
 
   const focusInput = () => {
     inputElement.current.focus();
@@ -129,4 +140,4 @@ const Itme1 = () => {
     </>
   );
 };
-export default Itme1;
+export default Itme3;

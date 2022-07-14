@@ -27,12 +27,13 @@ const Itme = () => {
     isChecked ? setEdata(Electronicsdata) : setEdata(temp);
     isChecked ? setSdata(sportitemdata) : setSdata(temp1);
   };
-  // let sta = sdata.map((e) => e.price);
-  let sstr = temp4.join("");
+  let sta = sdata.map((e) => e.price);
+  let sstr = sta.join("");
   var spri = sstr.replace(/\$/g, " ");
   let sarr = spri.split(" ");
   let ssum = sarr.reduce((a, b) => a + Number(b), 0);
   let sn = ssum.toFixed(2);
+  console.log(sn);
   //------------------------------------------------------------------------
   let eta = edata.map((e) => e.price);
   let estr = eta.join("");
@@ -40,8 +41,9 @@ const Itme = () => {
   let earr = epri.split(" ");
   let esum = earr.reduce((a, b) => a + Number(b), 0);
   let en = esum.toFixed(2);
-
-  const [t,st]=useState(en)
+ console.log(en);
+  
+ let t= en+sn
 
   return (
     <>
@@ -90,8 +92,8 @@ const Itme = () => {
           ))}
         {/* {show && <h3>total is :- {en}</h3>} */}
         {/* <h3>total is :- {en}</h3> */}
-        <h1>st : {en} </h1>
-          <h1>{t}</h1>
+        {/* <h1>st : {en} </h1>
+          <h1>{t}</h1> */}
           
         
 {/* //-------------------------------------------------------------------------------------------- */}
@@ -119,6 +121,7 @@ const Itme = () => {
       {/* {show && <h3>total is :- {sn}</h3>} */}
       {/* {sn} */}
       {/* <h1> total= ${sn}</h1> */}
+      {t}
     </>
   );
 };
