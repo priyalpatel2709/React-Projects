@@ -37,20 +37,12 @@ const Itme1 = () => {
 
 
   let sta = (search_s_data || filter_s_data).map((e) => e.price);
-  let sstr = sta.join("");
-  var spri = sstr.replace(/\$/g, " ");
-  let sarr = spri.split(" ");
-  let ssum = sarr.reduce((a, b) => a + Number(b), 0);
-  let sn = ssum.toFixed(2);
-
+  let sstr = sta.join("+").replace(/\$/g, "");
+   let sn =  eval(sstr.toString()) ;
   //------------------------------------------------------------------------
   let eta = (search_e_data || filter_e_data).map((e) => e.price);
-  let estr = eta.join("");
-  var epri = estr.replace(/\$/g, " ");
-  let earr = epri.split(" ");
-
-  let esum = earr.reduce((a, b) => a + Number(b), 0);
-  let en = esum.toFixed(2);
+  let estr = eta.join("+").replace(/\$/g, "");
+  let en = eval(estr.toString());
 
   const electronics = search_e_data.map((e) => (
     <div>
@@ -97,7 +89,7 @@ const Itme1 = () => {
   };
 
   let t = Number(en) + Number(sn);
-  console.log(total_items_length);
+  // console.log(total_items_length);
   const focusInput = () => {
     inputElement.current.focus();
   };
