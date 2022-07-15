@@ -7,7 +7,7 @@ export default function App() {
     <div className="App">
       <h1>Store</h1>
       {/* <Item /> */}
-      {/* <Itme1/> */}
+      {/* <Itme1/>   */}
       <Itme3/>
     </div>
   );

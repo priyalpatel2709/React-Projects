@@ -39,7 +39,7 @@ const Itme3 = () => {
   let s_price = (search_s_data || filter_s_data).map((e) => e.price);
   
   let sstr = s_price.join(" ").replace(/\$/g," ").split(" ");
-  let sstr1 = s_price.join("+").replace(/\$/g," ")
+  let sstr1 = s_price.join("+").replace(/\$/g,"")
   let e_total =  eval(sstr1) ;
   
 
@@ -55,7 +55,8 @@ const Itme3 = () => {
 
   
   let str = e_price.join(" ").replace(/\$/g," ").split(" ");
-  let str1 = e_price.join("+").replace(/\$/g," ");
+  let str1 = e_price.join("+").replace(/\$/g,"");
+  console.log(str1);
   let sport_total =  eval(str1) ;
   let esum = str.reduce((a, b) => a + Number(b), 0);
   let en = esum.toFixed(2);  
