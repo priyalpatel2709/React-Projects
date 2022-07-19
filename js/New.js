@@ -1,10 +1,10 @@
-// new Function--------------------------------------------------------------------------------
-// let sum = new Function ('a','b','return a+b')
-// console.log(sum(1,3));
-let arr=['$1.9000','$2.1','100']
-let str =arr.join('+').replace(/\$/g,"")
-let ans=eval(str.toString())
-console.log(ans);
+// // new Function--------------------------------------------------------------------------------
+let sum = new Function ('a','b','return a*b')
+console.log(sum(2,3));
+// let arr=['$1.9000','$2.1','100']
+// let str =arr.join('+').replace(/\$/g,"")
+// let ans=eval(str.toString())
+// console.log(ans);
 const items = [
   {
     id: 1,
@@ -71,7 +71,15 @@ const items = [
     defense: 1,
   },
 ];
+// let t=items.filter(e=>!e.isWorn)
 
-let s = "slot";
-let myMap = [...new Map(items.map((e) => [e[s], e])).values()];
-// console.log(myMap.map((e) => e.id));
+// console.log(t);
+// let s = "slot";
+// let myMap = [...new Map(t.map((e) => [e[s], e])).values()];
+
+let Mapy=new Map()
+let key=items.map(e=>e.slot)
+let val=items.map(e=>e)
+
+console.log(Mapy);
+
