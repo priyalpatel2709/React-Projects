@@ -1,6 +1,6 @@
 // // new Function--------------------------------------------------------------------------------
-let sum = new Function ('a','b','return a*b')
-console.log(sum(2,3));
+let sum = new Function("a", "b", "return a*b");
+console.log(sum(2, 3));
 // let arr=['$1.9000','$2.1','100']
 // let str =arr.join('+').replace(/\$/g,"")
 // let ans=eval(str.toString())
@@ -77,9 +77,8 @@ const items = [
 // let s = "slot";
 // let myMap = [...new Map(t.map((e) => [e[s], e])).values()];
 
-let Mapy=new Map()
-let key=items.map(e=>e.slot)
-let val=items.map(e=>e)
+let Mapy = new Map();
+let key = items.map((e) => e.slot);
+let val = items.map((e) => e);
 
 console.log(Mapy);
-
