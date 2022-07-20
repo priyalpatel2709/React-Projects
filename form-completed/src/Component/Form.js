@@ -43,16 +43,16 @@ export default function Form() {
         <div className="container"  id="myForm">
             <div className="mb-3" >
                 <label/>Name :- 
-                <input type="text" value={fristname} onChange={event=> setFristname(event.target.value)} />
+                <input type="text" id="nameinput" value={fristname} onChange={event=> setFristname(event.target.value)} />
             
             </div>
             <div className="mb-3" >
                 <label/>Phone number :-
-                <input type="tel" value={phonenumber} onChange={(event)=>setPhonenumber(event.target.value)} />
+                <input type="tel" id="telinput" value={phonenumber} onChange={(event)=>setPhonenumber(event.target.value)} />
             </div>            
             <div className="mb-3" >
                 <label/>Address :- 
-                <input type="text" value={address} onChange={(event)=>setAddname(event.target.value)} />
+                <input type="text" id="addr" value={address} onChange={(event)=>setAddname(event.target.value)} />
 
             </div>
             <div className="mb-3 ">
@@ -65,7 +65,7 @@ export default function Form() {
 
             <div className= "mb-3"><label>fav language:-</label>
                 <div className="mb-2">
-                    <input type="checkbox"  value='react'  name="language" onChange={(event)=>setLan(event.target.value)}/>
+                    <input type="checkbox" id="react" value='react'  name="language" onChange={(event)=>setLan(event.target.value)}/>
                     <label> react</label>
                 </div>
                 <div className="mb-2">
@@ -75,7 +75,7 @@ export default function Form() {
 
             </div> 
 
-            <input type="button" onClick={onclick} value="Submit form"></input> <hr />
+            <input type="button" id="submit1"  onClick={onclick} value="Submit form"></input> <hr />
             <input type="button" onClick={clear} value="clear form"></input> <hr />      
         </div>
 
