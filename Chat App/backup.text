@@ -1,0 +1,125 @@
+//chat.js--------------------------------------------------------------------------------------------------------
+import React, { useEffect } from "react";
+import socketIO from "socket.io-client";
+import { user } from "../Join/Join";
+import "./Chat.css";
+
+const ENDPOINT = "http://localhost:4500/";
+
+const Chat = () => {
+  const socket = socketIO(ENDPOINT, { transports: ["websocket"] });
+  useEffect(() => {
+    socket.on("connect", () => {
+      console.log('connect');
+    });
+    socket.emit('joined',{user})
+
+    socket.on('welcome',({user,message})=>{
+    console.log(user);
+    })
+    return () => {};
+  }, [socket]);
+  return (
+    <div className="chatPage ">
+      <div className="chatContainer">
+        <div className="chatBox">
+            <div className="inputBox">
+                <input type="text" id='chatInput' />
+                <button className="sendBtn">SEND</button>
+            </div>
+        </div>
+      </div>
+    </div>
+  );
+};
+
+export default Chat;
+//join.js----------------------------------------------------------------------------------------------------------------------------------------------
+import React, { useState } from 'react'
+import "./Join.css";
+import {Link} from 'react-router-dom'
+let user;
+
+const sendUser =()=>{
+    user=document.getElementById('joinInput').value;
+    document.getElementById('joinInput').value=''
+}
+const Join = () => {
+   const [name, setName] = useState('')
+//    console.log(name);
+  return (
+    <div className='JoinPage'>
+        <div className="JoinContainer">
+            <h1>CHAT</h1>
+            <input onChange={e=>setName(e.target.value)} placeholder='Enter your name...' type="text" name="" id="joinInput" />
+
+          <Link onClick={(event) => !name ? event.preventDefault() : null}  to='/chat' > <button onClick={sendUser} className='joinbtn'>Login</button> </Link>  
+        </div>
+      
+    </div>
+  )
+}
+
+export default Join
+export {user}
+//App------------------------------------------------------------------------------------------------
+// import socketIO from "socket.io-client"
+import './App.css';
+import{BrowserRouter as Router, Route,Routes} from "react-router-dom";
+import Join from "./component/Join/Join";
+import Chat from "./component/Chat/Chat"
+
+// const  ENDPOINT ='http://localhost:4500/'
+// const socket=socketIO(ENDPOINT,{transports :['websocket']})
+
+function App() {
+  // socket.on("connect",() => {
+
+  // })
+
+  return (
+    <Router>
+    <Routes>
+        <Route exact path="/" element={<Join/>} />
+        <Route path="/chat" element={<Chat/>} /> 
+    </Routes>
+  </Router>
+
+  )
+}
+
+export default App;
+//server--------------------------------------------------------------------------------------
+   //index.js--------------------------------------------------------------------------------------
+const http=require("http");
+const express=require("express")
+const cros=require("cors")
+const socketIO=require("socket.io")
+
+const app=express();
+const port= 4500 || process.env.PORT ;
+const users =[{}]
+
+app.use(cros());
+app.get("/",(req,res)=>{
+    res.send("HELL ITS WORKING");
+})
+
+const server=http.createServer(app)
+
+const io=socketIO(server);
+
+io.on("connection",(socket)=>{
+    console.log("New Connection 1");
+   socket.on('joined',({user})=>{
+    users[socket.id]=user
+    console.log(`${user}`);
+   })
+  socket.emit('welcome',{user:'Admin',message:'wlc to chat'} )
+
+})
+
+
+server.listen(port,()=>{
+    console.log(`http://localhost:${port}`);
+})
