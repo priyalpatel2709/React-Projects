@@ -18,13 +18,9 @@ const Itme1 = () => {
   const [isChecked, setIsChecked] = useState(false);
   const [search, setSearch] = useState("");
 
-  const search_e_data = filter_e_data.filter((e) => {
-    if (search === "") {
-      return e;
-    } else if (e.name.toLowerCase().includes(search.toLowerCase())) {
-      return e;
-    }
-  });
+l
+
+
   const search_s_data = filter_s_data.filter((e) => {
     if (search === "") {
       return e;
