@@ -17,5 +17,8 @@
   "homepage": "https://github.com/priyalpatel2709/React-Projects#readme",
   "devDependencies": {
     "@playwright/test": "^1.23.4"
+  },
+  "dependencies": {
+    "react-scripts": "^5.0.1"
   }
 }

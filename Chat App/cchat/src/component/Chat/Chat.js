@@ -1,13 +1,16 @@
-import React, { useEffect,useState,useCallback } from "react";
+import React, { useEffect,useState,useRef } from "react";
 import socketIO from "socket.io-client";
 import { user } from "../Join/Join";
 import "./Chat.css";
 import Message from '../Message/Message'
 import ReactScrollToBottom from "react-scroll-to-bottom";
 let socket;
-const ENDPOINT = "http://localhost:4500/";
+const ENDPOINT = "https://react-app-chat2709.herokuapp.com/";
 
 const Chat = () => {
+  const [connected, setConnected] = useState(false);
+
+  const inputElement = useRef();
   const [id, setID] = useState('')
   const [message, setMessage] = useState([])
   const send=()=>{ 
@@ -15,52 +18,43 @@ const Chat = () => {
     socket.emit('message',{message,id  });
     document.getElementById('chatInput').value=''
   } 
-
-
-  
-  const [joined, setJoined] = useState(false);
-
-  const handleInviteAccepted = useCallback(() => {
-    setJoined(true);
-  }, []);
+  const focusInput = () => {
+    inputElement.current.focus();
+  };
 
   useEffect(() => {
      socket = socketIO(ENDPOINT, { transports: ["websocket"] });
     socket.on("connect", () => {
-      console.log("connect");
+      // console.log("connect");
       setID(socket.id)
+
     });
     socket.emit("joined", { user });
-
+    const eventHandler = () => setConnected(true);
     socket.on("welcome", ( data ) => {
       setMessage([...message,data])
-      console.log(data.message);
+      // console.log(data.message);
    
     });
     socket.on("userJoined", (data) => {
       setMessage([...message,data])
        
-        console.log(data.user,data.message);
+        // console.log(data.user,data.message);
       
       });
       socket.on("leave", (data) => {
       setMessage([...message,data])
-      console.log(data.user,data.message);
-
+      console.log(data.message);
       
       });  
     return () => {
-      // socket.emit('disconnect')
-      // socket.of('disconnect',null)
-      socket.off("disconnect", handleInviteAccepted);
+      socket.off("disconnect",eventHandler);
+      focusInput()
     };
-  }, []);
-
+  },[]);
   useEffect(() => {
      socket.on('sentMessage',(data)=>{
       setMessage([...message,data])
-       
-      //  console.log(user,message,id);
      })
   return()=>{
     socket.off()
@@ -79,7 +73,7 @@ const Chat = () => {
    }
       </ReactScrollToBottom>
           <div className="inputBox">
-            <input type="text" id="chatInput" onKeyDown={(e)=>e.key==='Enter' ? send() : null} />
+            <input type="text" id="chatInput" ref={inputElement}  onKeyDown={(e)=>e.key==='Enter' ? send() : null} />
             <button onClick={send} className="sendBtn">SEND</button>
           </div>
         

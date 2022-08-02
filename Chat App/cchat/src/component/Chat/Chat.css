@@ -14,7 +14,7 @@
 }
 
 .header{
-    background-color: crimson;
+    background-color: rgb(255, 23, 70);;
     height: 15%;
    display: flex;
    align-items: center;
@@ -42,7 +42,7 @@
 
  height: 70%;
  box-sizing: border-box;
- 
+ background-color: rgb(0, 0, 0);
 }
 
 .inputBox{
@@ -58,7 +58,7 @@
     border: none;
     padding: 2vmax;
     box-sizing: border-box;
-    background-color: white;
+    background-color: rgb(205, 202, 202);
     outline: none;
     font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
     font-size: 1.2vmax;
@@ -67,7 +67,7 @@
 
 
 .sendBtn{
-    background-color: crimson;
+    background-color: rgb(255, 23, 70);
     color: white;
     border: none;
     width: 21%;
@@ -81,7 +81,7 @@
     transition: all 0.3s;
 }
 .sendBtn:hover{
-    background-color: rgb(156, 13, 42);
+    background-color: rgb(20, 50, 198);
 } 
 .sendBtn:hover img{
     transform: translateX(10px);
