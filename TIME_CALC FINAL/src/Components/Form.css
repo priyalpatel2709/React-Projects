@@ -1,0 +1,84 @@
+@import url(https://fonts.googleapis.com/css?family=Orbitron);
+.m{
+    border-left: none;
+    text-align: center;
+    border-radius: 10px;
+    
+}
+.h{
+    border-right: none;
+    text-align: center;
+    border-radius: 10px;
+    font-family: Orbitron;
+
+}
+span{
+    font-size:50px
+}
+
+
+.time {
+    /* display: flex; */
+    /* justify-content: center; */
+    align-items: center;
+    height: 30vmax ;
+    margin-top: 1.vamx;
+    max-height: 10%;
+    max-zoom: 175%;
+}
+input{
+    height: 100px;
+    width: 100px ;
+    font-size:30px;
+    
+    font-family: Orbitron;
+    background: transparent;
+    border: none;
+    color: aliceblue;
+}
+.extra{
+    border-radius: 10px; 
+    text-align: center;
+    height: inherit;
+    width: auto;
+    
+}
+.show-time{
+    font-size: 4vmax;
+    color: rgb(177, 26, 26);
+    font-family: Orbitron;
+
+}
+.left-time{
+    font-size: 4vmax;
+    color: darkgray;
+    font-family: Orbitron;
+
+}
+label{
+    color: rgb(245, 68, 23);
+    font-size: 1.5vmax;
+}
+body {
+    background: rgb(24, 24, 24);
+}
+
+.clock {
+    position: absolute;
+    /* position: fixed; */
+    top: 3rem;
+    left: 50%;
+    transform: translateX(-50%) translateY(-50%);
+    color: #17D4FE;
+    font-size: 2vmax;
+    font-family: Orbitron;
+    /* letter-spacing: 7px; */
+    /* font-family:'digital-clock-font';  */
+    /* padding-top: 5vmax; */
+    font-family: Orbitron;
+}
+.container1{
+ background-color: black;
+ height :min-content,
+ /* width: min-content; */
+}
