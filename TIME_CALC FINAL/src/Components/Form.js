@@ -35,12 +35,12 @@ const Form = () => {
           useGrouping: false
         })
       );
-      let temp=((Number(h)+10))
+      let temp = Number(h) + 10;
       console.log(temp);
-      if(temp > 12) {
-        setsH(temp-12)
-      }else{
-        setsH(temp)
+      if (temp > 12) {
+        setsH(temp - 12);
+      } else {
+        setsH(temp);
       }
     } else {
       setsM(
@@ -49,11 +49,11 @@ const Form = () => {
           useGrouping: false
         })
       );
-      let temp=((Number(h*60)+600)/60)
-      if(temp > 12) {
-        setsH(temp-12)
-      }else{
-        setsH(temp)
+      let temp = (Number(h * 60) + 600) / 60;
+      if (temp > 12) {
+        setsH(temp - 12);
+      } else {
+        setsH(temp);
       }
     }
   };
@@ -73,37 +73,38 @@ const Form = () => {
     if (rhours < 0 || rminutes < 0) {
       setstate((preval) => ({ ...preval, timeleft: true }));
       console.log("hi");
-    }  else if(rhours == 0){
+    } else if (rhours == 0) {
       // console.log('hii');
       setHl(rhours);
       setMl(rminutes);
-      startTimer(rminutes*60)
-    }  
-    else {
+      startTimer(rminutes * 60);
+    } else {
       console.log("by");
       setHl(rhours);
       setMl(rminutes);
     }
   };
   function startTimer(duration) {
-    var timer = duration, minutes, seconds;
+    var timer = duration,
+      minutes,
+      seconds;
     setInterval(function () {
-        minutes = parseInt(timer / 60, 10);
-        seconds = parseInt(timer % 60, 10);
+      minutes = parseInt(timer / 60, 10);
+      seconds = parseInt(timer % 60, 10);
 
-        minutes = minutes < 10 ? "0" + minutes : minutes;
-        seconds = seconds < 10 ? "0" + seconds : seconds;
+      minutes = minutes < 10 ? "0" + minutes : minutes;
+      seconds = seconds < 10 ? "0" + seconds : seconds;
 
-        // display.textContent = minutes + ":" + seconds;
-        // console.log(`${minutes}:${seconds}`);
-        setHl(minutes);
-        setMl(seconds);
-       
-        if (--timer < 0) {
-            timer = duration;
-        }
+      // display.textContent = minutes + ":" + seconds;
+      // console.log(`${minutes}:${seconds}`);
+      setHl(minutes);
+      setMl(seconds);
+
+      if (--timer < 0) {
+        timer = duration;
+      }
     }, 1000);
-}
+  }
   function showTime() {
     var date = new Date();
     var h = date.getHours(); // 0 - 23
@@ -130,9 +131,9 @@ const Form = () => {
 
     setTimeout(showTime, 1000);
   }
-  const halfday =()=>{
+  const halfday = () => {
     setstate((preval) => ({ ...preval, state: true }));
-    console.log('hi');
+    console.log("hi");
     if (extra) {
       setsM(
         (Number(m) + Number(extra)).toLocaleString("en-US", {
@@ -140,11 +141,12 @@ const Form = () => {
           useGrouping: false
         })
       );
-      let temp=((Number(h*60)+300)/60)
-      if(temp > 12) {
-        setsH(temp-12)
-      }else{
-        setsH(temp)
+      // let temp=((Number(h*60)+300)/60)
+      let temp = (Number(h * 60) + 120) / 60;
+      if (temp > 12) {
+        setsH(temp - 12);
+      } else {
+        setsH(temp);
       }
     } else {
       setsM(
@@ -153,19 +155,18 @@ const Form = () => {
           useGrouping: false
         })
       );
-      let temp=((Number(h*60)+300)/60)
+      // let temp=((Number(h*60)+300)/60)
+      let temp = (Number(h * 60) + 120) / 60;
       console.log(temp);
-      if(temp > 12) {
-        setsH(temp-12)
-      }else{
-        setsH(temp)
+      if (temp > 12) {
+        setsH(temp - 12);
+      } else {
+        setsH(temp);
       }
-      
     }
-
-  }
+  };
   const onclick = () => {
-    setstate((preval) => ({ ...preval,state1:false, timeleft: false }));
+    setstate((preval) => ({ ...preval, state1: false, timeleft: false }));
   };
   useEffect(() => {
     focusInput();
@@ -173,8 +174,9 @@ const Form = () => {
     if (Number(m) > 60 || Number(m) < 0) {
       setstate((preval) => ({ ...preval, disable: true }));
     }
-    if(hl==0 && ml < 0){
+    if (hl == 0 && ml < 0) {
       setstate((preval) => ({ ...preval, timeleft: true }));
+      startTimer(0);
     }
     if (sm > 60) {
       setsM(
@@ -183,7 +185,7 @@ const Form = () => {
           useGrouping: false
         })
       );
-      setsH(((Number(h)+10)-12)+1);
+      setsH(Number(h) + 10 - 12 + 1);
     } else if (sm == 60) {
       console.log("ft");
       setsM("00");
@@ -193,107 +195,108 @@ const Form = () => {
     return () => {
       setstate((preval) => ({ ...preval, disable: false }));
     };
-  }, [sm, hl, m,ml]);
+  }, [sm, hl, m, ml, state.disable, state.timeleft]);
   // console.log(h,m);
   return (
     <>
-    <div className="container">
-      <div id="MyClockDisplay" className="clock" onLoad={showTime}></div>
-      {state.timeleft ? (
-        <Gohome onclick={onclick} />
-      ) : (
-        <div className="time">
-          <div>
-            <div className="container">
-              <input
-                size="2"
-                type="text"
-                value={h}
-                className="h"
-                onChange={(e) => setH(e.target.value)}
-                placeholder="Hrs"
-              />
-              <span>:</span>
-              <input
-                ref={inputElement}
-                size="2"
-                type="text"
-                maxLength="2"
-                value={m}
-                className="m"
-                onChange={(e) => setM(e.target.value)}
-                placeholder="Min."
-                autoComplete="off"
-              />
-            </div>
-            <br />
-            <div className="container">
-              {/* <label htmlFor="extra">extra brake-time :- </label> */}
-              <input
-                className="extra"
-                type="text"
-                maxLength="2"
-                value={extra}
-                id="extra"
-                onChange={(e) => setExtra(e.target.value)}
-                placeholder="Extra Break Time in  Min."
-                autoComplete="off"
-              />
-            </div>
-            <br />
-            
+      <div className="container">
+        <div id="MyClockDisplay" className="clock" onLoad={showTime}></div>
+        {state.timeleft ? (
+          <Gohome onclick={onclick} />
+        ) : (
+          <div className="time">
+            <div>
+              <div className="container">
+                <input
+                  size="2"
+                  type="text"
+                  value={h}
+                  className="h"
+                  onChange={(e) => setH(e.target.value)}
+                  placeholder="Hrs"
+                />
+                <span>:</span>
+                <input
+                  ref={inputElement}
+                  size="2"
+                  type="text"
+                  maxLength="2"
+                  value={m}
+                  className="m"
+                  onChange={(e) => setM(e.target.value)}
+                  placeholder="Min."
+                  autoComplete="off"
+                />
+              </div>
+              <br />
+              <div className="container">
+                {/* <label htmlFor="extra">extra brake-time :- </label> */}
+                <input
+                  className="extra"
+                  type="text"
+                  maxLength="2"
+                  value={extra}
+                  id="extra"
+                  onChange={(e) => setExtra(e.target.value)}
+                  placeholder="Extra Break Time in  Min."
+                  autoComplete="off"
+                />
+              </div>
+              <br />
               <button
                 className={
-                  !state.disable ? "btn btn-primary mx-3"  : "btn btn-danger  mx-3"
+                  !state.disable
+                    ? "btn btn-primary mx-3"
+                    : "btn btn-danger  mx-3"
                 }
                 disabled={state.disable}
                 onClick={handelclick}
               >
                 {!state.disable ? "calculate" : "enter currect"}
               </button>
-            
-            
               <button
                 className={
-                  !state.disable ? "btn btn-primary mx-3" : "btn btn-danger  mx-3"
+                  !state.disable
+                    ? "btn btn-primary mx-3"
+                    : "btn btn-danger  mx-3"
                 }
                 disabled={state.disable}
                 onClick={halfday}
               >
-               {!state.disable ?"half day" :"Min's"} 
+                {!state.disable ? "half day" : "Min's"}
               </button>
-            
-            <br /> <br />
-            {state.state && (
-              <button
-                disabled={!state.state}
-                className="btn btn-primary mt-3"
-                onClick={timeleft1}
-              >
-                timeleft
-              </button>
-            )}
-            {
-              <>
-                {state.state && (
-                  <h1 className="show-time">
-                    {sh} : {sm} <span>PM</span>{" "}
-                  </h1>
-                )}
-                {state.state1 && (
-                  <h1 className="left-time">
-                    {hl} :
-                    {ml.toLocaleString("en-US", {
-                      minimumIntegerDigits: 2,
-                      useGrouping: false
-                    })}
-                  </h1>
-                )}
-              </>
-            }
+              <br /> <br />
+              {state.state && (
+                <button
+                  disabled={!state.state}
+                  className="btn btn-primary mt-3"
+                  onClick={timeleft1}
+                >
+                  timeleft
+                </button>
+              )}
+              {
+                <>
+                  {state.state && (
+                    <h1 className="show-time">
+                      {sh} : {sm} <span>PM</span>{" "}
+                    </h1>
+                  )}
+                  {state.state1 && (
+                    <h1 className="left-time">
+                      {hl} :
+                      {ml.toLocaleString("en-US", {
+                        minimumIntegerDigits: 2,
+                        useGrouping: false
+                      })}
+                    </h1>
+                  )}
+                  {state.state1 && <p style={{color: "red"}}> *You can't take Break </p>}
+                </>
+              }
+            </div>
           </div>
-        </div>
-      )}
+        )}
       </div>
     </>
   );
