@@ -73,38 +73,12 @@ const Form = () => {
     if (rhours < 0 || rminutes < 0) {
       setstate((preval) => ({ ...preval, timeleft: true }));
       console.log("hi");
-    } else if (rhours == 0) {
-      // console.log('hii');
-      setHl(rhours);
-      setMl(rminutes);
-      startTimer(rminutes * 60);
     } else {
       console.log("by");
       setHl(rhours);
       setMl(rminutes);
     }
   };
-  function startTimer(duration) {
-    var timer = duration,
-      minutes,
-      seconds;
-    setInterval(function () {
-      minutes = parseInt(timer / 60, 10);
-      seconds = parseInt(timer % 60, 10);
-
-      minutes = minutes < 10 ? "0" + minutes : minutes;
-      seconds = seconds < 10 ? "0" + seconds : seconds;
-
-      // display.textContent = minutes + ":" + seconds;
-      // console.log(`${minutes}:${seconds}`);
-      setHl(minutes);
-      setMl(seconds);
-
-      if (--timer < 0) {
-        timer = duration;
-      }
-    }, 1000);
-  }
   function showTime() {
     var date = new Date();
     var h = date.getHours(); // 0 - 23
@@ -141,11 +115,14 @@ const Form = () => {
           useGrouping: false
         })
       );
-      // let temp=((Number(h*60)+300)/60)
-      let temp = (Number(h * 60) + 120) / 60;
+      let temp = (Number(h * 60) + 300) / 60;
+      console.log('temp------------------->',temp);
       if (temp > 12) {
+        console.log('this');
+        console.log(temp-12);
         setsH(temp - 12);
       } else {
+        console.log('or this');
         setsH(temp);
       }
     } else {
@@ -155,8 +132,7 @@ const Form = () => {
           useGrouping: false
         })
       );
-      // let temp=((Number(h*60)+300)/60)
-      let temp = (Number(h * 60) + 120) / 60;
+      let temp = (Number(h * 60) + 300) / 60;
       console.log(temp);
       if (temp > 12) {
         setsH(temp - 12);
@@ -174,10 +150,7 @@ const Form = () => {
     if (Number(m) > 60 || Number(m) < 0) {
       setstate((preval) => ({ ...preval, disable: true }));
     }
-    if (hl == 0 && ml < 0) {
-      setstate((preval) => ({ ...preval, timeleft: true }));
-      startTimer(0);
-    }
+
     if (sm > 60) {
       setsM(
         (Number(m) + Number(extra) - 60).toLocaleString("en-US", {
@@ -187,15 +160,22 @@ const Form = () => {
       );
       setsH(Number(h) + 10 - 12 + 1);
     } else if (sm == 60) {
+      let temp = (Number(h * 60) + 300) / 60
+      if(temp > 12){
+        console.log('sfsdfsd');
+        console.log('------------------->',(temp-12)+1);
+        setsH((temp-12)+1);
+      }
+      console.log(temp);
       console.log("ft");
       setsM("00");
-      setsH(7);
+      // setsH(Number(h) + 10 - 12 + 1);
     }
 
     return () => {
       setstate((preval) => ({ ...preval, disable: false }));
     };
-  }, [sm, hl, m, ml, state.disable, state.timeleft]);
+  }, [sm, hl, m]);
   // console.log(h,m);
   return (
     <>
@@ -291,7 +271,6 @@ const Form = () => {
                       })}
                     </h1>
                   )}
-                  {state.state1 && <p style={{color: "red"}}> *You can't take Break </p>}
                 </>
               }
             </div>
