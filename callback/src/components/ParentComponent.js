@@ -7,19 +7,19 @@ function ParentComponent() {
 	const [age, setAge] = useState(25)
 	const [salary, setSalary] = useState(50000)
 
-	// const incrementAge = useCallback(() => {
-	// 	setAge(age + 1)
-	// }, [age])
-
-    const incrementAge=() => {
+	const incrementAge = useCallback(() => {
 		setAge(age + 1)
-	}
-	// const incrementSalary = useCallback(() => {
-	// 	setSalary(salary + 1000)
-	// }, [salary])
-    const incrementSalary =() => {
+	}, [age])
+
+    // const incrementAge=() => {
+	// 	setAge(age + 1)
+	// }
+	const incrementSalary = useCallback(() => {
 		setSalary(salary + 1000)
-	}
+	}, [salary])
+    // const incrementSalary =  () => {
+	// 	setSalary(salary + 1000)
+	// }
 
 	return (
 		<div>
