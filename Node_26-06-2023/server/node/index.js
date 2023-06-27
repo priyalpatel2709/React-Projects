@@ -8,7 +8,15 @@ const server = http.createServer((req,res)=>{
             res.write('not found')
             
         }else{
-            res.write(data)
+            console.log(req.url);
+            if(req.url==="/contact"){
+                res.write("contact")
+            }else if(req.url==="/about"){
+                res.write("about")
+            }else{
+                res.write(data)
+            }
+            
         }
         res.end()
     })
