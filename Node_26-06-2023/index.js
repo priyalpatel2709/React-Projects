@@ -1,5 +1,6 @@
 // const { error } = require("console")
 const fs = require("fs");
+const os = require("os");
 
 // fs.writeFileSync("demo.txt","h r u ?")
 
@@ -48,7 +49,10 @@ const fs = require("fs");
 
 // fs.rename('./demo/demo.txt','./demo/demo1.txt',(err)=>{console.log(err);})
 
-fs.unlink('demo.txt',(err)=>{console.log(err)})
-fs.unlink('nodeDemo.txt',(err)=>{console.log(err)})
+// fs.unlink('demo.txt',(err)=>{console.log(err)})
+// fs.unlink('nodeDemo.txt',(err)=>{console.log(err)})
 
 // fs.rmdir('demo.txt',(err)=>console.log(err))
+
+console.log(`${os.freemem() /1024 /1024 /1024}`);
+console.log(os.hostname());
