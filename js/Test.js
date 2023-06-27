@@ -1,4 +1,4 @@
-console.log("welcome :");
+// console.log("welcome :");
 
 // // for (let a=100; a<=0; a--)
 // // {
@@ -89,9 +89,9 @@ console.log("welcome :");
 // console.log(element);
 
 
-document.getElementById('heading').addEventListener(
-    'click',function()  {
-        console.log('click hua!!')
-        location.href = 'https://www.youtube.com/'
-    }
-)
+// document.getElementById('heading').addEventListener(
+//     'click',function()  {
+//         console.log('click hua!!')
+//         location.href = 'https://www.youtube.com/'
+//     }
+// )
