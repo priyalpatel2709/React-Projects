@@ -25,8 +25,14 @@ server.on("request",(req,res)=>{
     // })
 
     //Pipes  way
-    const rstrem =fs.createReadStream("data.txt","utf-8")
-    rstrem.pipe(res)
+    console.log(req);
+    if(req.url=='/demo'){
+        const rstrem =fs.createReadStream("data.txt","utf-8")
+        rstrem.pipe(res)
+    }else{
+        res.end('demo')
+    }
+
 })
 
 server.listen(8000,(err)=>{
@@ -36,3 +42,15 @@ server.listen(8000,(err)=>{
         console.log("8000 is on");
     }
 })
+//for demo
+// function find_max(nums){
+//     let max=- Number.NEGATIVE_INFINITY
+//     for(let num of nums){
+//         if (num>max){
+//             //fill in the missing line here
+//         }
+//     }
+//     console.log(max);
+// }
+
+// find_max(50)
