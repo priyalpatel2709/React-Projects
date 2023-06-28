@@ -5,7 +5,8 @@ import "./Chat.css";
 import Message from '../Message/Message'
 import ReactScrollToBottom from "react-scroll-to-bottom";
 let socket;
-const ENDPOINT = "https://react-app-chat2709.herokuapp.com/";
+// const ENDPOINT = "https://react-app-chat2709.herokuapp.com/";
+const ENDPOINT = "http://localhost:4500/";
 
 const Chat = () => {
   const [connected, setConnected] = useState(false);
