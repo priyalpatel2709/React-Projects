@@ -5,11 +5,14 @@ import "../styles/Nav.css";
 const Nav = () => {
   let navigate = useNavigate();
   const auth = localStorage.getItem("user");
+  // console.log("auth -->Nav",auth);
   const logOut = () => {
-    console.log("sd");
+    // console.log("sd");
     localStorage.clear();
     navigate("/singup");
   };
+
+  // console.log('------>',JSON.parse(auth).name);
 
   return (
     <div>
@@ -26,7 +29,8 @@ const Nav = () => {
           </li>
           <li>
             <Link onClick={logOut} to="/singup">
-              Logout({JSON.parse(auth).name})
+            Logout
+              {/* Logout({JSON.parse(auth).data.name}) */}
             </Link>
           </li>
         </ul>

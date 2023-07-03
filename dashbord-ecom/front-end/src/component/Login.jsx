@@ -4,19 +4,33 @@ import { Link, useNavigate } from "react-router-dom";
 import "../styles/SingUp.css";
 
 const Login = () => {
-  const [password, setPassword] = useState("");
-  const [email, setEmail] = useState("");
   const [errorMsg, setErrorMsg] = useState(false);
+
+  const [value, setValues] = useState({
+    password: "",
+    email: "",
+  });
+
+  const handelChange = (e) => {
+    const { name, value } = e.target;
+    setValues((preVal) => {
+      return {
+        ...preVal,
+        [name]: value,
+      };
+    });
+  };
 
   const navigate = useNavigate();
 
   const collectData = async () => {
-    // console.log(password, email);
     let result = await fetch("http://127.0.0.1:5000/login", {
       method: "post",
       headers: { "Content-Type": "application/json" },
-      body: JSON.stringify({ password, email }),
+      body: JSON.stringify({ password: value.password, email: value.email }),
     });
+
+    
     result = await result.json();
     if (result.name) {
       localStorage.setItem("user", JSON.stringify(result));
@@ -40,25 +54,21 @@ const Login = () => {
           className="input-box"
           type="text"
           placeholder="Enter Your Email"
-          value={email}
-          onChange={(e) => setEmail(e.target.value)}
+          name="email"
+          onChange={handelChange}
         />
         <input
           className="input-box"
           type="password"
           placeholder="Enter Your Password"
-          value={password}
-          onChange={(e) => setPassword(e.target.value)}
+          name="password"
+          onChange={handelChange}
         />
       </div>
       <button onClick={collectData} type="button">
         Log In
       </button>
-      {errorMsg && (
-        <span style={{color: 'red'}}>
-          plz enter correct data
-        </span>
-      )}
+      {errorMsg && <span style={{ color: "red" }}>plz enter correct data</span>}
       <span>
         create a new account <Link to="/singup">click me</Link>{" "}
       </span>
