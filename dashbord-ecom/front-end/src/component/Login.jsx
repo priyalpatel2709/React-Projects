@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import { Link, useNavigate } from "react-router-dom";
 // import React, { useState , useEffect} from "react";
 import "../styles/SingUp.css";
@@ -6,11 +6,12 @@ import "../styles/SingUp.css";
 const Login = () => {
   const [password, setPassword] = useState("");
   const [email, setEmail] = useState("");
+  const [errorMsg, setErrorMsg] = useState(false);
 
   const navigate = useNavigate();
 
   const collectData = async () => {
-    console.log(password, email);
+    // console.log(password, email);
     let result = await fetch("http://127.0.0.1:5000/login", {
       method: "post",
       headers: { "Content-Type": "application/json" },
@@ -20,9 +21,16 @@ const Login = () => {
     if (result.name) {
       localStorage.setItem("user", JSON.stringify(result));
       navigate("/");
+    } else {
+      setErrorMsg(true);
     }
-    console.log(result);
+    // console.log(result);
   };
+
+  useEffect(() => {
+    let auth = localStorage.getItem("user");
+    auth && navigate("/");
+  });
 
   return (
     <div className="container">
@@ -43,12 +51,14 @@ const Login = () => {
           onChange={(e) => setPassword(e.target.value)}
         />
       </div>
-      <button
-        onClick={collectData}
-        type="button"
-      >
+      <button onClick={collectData} type="button">
         Log In
       </button>
+      {errorMsg && (
+        <span style={{color: 'red'}}>
+          plz enter correct data
+        </span>
+      )}
       <span>
         create a new account <Link to="/singup">click me</Link>{" "}
       </span>

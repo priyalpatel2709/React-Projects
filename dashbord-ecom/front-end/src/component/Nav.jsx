@@ -1,15 +1,15 @@
 // import React, { useEffect, useState } from "react";
-import { Link , useNavigate } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import "../styles/Nav.css";
 
 const Nav = () => {
-  let navigate = useNavigate()
+  let navigate = useNavigate();
   const auth = localStorage.getItem("user");
-  const logOut = ()=>{
-    console.log('sd');
-    localStorage.clear()
-    navigate('/singup')
-  }
+  const logOut = () => {
+    console.log("sd");
+    localStorage.clear();
+    navigate("/singup");
+  };
 
   return (
     <div>
@@ -26,14 +26,22 @@ const Nav = () => {
 
         <li>
           {auth ? (
-            <Link onClick={logOut} to="/singup">Logout</Link>
+            <Link onClick={logOut} to="/singup">
+              Logout
+            </Link>
           ) : (
-            <Link to="/singup">Sing Up</Link>
+            <>
+              <li>
+                <Link to="/singup">Sing Up</Link>{" "}
+              </li>
+              <li>
+                {" "}
+                <Link to="/login">logIn</Link>{" "}
+              </li>
+            </>
           )}
         </li>
-        <li>
-          <Link to="/login">logIn</Link>
-        </li>
+       
       </ul>
     </div>
   );
