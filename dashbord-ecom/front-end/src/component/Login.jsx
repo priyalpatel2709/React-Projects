@@ -1,52 +1,41 @@
-import React, { useState, useEffect } from "react";
-import { Link, useNavigate } from "react-router-dom";
-import axios from "axios";
+import React, { useState } from "react";
+import { Link,useNavigate } from "react-router-dom";
+// import React, { useState , useEffect} from "react";
 import "../styles/SingUp.css";
 
-const SingUp = () => {
-  const [name, setName] = useState("");
+const Login = () => {
   const [password, setPassword] = useState("");
   const [email, setEmail] = useState("");
 
-  const navigate = useNavigate();
+  const navigate = useNavigate()
 
   const collectData = async () => {
-    console.log(`name:-${name} password:-${password} email:-${email} `);
-    axios
-      .post("http://127.0.0.1:5000/register", {
-        name,
-        email,
-        password,
-      })
-      .then((resp) => {
-        if (resp) {
-          console.log(resp);
-          localStorage.setItem("user", JSON.stringify(resp));
-          navigate("/");
-        }
-      })
-      .catch((error) => {
-        console.error(error);
-      });
+    console.log(password, email);
+    let result = await fetch("http://127.0.0.1:5000/login", {
+      method : 'post',
+      headers:{'Content-Type': 'application/json'},
+      body   : JSON.stringify({ password, email })
+    });
+     result = await result.json()
+     if(result.name){
+      localStorage.setItem('user',JSON.stringify(result))
+      navigate('/')
+     }
+     console.log(result);
+
   };
-
-
-  useEffect(() => {
-    let auth = localStorage.getItem("user");
-    auth && navigate("/");
-  });
 
   return (
     <div className="container">
-      <h1>Sign Up</h1>
+      <h1>Log In</h1>
       <div className="input-container">
-        <input
+        {/* <input
           className="input-box"
           type="text"
           placeholder="Enter Your Name"
           value={name}
           onChange={(e) => setName(e.target.value)}
-        />
+        /> */}
         <input
           className="input-box"
           type="text"
@@ -67,14 +56,14 @@ const SingUp = () => {
         onClick={collectData}
         type="button"
       >
-        Sign Up
+        Log In
       </button>
       <span>
         {" "}
-        have account <Link to="/login">click me</Link>{" "}
+        create a new account <Link to="/singup">click me</Link>{" "}
       </span>
     </div>
   );
 };
 
-export default SingUp;
+export default Login;

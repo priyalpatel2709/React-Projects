@@ -3,6 +3,9 @@ import Nav from "./component/Nav";
 import { BrowserRouter, Routes, Route } from "react-router-dom";
 import SingUp from "./component/SingUp";
 import PrivateCom from "./component/PrivateCom";
+import Login from "./component/Login";
+
+
 function App() {
   return (
     <div className="App">
@@ -18,6 +21,7 @@ function App() {
           </Route>
 
           <Route path="/singup" element={<SingUp />} />
+          <Route path="/login" element={<Login />} />
         </Routes>
       </BrowserRouter>
     </div>
