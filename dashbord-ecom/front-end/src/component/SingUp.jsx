@@ -20,6 +20,7 @@ const SingUp = () => {
       .then((resp) => {
         if (resp) {
           console.log(resp);
+          localStorage.setItem('user',JSON.stringify(resp))
           navigate("/");
         }
       })
