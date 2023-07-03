@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState , useEffect} from "react";
 import { useNavigate } from "react-router-dom";
 import axios from "axios";
 import '../styles/SingUp.css';
@@ -28,6 +28,11 @@ const SingUp = () => {
         console.error(error);
       });
   };
+  
+  useEffect(()=>{
+    let auth = localStorage.getItem("user");
+    auth && navigate("/");
+  })
 
   return (
     <div className="container">
