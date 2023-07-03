@@ -1,16 +1,16 @@
 const express = require('express')
 require('./db/config')
-const user = require('./db/User')
+const User = require('./db/User')
+const bodyParser = require('body-parser');
 const app =express()
 app.use(express.json())
 
-// app.get('/',(req,res)=>{
-//     res.send('req')
-// })
 
 app.post('/register',(req,resp)=>{
-    // resp.send('api working..')
-    resp.send(req.body)
+    let users = new User(req.body)
+    let result = users.save()
+    resp.send(result)
+    // resp.end()
 })
 
 app.listen(5000) 
