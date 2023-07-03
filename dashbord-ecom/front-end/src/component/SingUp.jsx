@@ -70,8 +70,7 @@ const SingUp = () => {
         Sign Up
       </button>
       <span>
-        {" "}
-        have account <Link to="/login">click me</Link>{" "}
+        have account <Link to="/login">click me</Link>
       </span>
     </div>
   );
