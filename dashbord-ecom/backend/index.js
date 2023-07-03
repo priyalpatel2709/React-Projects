@@ -6,16 +6,16 @@ const app = express();
 app.use(express.json());
 app.use(cors());
 
-app.post("/register", (req, resp) => {
-  let users = new User(req.body);
-  let result = users.save();
+app.post("/register", async (req, resp) => {
+  console.log(req.body);
+  let user = new User(req.body);
+  let result = await user.save();
   resp.send(result);
-  resp.end();
 });
 
 app.post("/login", async (req, resp) => {
   // resp.send(req.body)
-//   console.log(req.body);
+  //   console.log(req.body);
 
   if (req.body.email && req.body.password) {
     let user = await User.findOne(req.body).select("-password");
