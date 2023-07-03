@@ -2,6 +2,7 @@ const express = require("express");
 const cors = require("cors");
 require("./db/config");
 const User = require("./db/User");
+const Product = require('./db/Product')
 const app = express();
 app.use(express.json());
 app.use(cors());
@@ -30,6 +31,13 @@ app.post("/login", async (req, resp) => {
     resp.send({ result: "user not found" });
   }
 });
+
+app.post('/add-product', async (req,resp)=>{
+  const product=new Product(req.body)
+  let result= await product.save()
+  resp.send(result)
+
+})
 
 app.listen(5000, () => {
   console.log("Server is running on port http://127.0.0.1:5000");
