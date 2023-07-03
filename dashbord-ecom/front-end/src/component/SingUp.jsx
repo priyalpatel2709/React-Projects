@@ -1,34 +1,37 @@
 import React, { useState } from "react";
-import {useNavigate} from 'react-router-dom'
+import { useNavigate } from "react-router-dom";
+import axios from "axios";
+import '../styles/SingUp.css';
+
 const SingUp = () => {
   const [name, setName] = useState("");
   const [password, setPassword] = useState("");
   const [email, setEmail] = useState("");
-  const navigate = useNavigate()
-  const collectData =async () => {
-    console.log(`
-        name:-${name}
-        password:-${password}
-        email:-${email} `);
+  const navigate = useNavigate();
 
-      let result = await fetch('http://127.0.0.1:5000/register',{
-            method : 'post',
-            body : JSON.stringify({name,password,email}),
-            headers : {
-              "Content-Type" : "application/json"
-            }
+  const collectData = async () => {
+    console.log(`name:-${name} password:-${password} email:-${email} `);
+    axios
+      .post("http://127.0.0.1:5000/register", {
+        name,
+        email,
+        password
       })
-      result = await result.json()
-      console.log(result);
-      if(result){
-        navigate('/')
-      }
+      .then((resp) => {
+        if (resp) {
+          console.log(resp);
+          navigate("/");
+        }
+      })
+      .catch((error) => {
+        console.error(error);
+      });
   };
 
   return (
-    <div>
-      <h1>Sing Up</h1>
-      <div>
+    <div className="container">
+      <h1>Sign Up</h1>
+      <div className="input-container">
         <input
           className="input-box"
           type="text"
@@ -52,11 +55,11 @@ const SingUp = () => {
         />
       </div>
       <button
-        style={{ marginBottom: "10px" }}
+        // style={{ marginBottom: "10px" }}
         onClick={collectData}
         type="button"
       >
-        Sing Up
+        Sign Up
       </button>
     </div>
   );
