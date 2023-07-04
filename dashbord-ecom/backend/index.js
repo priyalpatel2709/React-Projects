@@ -8,7 +8,7 @@ app.use(express.json());
 app.use(cors());
 
 app.post("/register", async (req, resp) => {
-  console.log(req.body);
+  // console.log(req.body);
   let user = new User(req.body);
   let result = await user.save();
   result = result.toObject()
@@ -76,6 +76,17 @@ app.put('/products/:id', async (req,resp)=>{
     $set: req.body
   })
   resp.send(result)
+})
+
+app.get('/search/:key',async (req,resp)=>{
+  let result = await Product.find({
+    "$or" : [
+      { name : {$regex : req.params.key} },
+      { category : {$regex : req.params.key} },
+      { company : {$regex : req.params.key} },
+    ]
+  })
+  resp.send(result) 
 })
 
 app.listen(5000, () => {

@@ -60,8 +60,8 @@ const UpdateProduct = () => {
         }),
       });
       result = await result.json();
-      if(result){
-        alert("changes added")
+      if (result) {
+        alert("changes added");
       }
     }
   };
@@ -72,48 +72,48 @@ const UpdateProduct = () => {
     <div>
       <div className="container">
         <h1>Update Product</h1>
-        <div className="input-container">
-          <label className="input-label">Name:</label>
-          <input
-            className="input-box"
-            type="text"
-            placeholder="Enter Name of Product"
-            name="name"
-            onChange={handleChange}
-            value={values.name}
-          />
-          <label className="input-label">Price:</label>
-          <input
-            className="input-box"
-            type="text"
-            placeholder="Enter the Price of Product"
-            name="price"
-            onChange={handleChange}
-            value={values.price}
-          />
-          <label className="input-label">Category:</label>
-          <input
-            className="input-box"
-            type="text"
-            placeholder="Enter the Category of Product"
-            name="category"
-            onChange={handleChange}
-            value={values.category}
-          />
-          <label className="input-label">Company:</label>
-          <input
-            className="input-box"
-            type="text"
-            placeholder="Enter the Company of Product"
-            name="company"
-            onChange={handleChange}
-            value={values.company}
-          />
-        </div>
-        <button className="Add-btn" onClick={updateData} type="button">
-          Update Product
-        </button>
       </div>
+      <div className="input-container">
+        <label className="input-label">Name:</label>
+        <input
+          className="input-box"
+          type="text"
+          placeholder="Enter Name of Product"
+          name="name"
+          onChange={handleChange}
+          value={values.name}
+        />
+        <label className="input-label">Price:</label>
+        <input
+          className="input-box"
+          type="text"
+          placeholder="Enter the Price of Product"
+          name="price"
+          onChange={handleChange}
+          value={values.price}
+        />
+        <label className="input-label">Category:</label>
+        <input
+          className="input-box"
+          type="text"
+          placeholder="Enter the Category of Product"
+          name="category"
+          onChange={handleChange}
+          value={values.category}
+        />
+        <label className="input-label">Company:</label>
+        <input
+          className="input-box"
+          type="text"
+          placeholder="Enter the Company of Product"
+          name="company"
+          onChange={handleChange}
+          value={values.company}
+        />
+      </div>
+      <button className="Add-btn" onClick={updateData} type="button">
+        Update Product
+      </button>
     </div>
   );
 };

@@ -8,7 +8,7 @@ const ProductList = () => {
 
   const deleteProduct = useCallback(
     async (id) => {
-      console.log(`delete is working ${id}`);
+      // console.log(`delete is working ${id}`);
       let result = await fetch(`http://127.0.0.1:5000/products/${id}`, {
         method: "DELETE",
         headers: {
@@ -16,7 +16,7 @@ const ProductList = () => {
         },
       });
       result = await result.json();
-      console.log(result);
+      // console.log(result);
       setProducts((prevProducts) =>
         prevProducts.filter((product) => product._id !== id)
       );
@@ -30,13 +30,21 @@ const ProductList = () => {
   const getProduct = async () => {
     let result = await fetch(`http://127.0.0.1:5000/products`);
     result = await result.json();
-    console.log(result);
+    // console.log(result);
     setProducts(result);
   };
 
   return (
     <div className="ProductList">
       <h1>Product List</h1>
+      <div className="search-field">
+        <input
+          type="text"
+          placeholder="Search"
+          // value={searchTerm}
+          // onChange={handleChange}
+        />
+      </div>
       {products.length > 0 ? (
         <table className="dynamic-table">
           <thead>
@@ -66,7 +74,7 @@ const ProductList = () => {
                     Delete
                   </button>
                   <button className="td-button">
-                    <Link  to={`/update/${item._id}`}>Update</Link>
+                    <Link to={`/update/${item._id}`}>Update</Link>
                   </button>
                 </td>
               </tr>

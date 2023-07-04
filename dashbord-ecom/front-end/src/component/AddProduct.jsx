@@ -42,7 +42,7 @@ const AddProduct = () => {
     });
 
     result = await result.json();
-    console.log(result);
+    // console.log(result);
     if (result) {
       localStorage.setItem("product", JSON.stringify(result));
       alert("Added Successfully");
