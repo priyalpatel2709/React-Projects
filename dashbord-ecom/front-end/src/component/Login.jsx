@@ -30,9 +30,10 @@ const Login = () => {
       body: JSON.stringify({ password: value.password, email: value.email }),
     });
 
-    
+
     result = await result.json();
     if (result.name) {
+      console.log(result);
       localStorage.setItem("user", JSON.stringify(result));
       navigate("/");
     } else {

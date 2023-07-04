@@ -34,6 +34,10 @@ const AddProduct = () => {
     })
     result = await result.json()
     console.log(result);
+    if(result){
+      alert("Added Successfully")
+      setValues({})
+    }
     
   }
 

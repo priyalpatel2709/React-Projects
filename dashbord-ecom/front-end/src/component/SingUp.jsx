@@ -1,33 +1,42 @@
 import React, { useState, useEffect } from "react";
 import { Link, useNavigate } from "react-router-dom";
-import axios from "axios";
 import "../styles/SingUp.css";
 
 const SingUp = () => {
-  const [name, setName] = useState("");
-  const [password, setPassword] = useState("");
-  const [email, setEmail] = useState("");
-
   const navigate = useNavigate();
 
+  const [value, setValues] = useState({
+    name : "",
+    password: "",
+    email: "",
+  });
+
+  const handelChange = (e) => {
+    const { name, value } = e.target;
+    setValues((preVal) => {
+      return {
+        ...preVal,
+        [name]: value,
+      };
+    });
+  };
+
   const collectData = async () => {
-    console.log(`name:-${name} password:-${password} email:-${email} `);
-    axios
-      .post("http://127.0.0.1:5000/register", {
-        name,
-        email,
-        password,
+    // console.log(`name:-${name} password:-${password} email:-${email} `);
+      let result = await fetch(`http://127.0.0.1:5000/register`,{
+        method:"POST",
+        headers: { "Content-Type": "application/json" },
+        body:JSON.stringify({
+          name : value.name,
+          password : value.password,
+          email :value.password
+        })
       })
-      .then((resp) => {
-        if (resp) {
-          console.log(resp);
-          localStorage.setItem("user", JSON.stringify(resp));
-          navigate("/");
-        }
-      })
-      .catch((error) => {
-        console.error(error);
-      });
+
+      result = await result.json()
+      console.log(result);
+      localStorage.setItem('user',JSON.stringify(result))
+      navigate("/");
   };
 
 
@@ -44,22 +53,22 @@ const SingUp = () => {
           className="input-box"
           type="text"
           placeholder="Enter Your Name"
-          value={name}
-          onChange={(e) => setName(e.target.value)}
+          name='name'
+          onChange={handelChange}
         />
         <input
           className="input-box"
           type="text"
           placeholder="Enter Your Email"
-          value={email}
-          onChange={(e) => setEmail(e.target.value)}
+          name='email'
+          onChange={handelChange}
         />
         <input
           className="input-box"
           type="password"
           placeholder="Enter Your Password"
-          value={password}
-          onChange={(e) => setPassword(e.target.value)}
+          name='password'
+          onChange={handelChange}
         />
       </div>
       <button
