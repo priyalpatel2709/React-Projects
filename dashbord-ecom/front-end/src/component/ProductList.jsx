@@ -1,5 +1,6 @@
 import React, { useEffect, useState, useCallback } from "react";
 import "../styles/ProductList.css";
+import { Link } from "react-router-dom";
 
 const ProductList = () => {
   const [products, setProducts] = useState([]);
@@ -45,23 +46,27 @@ const ProductList = () => {
               <th>Price</th>
               <th>Company</th>
               <th>Category</th>
+              <th>Operation</th>
             </tr>
           </thead>
           <tbody>
-            {products?.map((row, index) => (
-              <tr key={row.id}>
+            {products?.map((item, index) => (
+              <tr key={item.id}>
                 <td>{index + 1}</td>
-                <td>{row.name}</td>
-                <td>{row.price}</td>
-                <td>{row.company}</td>
-                <td>{row.category}</td>
+                <td>{item.name}</td>
+                <td>{item.price}</td>
+                <td>{item.company}</td>
+                <td>{item.category}</td>
                 <td>
                   <button
                     className="td-button"
                     type="button"
-                    onClick={() => deleteProduct(row._id)}
+                    onClick={() => deleteProduct(item._id)}
                   >
                     Delete
+                  </button>
+                  <button className="td-button">
+                    <Link  to={`/update/${item._id}`}>Update</Link>
                   </button>
                 </td>
               </tr>

@@ -54,6 +54,20 @@ app.delete('/products/:id', async (req,resp)=>{
   resp.send(result)
 })
 
+app.get('/products/:id', async (req,resp)=>{
+  try {
+    let result = await Product.findOne({ _id: req.params.id });
+
+    if (result) {
+      resp.send(result);
+    } else {
+      resp.status(404).send({ error: 'Record not found' });
+    }
+  } catch (error) {
+    resp.status(500).send({ error: 'Internal Server Error' });
+  }
+})
+
 app.listen(5000, () => {
   console.log("Server is running on port http://127.0.0.1:5000");
 });

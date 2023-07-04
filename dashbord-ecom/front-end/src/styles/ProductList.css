@@ -47,5 +47,8 @@
   .td-button:hover {
     background-color: #c62828;
   }
-  
-  
+
+  .td-button a{
+    color: #ffffff;
+    text-decoration: none;
+  }

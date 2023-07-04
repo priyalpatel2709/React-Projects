@@ -60,7 +60,7 @@ const AddProduct = () => {
   return (
     <div>
       <div className="container">
-        <h1>AddProduct</h1>
+        <h1>Add Product</h1>
         <div className="input-container">
           <input
             className="input-box"
