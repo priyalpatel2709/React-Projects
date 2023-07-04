@@ -66,7 +66,7 @@ const Login = () => {
           onChange={handelChange}
         />
       </div>
-      <button onClick={collectData} type="button">
+      <button className="singUp-btn" onClick={collectData} type="button">
         Log In
       </button>
       {errorMsg && <span style={{ color: "red" }}>plz enter correct data</span>}

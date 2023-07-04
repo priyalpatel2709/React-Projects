@@ -73,6 +73,7 @@ const SingUp = () => {
       </div>
       <button
         // style={{ marginBottom: "10px" }}
+        className="singUp-btn"
         onClick={collectData}
         type="button"
       >
