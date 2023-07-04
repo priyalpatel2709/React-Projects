@@ -1,20 +1,45 @@
-
-.err-span {
-    color: red;
-    margin-top: -12px;
-    margin-left: -100px;
+.container {
+    max-width: 500px;
+    margin: 0 auto;
+    padding: 20px;
+  }
+  
+  .input-container {
+    margin-bottom: 20px;
+  }
+  
+  .input-label {
+    display: block;
+    font-weight: bold;
     margin-bottom: 5px;
-    width: 113px;
-}
-
-.Add-btn {
+  }
+  
+  .input-box {
+    width: 100%;
     padding: 10px;
+    margin-bottom: 10px;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+    font-size: 16px;
+  }
+  
+  .err-span {
+    color: red;
+    margin-top: 5px;
+    font-size: 14px;
+  }
+  
+  .add-btn {
     background-color: #4caf50;
     color: white;
     border: none;
+    padding: 10px 20px;
+    border-radius: 4px;
+    font-size: 16px;
     cursor: pointer;
-}
-
-.Add-btn:hover {
+  }
+  
+  .add-btn:hover {
     background-color: #45a049;
-}
+  }
+  

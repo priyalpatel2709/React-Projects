@@ -1,7 +1,6 @@
 import React, { useState } from "react";
 import "../styles/AddProduct.css";
 
-
 const AddProduct = () => {
   const [values, setValues] = useState({
     name: "",
@@ -11,24 +10,22 @@ const AddProduct = () => {
     error: false,
   });
 
-  const handelChange = (e) => {
+  const handleChange = (e) => {
     const { name, value } = e.target;
-    setValues((preVal) => {
-      return {
-        ...preVal,
-        [name]: value,
-      };
-    });
+    setValues((prevValues) => ({
+      ...prevValues,
+      [name]: value,
+      error: false,
+    }));
   };
 
   const collectData = async () => {
     if (!values.name || !values.category || !values.company || !values.price) {
-     
-      setValues((preVal) => ({
-        ...preVal,
+      setValues((prevValues) => ({
+        ...prevValues,
         error: true,
       }));
-      return false;
+      return;
     }
 
     const userId = JSON.parse(localStorage.getItem("user"))._id;
@@ -43,6 +40,7 @@ const AddProduct = () => {
         userId: userId,
       }),
     });
+
     result = await result.json();
     console.log(result);
     if (result) {
@@ -53,61 +51,78 @@ const AddProduct = () => {
         price: "",
         category: "",
         company: "",
+        error: false,
       });
     }
   };
 
   return (
-    <div>
-      <div className="container">
-        <h1>Add Product</h1>
-        <div className="input-container">
-          <input
-            className="input-box"
-            type="text"
-            placeholder="Enter Name of Product"
-            name="name"
-            onChange={handelChange}
-            value={values.name}
-          />
-          {values.error && !values.name && <span className="err-span">enter name*</span>}
-          <input
-            className="input-box"
-            type="text"
-            placeholder="Enter the Price of Product"
-            name="price"
-            onChange={handelChange}
-            value={values.price}
-          />
-          {values.error && !values.price && <span className="err-span">enter price*</span>}
-          <input
-            className="input-box"
-            type="text"
-            placeholder="Enter the Category of Product"
-            name="category"
-            onChange={handelChange}
-            value={values.category}
-          />
-          {values.error && !values.category && <span className="err-span">enter category*</span>}
-          <input
-            className="input-box"
-            type="text"
-            placeholder="Enter the Company of Product"
-            name="company"
-            onChange={handelChange}
-            value={values.company}
-          />
-          {values.error && !values.company && <span className="err-span">enter company*</span>}
-        </div>
-        <button
-          // style={{ marginBottom: "10px" }}
-          className="Add-btn"
-          onClick={collectData}
-          type="button"
-        >
-          Add Product
-        </button>
+    <div className="container">
+      <h1>Add Product</h1>
+      <div className="input-container">
+        <label className="input-label" htmlFor="productName">
+          Name:
+        </label>
+        <input
+          className="input-box"
+          type="text"
+          placeholder="Enter Name of Product"
+          name="name"
+          onChange={handleChange}
+          value={values.name}
+        />
+        {values.error && !values.name && (
+          <span className="err-span">Please enter a name</span>
+        )}
+
+        <label className="input-label" htmlFor="productPrice">
+          Price:
+        </label>
+        <input
+          className="input-box"
+          type="text"
+          placeholder="Enter the Price of Product"
+          name="price"
+          onChange={handleChange}
+          value={values.price}
+        />
+        {values.error && !values.price && (
+          <span className="err-span">Please enter a price</span>
+        )}
+
+        <label className="input-label" htmlFor="productCategory">
+          Category:
+        </label>
+        <input
+          className="input-box"
+          type="text"
+          placeholder="Enter the Category of Product"
+          name="category"
+          onChange={handleChange}
+          value={values.category}
+        />
+        {values.error && !values.category && (
+          <span className="err-span">Please enter a category</span>
+        )}
+
+        <label className="input-label" htmlFor="productCompany">
+          Company:
+        </label>
+        <input
+          className="input-box"
+          type="text"
+          placeholder="Enter the Company of Product"
+          name="company"
+          onChange={handleChange}
+          value={values.company}
+        />
+        {values.error && !values.company && (
+          <span className="err-span">Please enter a company</span>
+        )}
       </div>
+      <button className="add-btn" onClick={collectData} type="button">
+        Add Product
+      </button>
     </div>
   );
 };

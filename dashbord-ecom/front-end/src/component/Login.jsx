@@ -1,77 +1,81 @@
-import React, { useState, useEffect } from "react";
-import { Link, useNavigate } from "react-router-dom";
-// import React, { useState , useEffect} from "react";
-import "../styles/SingUp.css";
+import React, { useState, useEffect } from 'react';
+import { Link, useNavigate } from 'react-router-dom';
+import '../styles/Login.css';
 
 const Login = () => {
   const [errorMsg, setErrorMsg] = useState(false);
-
   const [value, setValues] = useState({
-    password: "",
-    email: "",
+    password: '',
+    email: '',
   });
-
-  const handelChange = (e) => {
-    const { name, value } = e.target;
-    setValues((preVal) => {
-      return {
-        ...preVal,
-        [name]: value,
-      };
-    });
-  };
-
   const navigate = useNavigate();
 
+  const handleChange = (e) => {
+    const { name, value } = e.target;
+    setValues((prevValues) => ({
+      ...prevValues,
+      [name]: value,
+    }));
+  };
+
   const collectData = async () => {
-    let result = await fetch("http://127.0.0.1:5000/login", {
-      method: "post",
-      headers: { "Content-Type": "application/json" },
+    let result = await fetch('http://127.0.0.1:5000/login', {
+      method: 'post',
+      headers: { 'Content-Type': 'application/json' },
       body: JSON.stringify({ password: value.password, email: value.email }),
     });
 
-
     result = await result.json();
     if (result.name) {
-      console.log(result);
-      localStorage.setItem("user", JSON.stringify(result));
-      navigate("/");
+      localStorage.setItem('user', JSON.stringify(result));
+      navigate('/');
     } else {
       setErrorMsg(true);
     }
-    // console.log(result);
   };
 
   useEffect(() => {
-    let auth = localStorage.getItem("user");
-    auth && navigate("/");
+    let auth = localStorage.getItem('user');
+    auth && navigate('/');
   });
 
   return (
     <div className="container">
       <h1>Log In</h1>
       <div className="input-container">
+        <label className="input-label" htmlFor="email">
+          Email:
+        </label>
         <input
           className="input-box"
           type="text"
           placeholder="Enter Your Email"
           name="email"
-          onChange={handelChange}
+          id="email"
+          onChange={handleChange}
         />
+        <label className="input-label" htmlFor="password">
+          Password:
+        </label>
         <input
           className="input-box"
           type="password"
           placeholder="Enter Your Password"
           name="password"
-          onChange={handelChange}
+          id="password"
+          onChange={handleChange}
         />
       </div>
-      <button className="singUp-btn" onClick={collectData} type="button">
+      <button className="login-btn" onClick={collectData} type="button">
         Log In
       </button>
-      {errorMsg && <span style={{ color: "red" }}>plz enter correct data</span>}
+      {errorMsg && (
+        <div className="error-msg">
+          <span className="error-text">Please enter correct data</span>
+        </div>
+      )}
       <span>
-        create a new account <Link to="/singup">click me</Link>{" "}
+        Create a new account <Link to="/singup">click here</Link>
       </span>
     </div>
   );

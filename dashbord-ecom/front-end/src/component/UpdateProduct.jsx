@@ -1,15 +1,16 @@
-import React, { useEffect, useState } from 'react';
-import { useParams } from 'react-router-dom';
+import React, { useEffect, useState } from "react";
+import { useParams } from "react-router-dom";
+import "../styles/UpdateProduct.css";
 
 const UpdateProduct = () => {
   const { id } = useParams();
-//   console.log('paramName', id);
+  //   console.log('paramName', id);
 
   const [values, setValues] = useState({
-    name: '',
-    price: '',
-    category: '',
-    company: '',
+    name: "",
+    price: "",
+    category: "",
+    company: "",
   });
 
   useEffect(() => {
@@ -22,10 +23,10 @@ const UpdateProduct = () => {
         if (response.ok) {
           setValues(result);
         } else {
-          console.error('Error:', result.error);
+          console.error("Error:", result.error);
         }
       } catch (error) {
-        console.error('Error:', error);
+        console.error("Error:", error);
       }
     };
 
@@ -44,13 +45,14 @@ const UpdateProduct = () => {
     console.log(values);
   };
 
-  console.log('data', values);
+  console.log("data", values);
 
   return (
     <div>
       <div className="container">
         <h1>Update Product</h1>
         <div className="input-container">
+          <label className="input-label">Name:</label>
           <input
             className="input-box"
             type="text"
@@ -59,6 +61,7 @@ const UpdateProduct = () => {
             onChange={handleChange}
             value={values.name}
           />
+          <label className="input-label">Price:</label>
           <input
             className="input-box"
             type="text"
@@ -67,6 +70,7 @@ const UpdateProduct = () => {
             onChange={handleChange}
             value={values.price}
           />
+          <label className="input-label">Category:</label>
           <input
             className="input-box"
             type="text"
@@ -75,6 +79,7 @@ const UpdateProduct = () => {
             onChange={handleChange}
             value={values.category}
           />
+          <label className="input-label">Company:</label>
           <input
             className="input-box"
             type="text"
