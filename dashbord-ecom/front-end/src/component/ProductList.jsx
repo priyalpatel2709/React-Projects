@@ -34,6 +34,20 @@ const ProductList = () => {
     setProducts(result);
   };
 
+  const handleChange = async (e) => {
+    // console.log(e.target.value);
+    let key = e.target.value;
+
+    if (key) {
+      let result = await fetch(`http://127.0.0.1:5000/search/${key}`);
+      result = await result.json();
+      console.log(result);
+      setProducts(result);
+    } else {
+      getProduct();
+    }
+  };
+
   return (
     <div className="ProductList">
       <h1>Product List</h1>
@@ -42,7 +56,7 @@ const ProductList = () => {
           type="text"
           placeholder="Search"
           // value={searchTerm}
-          // onChange={handleChange}
+          onChange={handleChange}
         />
       </div>
       {products.length > 0 ? (
