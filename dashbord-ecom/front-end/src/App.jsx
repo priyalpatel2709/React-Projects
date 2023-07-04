@@ -5,6 +5,7 @@ import SingUp from "./component/SingUp";
 import PrivateCom from "./component/PrivateCom";
 import Login from "./component/Login";
 import AddProduct from "./component/AddProduct";
+import ProductList from "./component/ProductList";
 
 
 function App() {
@@ -14,7 +15,7 @@ function App() {
         <Nav />
         <Routes>
           <Route element={<PrivateCom />}>
-            <Route path="/" element={<h2>Product List</h2>} />
+            <Route path="/" element={<ProductList/>} />
             <Route path="/add" element={<AddProduct/>} />
             <Route path="/update" element={<h2>update Product</h2>} />
             <Route path="/logout" element={<h2>logout</h2>} />
