@@ -6,3 +6,15 @@
     margin-bottom: 5px;
     width: 113px;
 }
+
+.Add-btn {
+    padding: 10px;
+    background-color: #4caf50;
+    color: white;
+    border: none;
+    cursor: pointer;
+}
+
+.Add-btn:hover {
+    background-color: #45a049;
+}

@@ -101,6 +101,7 @@ const AddProduct = () => {
         </div>
         <button
           // style={{ marginBottom: "10px" }}
+          className="Add-btn"
           onClick={collectData}
           type="button"
         >
