@@ -68,6 +68,16 @@ app.get('/products/:id', async (req,resp)=>{
   }
 })
 
+app.put('/products/:id', async (req,resp)=>{
+  let result = await Product.updateOne({
+    _id : req.params.id
+  },
+  {
+    $set: req.body
+  })
+  resp.send(result)
+})
+
 app.listen(5000, () => {
   console.log("Server is running on port http://127.0.0.1:5000");
 });

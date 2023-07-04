@@ -18,10 +18,11 @@ const UpdateProduct = () => {
       try {
         const response = await fetch(`http://127.0.0.1:5000/products/${id}`);
         const result = await response.json();
-        console.log(result);
+        // console.log(result);
 
         if (response.ok) {
           setValues(result);
+          localStorage.setItem("update", JSON.stringify(result));
         } else {
           console.error("Error:", result.error);
         }
@@ -41,11 +42,31 @@ const UpdateProduct = () => {
     }));
   };
 
-  const updateData = () => {
-    console.log(values);
+  const updateData = async () => {
+    let anyChance = JSON.parse(localStorage.getItem("update"));
+    let checkAnyChanges = JSON.stringify(anyChance) === JSON.stringify(values);
+
+    if (checkAnyChanges) {
+      alert("make any changes");
+    } else {
+      let result = await fetch(`http://127.0.0.1:5000/products/${id}`, {
+        method: "put",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({
+          name: values.name,
+          price: values.price,
+          category: values.category,
+          company: values.company,
+        }),
+      });
+      result = await result.json();
+      if(result){
+        alert("changes added")
+      }
+    }
   };
 
-  console.log("data", values);
+  //   console.log("data", values);
 
   return (
     <div>

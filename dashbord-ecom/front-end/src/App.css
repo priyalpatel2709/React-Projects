@@ -2,5 +2,13 @@
   text-align: center;
 } */
 
+/* CSS */
+.alert.pass {
+  background-color: rgb(15, 232, 40);
+}
+
+.alert.fail {
+  background-color: rgb(225, 38, 38);
+}
 
 
