@@ -6,9 +6,8 @@ const ProductList = () => {
   const [products, setProducts] = useState([]);
   // console.log('products',products);
 
-  const deleteProduct = useCallback(
-    async (id) => {
-      // console.log(`delete is working ${id}`);
+  const deleteProduct = useCallback(async (id) => {
+    try {
       let result = await fetch(`http://127.0.0.1:5000/products/${id}`, {
         method: "DELETE",
         headers: {
@@ -16,25 +15,34 @@ const ProductList = () => {
         },
       });
       result = await result.json();
-      // console.log(result);
       setProducts((prevProducts) =>
         prevProducts.filter((product) => product._id !== id)
       );
-    },
-    [setProducts]
-  );
+    } catch (error) {
+      alert('Something went wrong...');
+    }
+  }, [setProducts]);
+  
+
+
   useEffect(() => {
     getProduct();
   }, [deleteProduct]);
 
   const getProduct = async () => {
-    let result = await fetch(`http://127.0.0.1:5000/products`);
-    result = await result.json();
-    // console.log(result);
-    setProducts(result);
+    try{
+      let result = await fetch(`http://127.0.0.1:5000/products`);
+      result = await result.json();
+      // console.log(result);
+      setProducts(result);
+    }catch{
+      alert('some thing went wrong...')
+    }
+
   };
 
   const handleChange = async (e) => {
+    try{
     // console.log(e.target.value);
     let key = e.target.value;
 
@@ -46,6 +54,10 @@ const ProductList = () => {
     } else {
       getProduct();
     }
+    }catch{
+      alert('some thing went wrong...')
+    }
+
   };
 
   return (

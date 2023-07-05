@@ -13,10 +13,21 @@ const JwtKey = 'e-comm'
 app.post("/register", async (req, resp) => {
   // console.log(req.body);
   let user = new User(req.body);
-  let result = await user.save();
-  result = result.toObject()
-  delete result.password
-  resp.send(result);
+  
+  if(user){
+    Jwt.sign({user},JwtKey,async (err,token)=>{
+        if(err){
+          resp.send({result : `some thing went wrong  ${err}`})
+        }else{
+          let result = await user.save();
+          result = result.toObject()
+          delete result.password
+          resp.send({user : result,auth: token});
+        }
+    })
+  }
+
+  
 });
 
 app.post("/login", async (req, resp) => {

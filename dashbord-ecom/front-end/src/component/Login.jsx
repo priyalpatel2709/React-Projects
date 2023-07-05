@@ -19,21 +19,26 @@ const Login = () => {
   };
 
   const collectData = async () => {
-    let result = await fetch('http://127.0.0.1:5000/login', {
-      method: 'post',
-      headers: { 'Content-Type': 'application/json' },
-      body: JSON.stringify({ password: value.password, email: value.email }),
-    });
-
-    result = await result.json();
-    console.log(result);
-    if (result.user.name) {
-      localStorage.setItem('user', JSON.stringify(result.user));
-      localStorage.setItem('token', JSON.stringify(result.auth));
-      navigate('/');
-    } else {
-      setErrorMsg(true);
+    try{
+      let result = await fetch('http://127.0.0.1:5000/login', {
+        method: 'post',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ password: value.password, email: value.email }),
+      });
+  
+      result = await result.json();
+      console.log(result);
+      if (result.user.name) {
+        localStorage.setItem('user', JSON.stringify(result.user));
+        localStorage.setItem('token', JSON.stringify(result.auth));
+        navigate('/');
+      } else {
+        setErrorMsg(true);
+      }
+    }catch (error){
+      alert("Something went wrong plz try after some time..",error);
     }
+
   };
 
   useEffect(() => {
