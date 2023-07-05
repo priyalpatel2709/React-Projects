@@ -6,58 +6,61 @@ const ProductList = () => {
   const [products, setProducts] = useState([]);
   // console.log('products',products);
 
-  const deleteProduct = useCallback(async (id) => {
-    try {
-      let result = await fetch(`http://127.0.0.1:5000/products/${id}`, {
-        method: "DELETE",
-        headers: {
-          "Content-Type": "application/json",
-        },
-      });
-      result = await result.json();
-      setProducts((prevProducts) =>
-        prevProducts.filter((product) => product._id !== id)
-      );
-    } catch (error) {
-      alert('Something went wrong...');
-    }
-  }, [setProducts]);
-  
-
+  const deleteProduct = useCallback(
+    async (id) => {
+      try {
+        let result = await fetch(`http://127.0.0.1:5000/products/${id}`, {
+          method: "DELETE",
+          headers: {
+            "Content-Type": "application/json",
+          },
+        });
+        result = await result.json();
+        setProducts((prevProducts) =>
+          prevProducts.filter((product) => product._id !== id)
+        );
+      } catch (error) {
+        alert("Something went wrong...");
+      }
+    },
+    [setProducts]
+  );
 
   useEffect(() => {
     getProduct();
   }, [deleteProduct]);
 
   const getProduct = async () => {
-    try{
-      let result = await fetch(`http://127.0.0.1:5000/products`);
+    try {
+      let result = await fetch(`http://127.0.0.1:5000/products`, {
+        headers: {
+          authorization: JSON.parse(localStorage.getItem("token")),
+        },
+      });
       result = await result.json();
       // console.log(result);
       setProducts(result);
-    }catch{
-      alert('some thing went wrong...')
+    } catch {
+      alert("some thing went wrong...");
     }
-
   };
 
   const handleChange = async (e) => {
-    try{
-    // console.log(e.target.value);
-    let key = e.target.value;
+    try {
+      // console.log(e.target.value);
+      let key = e.target.value;
 
-    if (key) {
-      let result = await fetch(`http://127.0.0.1:5000/search/${key}`);
-      result = await result.json();
-      console.log(result);
-      setProducts(result);
-    } else {
-      getProduct();
+      if (key) {
+        let result = await fetch(`http://127.0.0.1:5000/search/${key}`);
+        result = await result.json();
+        console.log(result);
+        setProducts(result);
+      } else {
+        getProduct();
+      }
+    } catch {
+      alert("some thing went wrong...");
     }
-    }catch{
-      alert('some thing went wrong...')
-    }
-
   };
 
   return (
