@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
 import '../styles/Login.css';
+import axios from 'axios';
 
 const Login = () => {
   const [errorMsg, setErrorMsg] = useState(false);
@@ -19,14 +20,36 @@ const Login = () => {
   };
 
   const collectData = async () => {
-    try{
-      let result = await fetch('http://127.0.0.1:5000/login', {
-        method: 'post',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ password: value.password, email: value.email }),
-      });
+    // try{
+    //   let result = await fetch('http://127.0.0.1:5000/login', {
+    //     method: 'post',
+    //     headers: { 'Content-Type': 'application/json' },
+    //     body: JSON.stringify({ password: value.password, email: value.email }),
+    //   });
   
-      result = await result.json();
+    //   result = await result.json();
+    //   console.log(result);
+    //   if (result.user.name) {
+    //     localStorage.setItem('user', JSON.stringify(result.user));
+    //     localStorage.setItem('token', JSON.stringify(result.auth));
+    //     navigate('/');
+    //   } else {
+    //     setErrorMsg(true);
+    //   }
+    // }catch (error){
+    //   alert("Something went wrong plz try after some time..",error);
+    // }
+    try {
+      const response = await axios.post('http://127.0.0.1:5000/login', {
+        password: value.password,
+        email: value.email,
+      }, {
+        headers: {
+          'Content-Type': 'application/json',
+        },
+      });
+    
+      const result = response.data;
       console.log(result);
       if (result.user.name) {
         localStorage.setItem('user', JSON.stringify(result.user));
@@ -35,8 +58,8 @@ const Login = () => {
       } else {
         setErrorMsg(true);
       }
-    }catch (error){
-      alert("Something went wrong plz try after some time..",error);
+    } catch (error) {
+      alert('Something went wrong, please try again later.', error);
     }
 
   };

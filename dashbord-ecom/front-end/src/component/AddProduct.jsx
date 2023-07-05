@@ -1,5 +1,6 @@
 import React, { useState } from "react";
 import "../styles/AddProduct.css";
+import axios from 'axios';
 
 const AddProduct = () => {
   const [values, setValues] = useState({
@@ -29,34 +30,63 @@ const AddProduct = () => {
     }
 
     const userId = JSON.parse(localStorage.getItem("user"))._id;
-    let result = await fetch(`http://127.0.0.1:5000/add-product`, {
-      method: "post",
-      headers: {
-        "Content-Type": "application/json",
-        authorization: `bearer ${JSON.parse(localStorage.getItem("token"))}`,
-      },
+    // let result = await fetch(`http://127.0.0.1:5000/add-product`, {
+    //   method: "post",
+    //   headers: {
+    //     "Content-Type": "application/json",
+    //     authorization: `bearer ${JSON.parse(localStorage.getItem("token"))}`,
+    //   },
 
-      body: JSON.stringify({
+    //   body: JSON.stringify({
+    //     name: values.name,
+    //     price: values.price,
+    //     category: values.category,
+    //     company: values.company,
+    //     userId: userId,
+    //   }),
+    // });
+
+    // result = await result.json();
+    // // console.log(result.name);
+    // if (result.name) {
+    //   localStorage.setItem("product", JSON.stringify(result));
+    //   alert("Added Successfully");
+    //   setValues({
+    //     name: "",
+    //     price: "",
+    //     category: "",
+    //     company: "",
+    //     error: false,
+    //   });
+    // }
+    try {
+      const response = await axios.post('http://127.0.0.1:5000/add-product', {
         name: values.name,
         price: values.price,
         category: values.category,
         company: values.company,
         userId: userId,
-      }),
-    });
-
-    result = await result.json();
-    // console.log(result.name);
-    if (result.name) {
-      localStorage.setItem("product", JSON.stringify(result));
-      alert("Added Successfully");
-      setValues({
-        name: "",
-        price: "",
-        category: "",
-        company: "",
-        error: false,
+      }, {
+        headers: {
+          'Content-Type': 'application/json',
+          'authorization': `bearer ${JSON.parse(localStorage.getItem('token'))}`,
+        },
       });
+  
+      const result = response.data;
+      if (result.name) {
+        localStorage.setItem('product', JSON.stringify(result));
+        alert('Added Successfully');
+        setValues({
+          name: '',
+          price: '',
+          category: '',
+          company: '',
+          error: false,
+        });
+      }
+    } catch (error) {
+      console.error('Error:', error);
     }
   };
 

@@ -1,6 +1,7 @@
 import React, { useEffect, useState } from "react";
 import { useParams } from "react-router-dom";
 import "../styles/UpdateProduct.css";
+import axios from 'axios';
 
 const UpdateProduct = () => {
   const { id } = useParams();
@@ -16,24 +17,23 @@ const UpdateProduct = () => {
   useEffect(() => {
     const getUpdatedData = async () => {
       try {
-        const response = await fetch(`http://127.0.0.1:5000/products/${id}`, {
+        const response = await axios.get(`http://127.0.0.1:5000/products/${id}`, {
           headers: {
-            authorization: `bearer ${JSON.parse(
-              localStorage.getItem("token")
-            )}`,
+            'authorization': `bearer ${JSON.parse(localStorage.getItem('token'))}`,
           },
         });
-        const result = await response.json();
+    
+        const result = response.data;
         // console.log(result);
-
-        if (response.ok) {
+    
+        if (response.status === 200) {
           setValues(result);
-          localStorage.setItem("update", JSON.stringify(result));
+          localStorage.setItem('update', JSON.stringify(result));
         } else {
-          console.error("Error:", result.error);
+          console.error('Error:', result.error);
         }
       } catch (error) {
-        console.error("Error:", error);
+        console.error('Error:', error);
       }
     };
 
@@ -48,35 +48,63 @@ const UpdateProduct = () => {
     }));
   };
 
-  const updateData = async () => {
-    let anyChance = JSON.parse(localStorage.getItem("update"));
-    let checkAnyChanges = JSON.stringify(anyChance) === JSON.stringify(values);
+  // const updateData = async () => {
+  //   let anyChance = JSON.parse(localStorage.getItem("update"));
+  //   let checkAnyChanges = JSON.stringify(anyChance) === JSON.stringify(values);
 
+  //   if (checkAnyChanges) {
+  //     alert("make any changes");
+  //   } else {
+  //     let result = await fetch(`http://127.0.0.1:5000/products/${id}`, {
+  //       method: "put",
+  //       headers: {
+  //         "Content-Type": "application/json",
+  //         authorization: `bearer ${JSON.parse(localStorage.getItem("token"))}`,
+  //       },
+  //       body: JSON.stringify({
+  //         name: values.name,
+  //         price: values.price,
+  //         category: values.category,
+  //         company: values.company,
+  //       }),
+  //     });
+  //     result = await result.json();
+  //     if (result) {
+  //       alert("changes added");
+  //     }
+  //   }
+  // };
+
+  //   console.log("data", values);
+
+  const updateData = async () => {
+    let anyChance = JSON.parse(localStorage.getItem('update'));
+    let checkAnyChanges = JSON.stringify(anyChance) === JSON.stringify(values);
+  
     if (checkAnyChanges) {
-      alert("make any changes");
+      alert('Make any changes');
     } else {
-      let result = await fetch(`http://127.0.0.1:5000/products/${id}`, {
-        method: "put",
-        headers: {
-          "Content-Type": "application/json",
-          authorization: `bearer ${JSON.parse(localStorage.getItem("token"))}`,
-        },
-        body: JSON.stringify({
+      try {
+        const response = await axios.put(`http://127.0.0.1:5000/products/${id}`, {
           name: values.name,
           price: values.price,
           category: values.category,
           company: values.company,
-        }),
-      });
-      result = await result.json();
-      if (result) {
-        alert("changes added");
+        }, {
+          headers: {
+            'Content-Type': 'application/json',
+            'authorization': `bearer ${JSON.parse(localStorage.getItem('token'))}`,
+          },
+        });
+  
+        if (response.data) {
+          alert('Changes added');
+        }
+      } catch (error) {
+        console.error('Error:', error);
       }
     }
   };
-
-  //   console.log("data", values);
-
   return (
     <div>
       <div className="container">

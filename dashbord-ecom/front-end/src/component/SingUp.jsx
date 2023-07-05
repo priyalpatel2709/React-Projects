@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
 import '../styles/SingUp.css';
+import axios from 'axios';
 
 const SignUp = () => {
   const navigate = useNavigate();
@@ -19,29 +20,50 @@ const SignUp = () => {
     }));
   };
 
+  // const collectData = async () => {
+  //   try{
+  //     let result = await fetch('http://127.0.0.1:5000/register', {
+  //       method: 'POST',
+  //       headers: { 'Content-Type': 'application/json' },
+  //       body: JSON.stringify({
+  //         name: value.name,
+  //         password: value.password,
+  //         email: value.email,
+  //       }),
+  //     });
+  
+  //     result = await result.json();
+  //     console.log(result.user);
+  //     localStorage.setItem('user', JSON.stringify(result.user));
+  //     localStorage.setItem('token', JSON.stringify(result.auth));
+  //     navigate('/');
+  //   }catch{
+  //     alert("Something went wrong");
+  //   } 
+
+  // };
+
   const collectData = async () => {
-    try{
-      let result = await fetch('http://127.0.0.1:5000/register', {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({
-          name: value.name,
-          password: value.password,
-          email: value.email,
-        }),
+    try {
+      const response = await axios.post('http://127.0.0.1:5000/register', {
+        name: value.name,
+        password: value.password,
+        email: value.email,
+      }, {
+        headers: {
+          'Content-Type': 'application/json',
+        },
       });
   
-      result = await result.json();
+      const result = response.data;
       console.log(result.user);
       localStorage.setItem('user', JSON.stringify(result.user));
       localStorage.setItem('token', JSON.stringify(result.auth));
       navigate('/');
-    }catch{
-      alert("Something went wrong");
-    } 
-
+    } catch (error) {
+      alert('Something went wrong');
+    }
   };
-
   useEffect(() => {
     let auth = localStorage.getItem('user');
     auth && navigate('/');
