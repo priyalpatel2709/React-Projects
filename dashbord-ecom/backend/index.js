@@ -12,19 +12,22 @@ const JwtKey = "e-comm";
 
 app.post("/register", async (req, resp) => {
   // console.log(req.body);
-  let user = new User(req.body);
-
-  if (user) {
-    Jwt.sign({ user }, JwtKey, async (err, token) => {
-      if (err) {
-        resp.send({ result: `some thing went wrong  ${err}` });
-      } else {
-        let result = await user.save();
-        result = result.toObject();
-        delete result.password;
-        resp.send({ user: result, auth: token });
-      }
-    });
+  if (req.body.email && req.body.password && req.body.name) {
+    let user = new User(req.body);
+    if (user) {
+      Jwt.sign({ user }, JwtKey, async (err, token) => {
+        if (err) {
+          resp.send({ result: `some thing went wrong  ${err}` });
+        } else {
+          let result = await user.save();
+          result = result.toObject();
+          delete result.password;
+          resp.send({ user: result, auth: token });
+        }
+      });
+    }
+  }else{
+    resp.send({ result: "please enter name,email and password" });
   }
 });
 
@@ -43,10 +46,10 @@ app.post("/login", async (req, resp) => {
         }
       });
     } else {
-      resp.send({ result: "user not found" });
+      resp.send({ result: "please enter correct name and email" });
     }
   } else {
-    resp.send({ result: "user not found" });
+    resp.send({ result: "please enter name and email" });
   }
 });
 

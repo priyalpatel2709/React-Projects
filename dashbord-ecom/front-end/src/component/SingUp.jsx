@@ -12,6 +12,11 @@ const SignUp = () => {
     email: '',
   });
 
+  const [errorMsg, setErrorMsg] = useState({
+    value : false,
+    message: ''
+  });
+
   const handleChange = (e) => {
     const { name, value } = e.target;
     setValues((prevValues) => ({
@@ -57,9 +62,15 @@ const SignUp = () => {
   
       const result = response.data;
       console.log(result.user);
-      localStorage.setItem('user', JSON.stringify(result.user));
-      localStorage.setItem('token', JSON.stringify(result.auth));
-      navigate('/');
+      if(result.user){
+        localStorage.setItem('user', JSON.stringify(result.user));
+        localStorage.setItem('token', JSON.stringify(result.auth));
+        navigate('/');
+      }else{
+        console.log(result.result);
+        setErrorMsg(prevState => ({ ...prevState, value: true, message: result.result}));
+      }
+
     } catch (error) {
       alert('Something went wrong');
     }
@@ -110,6 +121,11 @@ const SignUp = () => {
       <button className="signup-btn" onClick={collectData} type="button">
         Sign Up
       </button>
+      {errorMsg.value && (
+        <div className="error-msg">
+          <span className="error-text">{errorMsg.message}</span>
+        </div>
+      )}
       <span className="signup-link">
         Already have an account? <Link to="/login">Log In</Link>
       </span>

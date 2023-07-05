@@ -10,7 +10,7 @@
   .dynamic-table {
     width: 80%;
     border-collapse: collapse;
-    border: 1px solid #ddd;
+    /* border: 1px solid #ddd; */
     margin: 20px;
     margin-left: 193px;
   }
@@ -60,7 +60,7 @@
     border: 1px solid #ccc;
     border-radius: 4px;
     padding: 8px;
-    margin-left: 18%
+    margin-left: 22%
   }
   
   .search-field input {
@@ -82,4 +82,14 @@
   .search-field button:hover {
     background-color: #45a049;
   }
+
+  .loader-container {
+    width: 100%;
+    height: 100vh;
+    position: fixed;
+    background: rgba(242, 242, 242, 0.834)
+        url("https://media.giphy.com/media/8agqybiK5LW8qrG3vJ/giphy.gif") center
+        no-repeat;
+    z-index: 1;
+}
   

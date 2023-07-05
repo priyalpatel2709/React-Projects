@@ -4,7 +4,10 @@ import '../styles/Login.css';
 import axios from 'axios';
 
 const Login = () => {
-  const [errorMsg, setErrorMsg] = useState(false);
+  const [errorMsg, setErrorMsg] = useState({
+    value : false,
+    message: ''
+  });
   const [value, setValues] = useState({
     password: '',
     email: '',
@@ -51,15 +54,22 @@ const Login = () => {
     
       const result = response.data;
       console.log(result);
-      if (result.user.name) {
+    
+      if (result.user && result.auth) {
         localStorage.setItem('user', JSON.stringify(result.user));
         localStorage.setItem('token', JSON.stringify(result.auth));
         navigate('/');
       } else {
-        setErrorMsg(true);
+        if(result.result_user){
+          setErrorMsg(prevState => ({ ...prevState, value: true, message: result.result  }));
+        }else{
+          setErrorMsg(prevState => ({ ...prevState, value: true, message: result.result  }));
+        }
+        
+        // alert('Invalid credentials. Please check your email and password.');
       }
     } catch (error) {
-      alert('Something went wrong, please try again later.', error);
+      alert('Something went wrong, please try again later.');
     }
 
   };
@@ -99,9 +109,9 @@ const Login = () => {
       <button className="login-btn" onClick={collectData} type="button">
         Log In
       </button>
-      {errorMsg && (
+      {errorMsg.value && (
         <div className="error-msg">
-          <span className="error-text">Please enter correct data</span>
+          <span className="error-text">{errorMsg.message}</span>
         </div>
       )}
       <span>
