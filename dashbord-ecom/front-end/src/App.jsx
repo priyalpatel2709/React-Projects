@@ -7,6 +7,7 @@ import Login from "./component/Login";
 import AddProduct from "./component/AddProduct";
 import ProductList from "./component/ProductList";
 import UpdateProduct from "./component/UpdateProduct";
+import UserDataUpdate from "./component/UserDataUpdate";
 
 
 function App() {
@@ -19,6 +20,7 @@ function App() {
             <Route path="/" element={<ProductList/>} />
             <Route path="/add" element={<AddProduct/>} />
             <Route path="/update/:id" element={<UpdateProduct/>} />
+            <Route path="/update" element={<UserDataUpdate/>} />
             <Route path="/logout" element={<h2>logout</h2>} />
             <Route path="/profile" element={<h2>Profile</h2>} />
           </Route>

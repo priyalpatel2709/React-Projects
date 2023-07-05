@@ -99,7 +99,7 @@ const ProductList = () => {
         </div>
       ) : products.length > 0 ? (
         <table className="dynamic-table">
-          {products.length > 0 ? (
+          {
             <table className="dynamic-table">
               <thead>
                 <tr>
@@ -135,11 +135,7 @@ const ProductList = () => {
                 ))}
               </tbody>
             </table>
-          ) : (
-            <h1 style={{ color: "red", textAlign: "center", marginTop: "10%" }}>
-              No Data Found ...
-            </h1>
-          )}
+          }
         </table>
       ) : (
         <h1 style={{ color: "red", textAlign: "center", marginTop: "10%" }}>
