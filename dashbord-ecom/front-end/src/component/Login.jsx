@@ -53,7 +53,7 @@ const Login = () => {
       });
     
       const result = response.data;
-      console.log(result);
+      // console.log(result);
     
       if (result.user && result.auth) {
         localStorage.setItem('user', JSON.stringify(result.user));

@@ -25,29 +25,6 @@ const SignUp = () => {
     }));
   };
 
-  // const collectData = async () => {
-  //   try{
-  //     let result = await fetch('http://127.0.0.1:5000/register', {
-  //       method: 'POST',
-  //       headers: { 'Content-Type': 'application/json' },
-  //       body: JSON.stringify({
-  //         name: value.name,
-  //         password: value.password,
-  //         email: value.email,
-  //       }),
-  //     });
-  
-  //     result = await result.json();
-  //     console.log(result.user);
-  //     localStorage.setItem('user', JSON.stringify(result.user));
-  //     localStorage.setItem('token', JSON.stringify(result.auth));
-  //     navigate('/');
-  //   }catch{
-  //     alert("Something went wrong");
-  //   } 
-
-  // };
-
   const collectData = async () => {
     try {
       const response = await axios.post('http://127.0.0.1:5000/register', {

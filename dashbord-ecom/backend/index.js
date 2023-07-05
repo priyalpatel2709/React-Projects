@@ -54,6 +54,7 @@ app.post("/login", async (req, resp) => {
 });
 
 app.post("/add-product",verifyToken, async (req, resp) => {
+  console.log("/add-product",req.body);
   const product = new Product(req.body);
   let result = await product.save();
   resp.send(result);
@@ -71,6 +72,7 @@ app.get("/products",verifyToken, async (req, resp) => {
 app.delete("/products/:id",verifyToken, async (req, resp) => {
   // resp.send(req.params.id)
   const result = await Product.deleteOne({ _id: req.params.id });
+  // console.log("result",result);
   resp.send(result);
 });
 
@@ -84,7 +86,7 @@ app.get("/products/:id", verifyToken,async (req, resp) => {
       resp.status(404).send({ error: "Record not found" });
     }
   } catch (error) {
-    resp.status(500).send({ error: "Internal Server Error" });
+    resp.status(500).send({ error: "Internal Server Error",error });
   }
 });
 
@@ -111,6 +113,17 @@ app.get("/search/:key",verifyToken, async (req, resp) => {
   resp.send(result);
 });
 
+app.get("/products/user/:userId", async (req, resp) => {
+  try {
+    const userId = req.params.userId;
+    const products = await Product.find({ userId: userId });
+
+    resp.send(products);
+  } catch (error) {
+    resp.status(500).send({ error: "Internal Server Error", error });
+  }
+});
+
 function verifyToken(req, resp, next) {
   console.log(" working...  :) ");
   let token = req.headers["authorization"];
@@ -121,7 +134,7 @@ function verifyToken(req, resp, next) {
       if (err) {
         resp.status(401).send({ result: "send correct token" });
       } else {
-        console.log("decoded",decoded);
+        // console.log("decoded",decoded);
         next();
       }
     });
