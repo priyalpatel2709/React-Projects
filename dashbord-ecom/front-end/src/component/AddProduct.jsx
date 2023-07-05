@@ -31,7 +31,11 @@ const AddProduct = () => {
     const userId = JSON.parse(localStorage.getItem("user"))._id;
     let result = await fetch(`http://127.0.0.1:5000/add-product`, {
       method: "post",
-      headers: { "Content-Type": "application/json" },
+      headers: {
+        "Content-Type": "application/json",
+        authorization: `bearer ${JSON.parse(localStorage.getItem("token"))}`,
+      },
+
       body: JSON.stringify({
         name: values.name,
         price: values.price,
@@ -42,8 +46,8 @@ const AddProduct = () => {
     });
 
     result = await result.json();
-    // console.log(result);
-    if (result) {
+    // console.log(result.name);
+    if (result.name) {
       localStorage.setItem("product", JSON.stringify(result));
       alert("Added Successfully");
       setValues({

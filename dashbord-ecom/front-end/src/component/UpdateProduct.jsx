@@ -16,7 +16,13 @@ const UpdateProduct = () => {
   useEffect(() => {
     const getUpdatedData = async () => {
       try {
-        const response = await fetch(`http://127.0.0.1:5000/products/${id}`);
+        const response = await fetch(`http://127.0.0.1:5000/products/${id}`, {
+          headers: {
+            authorization: `bearer ${JSON.parse(
+              localStorage.getItem("token")
+            )}`,
+          },
+        });
         const result = await response.json();
         // console.log(result);
 
@@ -51,7 +57,10 @@ const UpdateProduct = () => {
     } else {
       let result = await fetch(`http://127.0.0.1:5000/products/${id}`, {
         method: "put",
-        headers: { "Content-Type": "application/json" },
+        headers: {
+          "Content-Type": "application/json",
+          authorization: `bearer ${JSON.parse(localStorage.getItem("token"))}`,
+        },
         body: JSON.stringify({
           name: values.name,
           price: values.price,

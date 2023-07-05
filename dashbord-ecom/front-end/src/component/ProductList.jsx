@@ -13,6 +13,7 @@ const ProductList = () => {
           method: "DELETE",
           headers: {
             "Content-Type": "application/json",
+            authorization: `bearer ${JSON.parse(localStorage.getItem("token"))}`,
           },
         });
         result = await result.json();
@@ -34,7 +35,7 @@ const ProductList = () => {
     try {
       let result = await fetch(`http://127.0.0.1:5000/products`, {
         headers: {
-          authorization: JSON.parse(localStorage.getItem("token")),
+          authorization: `bearer ${JSON.parse(localStorage.getItem("token"))}`,
         },
       });
       result = await result.json();
@@ -51,7 +52,11 @@ const ProductList = () => {
       let key = e.target.value;
 
       if (key) {
-        let result = await fetch(`http://127.0.0.1:5000/search/${key}`);
+        let result = await fetch(`http://127.0.0.1:5000/search/${key}`,{
+          headers: {
+            authorization: `bearer ${JSON.parse(localStorage.getItem("token"))}`,
+          },
+        });
         result = await result.json();
         console.log(result);
         setProducts(result);
