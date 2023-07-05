@@ -113,7 +113,7 @@ app.get("/search/:key",verifyToken, async (req, resp) => {
   resp.send(result);
 });
 
-app.get("/products/user/:userId", async (req, resp) => {
+app.get("/products/user/:userId",verifyToken, async (req, resp) => {
   try {
     const userId = req.params.userId;
     const products = await Product.find({ userId: userId });

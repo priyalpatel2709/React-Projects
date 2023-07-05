@@ -1,7 +1,8 @@
 import React, { useEffect, useState, useCallback } from "react";
 import "../styles/ProductList.css";
-import { Link } from "react-router-dom";
+// import { Link } from "react-router-dom";
 import axios from "axios";
+import ListTable from "./ListTable";
 
 const ProductList = () => {
   const [products, setProducts] = useState([]);
@@ -55,7 +56,7 @@ const ProductList = () => {
 
       const result = response.data;
       setProducts(result);
-      setIsLoading(false); // Set isLoading to false when data fetching is complete
+      setIsLoading(false);
     } catch (error) {
       alert("Something went wrong...");
     }
@@ -93,55 +94,9 @@ const ProductList = () => {
       <div className="search-field">
         <input type="text" placeholder="Search" onChange={handleChange} />
       </div>
-      {isLoading ? (
-        <div className="loader-container">
-          <div className="spinner"></div>
-        </div>
-      ) : products.length > 0 ? (
-        <table className="dynamic-table">
-          {
-            <table className="dynamic-table">
-              <thead>
-                <tr>
-                  <th>Sr.No</th>
-                  <th>Name</th>
-                  <th>Price</th>
-                  <th>Company</th>
-                  <th>Category</th>
-                  <th>Operation</th>
-                </tr>
-              </thead>
-              <tbody>
-                {products.map((item, index) => (
-                  <tr key={item.id}>
-                    <td>{index + 1}</td>
-                    <td>{item.name}</td>
-                    <td>{item.price}</td>
-                    <td>{item.company}</td>
-                    <td>{item.category}</td>
-                    <td>
-                      <button
-                        className="td-button"
-                        type="button"
-                        onClick={() => deleteProduct(item._id)}
-                      >
-                        Delete
-                      </button>
-                      <button className="td-button">
-                        <Link to={`/update/${item._id}`}>Update</Link>
-                      </button>
-                    </td>
-                  </tr>
-                ))}
-              </tbody>
-            </table>
-          }
-        </table>
-      ) : (
-        <h1 style={{ color: "red", textAlign: "center", marginTop: "10%" }}>
-          No Data Found ...
-        </h1>
-      )}
+      
+        <ListTable isLoading={isLoading}  deleteProduct={deleteProduct} products={products} />
+      
     </div>
   );
 };

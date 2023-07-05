@@ -1,44 +1,75 @@
-import React,{useEffect,useState} from 'react';
-import axios from 'axios';
+import React, { useEffect, useState, useCallback } from "react";
+import axios from "axios";
+import ListTable from "./ListTable";
 
 const UserDataUpdate = () => {
-    const auth = localStorage.getItem("user");
-    const [userProducts, setUserProducts] = useState([]);
-    useEffect(() => {
-        if (auth) {
-          const userId = JSON.parse(auth)._id;
-          getUserProducts(userId);
+  const auth = localStorage.getItem("user");
+  const [products, setProducts] = useState([]);
+  const [isLoading, setIsLoading] = useState(true);
+  useEffect(() => {
+    if (auth) {
+      const userId = JSON.parse(auth)._id;
+      getUserProducts(userId);
+    }
+  }, [auth]);
+  const getUserProducts = async (userId) => {
+    try {
+      const response = await axios.get(
+        `http://127.0.0.1:5000/products/user/${userId}`,
+        {
+          headers: {
+            authorization: `bearer ${JSON.parse(
+              localStorage.getItem("token")
+            )}`,
+          },
         }
-      }, [auth]);
-      const getUserProducts = async (userId) => {
-        try {
-          const response = await axios.get(`http://127.0.0.1:5000/products/user/${userId}`, {
+      );
+
+      const result = response.data;
+      console.log("result", result);
+      setProducts(result);
+      setIsLoading(false);
+    } catch (error) {
+      alert("Something went wrong...");
+    }
+  };
+
+  const deleteProduct = useCallback(
+    async (id) => {
+      try {
+        const response = await axios.delete(
+          `http://127.0.0.1:5000/products/${id}`,
+          {
             headers: {
-              authorization: `bearer ${JSON.parse(localStorage.getItem("token"))}`,
+              "Content-Type": "application/json",
+              authorization: `bearer ${JSON.parse(
+                localStorage.getItem("token")
+              )}`,
             },
-          });
-    
-          const result = response.data;
-          setUserProducts(result);
-        } catch (error) {
-          alert("Something went wrong...");
-        }
-      };
+          }
+        );
+
+        const result = response.data;
+        setProducts((prevProducts) =>
+          prevProducts.filter((product) => product._id !== id)
+        );
+      } catch (error) {
+        alert("Something went wrong...");
+      }
+    },
+    [setProducts]
+  );
   return (
     <div>
-      <h3>User Products:</h3>
-      {userProducts.length > 0 && (
-            <li>
-              
-              <ul>
-                {userProducts.map((product) => (
-                  <li key={product._id}>{product.name}</li>
-                ))}
-              </ul>
-            </li>
-          )}
+      <h1 style={{textAlign:'center'}}>User Product List</h1>
+
+      <ListTable
+        isLoading={isLoading}
+        deleteProduct={deleteProduct}
+        products={products}
+      />
     </div>
   );
-}
+};
 
 export default UserDataUpdate;

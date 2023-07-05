@@ -25,7 +25,7 @@ const Nav = () => {
             <Link to="/add">Add Product</Link>
           </li>
           <li>
-            <Link to="/update">Update Product</Link>
+            <Link to="/update">User's Product</Link>
           </li>
           <li>
             <Link onClick={logOut} to="/singup">
