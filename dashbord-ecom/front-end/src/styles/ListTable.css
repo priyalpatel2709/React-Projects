@@ -42,7 +42,15 @@
 
 .dynamic-table th {
   background-color: #f2f2f2;
-  text-align: left;
+  text-align: center;
+}
+
+.dynamic-table tr:nth-child(even) {
+  background-color: #f9f9f9;
+}
+
+.dynamic-table tr:hover {
+  background-color: #e6e6e6;
 }
 
 .td-button {
