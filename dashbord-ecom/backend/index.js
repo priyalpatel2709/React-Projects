@@ -54,7 +54,7 @@ app.post("/login", async (req, resp) => {
 });
 
 app.post("/add-product",verifyToken, async (req, resp) => {
-  console.log("/add-product",req.body);
+  // console.log("/add-product",req.body);
   const product = new Product(req.body);
   let result = await product.save();
   resp.send(result);
@@ -125,11 +125,11 @@ app.get("/products/user/:userId",verifyToken, async (req, resp) => {
 });
 
 function verifyToken(req, resp, next) {
-  console.log(" working...  :) ");
+  // console.log(" working...  :) ");
   let token = req.headers["authorization"];
   if (token) {
     token = token.split(" ")[1];
-    console.log("token", token);
+    // console.log("token", token);
     Jwt.verify(token, JwtKey, function (err, decoded) {
       if (err) {
         resp.status(401).send({ result: "send correct token" });
