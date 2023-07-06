@@ -8,6 +8,7 @@ import AddProduct from "./component/AddProduct";
 import ProductList from "./component/ProductList";
 import UpdateProduct from "./component/UpdateProduct";
 import UserDataUpdate from "./component/UserDataUpdate";
+import Admin from "./component/Admin";
 
 
 function App() {
@@ -27,6 +28,7 @@ function App() {
 
           <Route path="/singup" element={<SingUp />} />
           <Route path="/login" element={<Login />} />
+          <Route path="/admin" element={<Admin />} />
         </Routes>
       </BrowserRouter>
     </div>

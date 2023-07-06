@@ -4,6 +4,7 @@ const Jwt = require("jsonwebtoken");
 require("./db/config");
 const User = require("./db/User");
 const Product = require("./db/Product");
+// const Product = require("./db/Product");
 const app = express();
 app.use(express.json());
 app.use(cors());
@@ -123,6 +124,15 @@ app.get("/products/user/:userId",verifyToken, async (req, resp) => {
     resp.status(500).send({ error: "Internal Server Error", error });
   }
 });
+
+app.get('/admin',async (req,resp)=>{
+  // const name = req.params.name
+  let dataFromModel1  = await User.find().exec()
+  let dataFromModel2  = await Product.find().exec()
+
+  let comData = {dataFromModel1,dataFromModel2}
+  resp.send(comData)
+})
 
 function verifyToken(req, resp, next) {
   // console.log(" working...  :) ");
