@@ -60,8 +60,8 @@ const UserDataUpdate = () => {
     [setProducts]
   );
   return (
-    <div>
-      <h1 style={{textAlign:'center'}}>User Product List</h1>
+    <div style={{ textAlign: "center" }}>
+      <h1>User Product List</h1>
 
       <ListTable
         isLoading={isLoading}

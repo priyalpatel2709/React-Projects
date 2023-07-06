@@ -1,5 +1,6 @@
 import React, { useState } from "react";
 import { Link } from "react-router-dom";
+import "../styles/ListTable.css";
 
 const ListTable = ({ products, deleteProduct, isLoading }) => {
   console.log("products--->", products);
@@ -18,6 +19,120 @@ const ListTable = ({ products, deleteProduct, isLoading }) => {
   const goToNextPage = () => {
     setCurrentPage((prevPage) => prevPage + 1);
   };
+
+  const goToPage = (pageNumber) => {
+    setCurrentPage(pageNumber);
+  };
+
+  const renderPageNumbers = () => {
+    const pageNumbers = [];
+  
+    const ellipsis = <span key="ellipsis">...</span>;
+  
+    if (totalPages <= 7) {
+      for (let i = 1; i <= totalPages; i++) {
+        pageNumbers.push(
+          <button
+            key={i}
+            onClick={() => goToPage(i)}
+            className={currentPage === i ? "active" : ""}
+          >
+            {i}
+          </button>
+        );
+      }
+    } else {
+      if (currentPage <= 4) {
+        for (let i = 1; i <= 5; i++) {
+          pageNumbers.push(
+            <button
+              key={i}
+              onClick={() => goToPage(i)}
+              className={currentPage === i ? "active" : ""}
+            >
+              {i}
+            </button>
+          );
+        }
+        pageNumbers.push(ellipsis);
+        for (let i = totalPages - 2; i <= totalPages; i++) {
+          pageNumbers.push(
+            <button
+              key={i}
+              onClick={() => goToPage(i)}
+              className={currentPage === i ? "active" : ""}
+            >
+              {i}
+            </button>
+          );
+        }
+      } else if (currentPage >= totalPages - 3) {
+        for (let i = 1; i <= 3; i++) {
+          pageNumbers.push(
+            <button
+              key={i}
+              onClick={() => goToPage(i)}
+              className={currentPage === i ? "active" : ""}
+            >
+              {i}
+            </button>
+          );
+        }
+        pageNumbers.push(ellipsis);
+        for (let i = totalPages - 4; i <= totalPages; i++) {
+          pageNumbers.push(
+            <button
+              key={i}
+              onClick={() => goToPage(i)}
+              className={currentPage === i ? "active" : ""}
+            >
+              {i}
+            </button>
+          );
+        }
+      } else {
+        for (let i = 1; i <= 2; i++) {
+          pageNumbers.push(
+            <button
+              key={i}
+              onClick={() => goToPage(i)}
+              className={currentPage === i ? "active" : ""}
+            >
+              {i}
+            </button>
+          );
+        }
+        pageNumbers.push(ellipsis);
+        for (let i = currentPage - 1; i <= currentPage + 1; i++) {
+          pageNumbers.push(
+            <button
+              key={i}
+              onClick={() => goToPage(i)}
+              className={currentPage === i ? "active" : ""}
+            >
+              {i}
+            </button>
+          );
+        }
+        pageNumbers.push(ellipsis);
+        for (let i = totalPages - 1; i <= totalPages; i++) {
+          pageNumbers.push(
+            <button
+              key={i}
+              onClick={() => goToPage(i)}
+              className={currentPage === i ? "active" : ""}
+            >
+              {i}
+            </button>
+          );
+        }
+      }
+    }
+  
+    return pageNumbers;
+  };
+  
+
   return (
     <>
       {isLoading ? (
@@ -61,13 +176,11 @@ const ListTable = ({ products, deleteProduct, isLoading }) => {
               ))}
             </tbody>
           </table>
-          <div>
+          <div className="pagination">
             <button onClick={goToPreviousPage} disabled={currentPage === 1}>
               Previous
             </button>
-            <span>
-              Page {currentPage} of {totalPages}
-            </span>
+            {renderPageNumbers()}
             <button
               onClick={goToNextPage}
               disabled={currentPage === totalPages}
@@ -81,12 +194,11 @@ const ListTable = ({ products, deleteProduct, isLoading }) => {
           <h1 style={{ color: "red", textAlign: "center", marginTop: "10%" }}>
             No Data Found ...
           </h1>
-          <span style={{ marginLeft: "45%" }}>
+          <span>
             Add Product... <Link to="/add">Add Product</Link>
           </span>
         </>
       )}
-      {}
     </>
   );
 };
