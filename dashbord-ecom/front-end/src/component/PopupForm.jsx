@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 import '../styles/PopupForm.css'
-function PopupForm({isOpen,saveUpdatedData,data}) {
+function PopupForm({isOpen,saveUpdatedData,data,handerlChange}) {
 //   const [isOpen, setIsOpen] = useState(false);
   const [input1, setInput1] = useState('');
   const [input2, setInput2] = useState('');
@@ -20,7 +20,11 @@ function PopupForm({isOpen,saveUpdatedData,data}) {
     // Close the popup
     // setIsOpen(false);
   };
-console.log('----------->',data);
+// console.log('----------->',data);
+let {userEmail,userName,userPassword}= data
+console.log("---------->",userName);
+console.log("---------->",userEmail);
+console.log("---------->",userPassword);
   return (
     <div>
       {/* <button onClick={() => setIsOpen(true)}>Open Form</button> */}
@@ -29,19 +33,19 @@ console.log('----------->',data);
           <form onSubmit={handleSubmit}>
             <input
               type="text"
-              value={input1}
+              value={userName}
               onChange={(e) => setInput1(e.target.value)}
               placeholder="Input 1"
             />
             <input
               type="text"
-              value={input2}
+              value={userEmail}
               onChange={(e) => setInput2(e.target.value)}
               placeholder="Input 2"
             />
             <input
               type="text"
-              value={input3}
+              value={userPassword}
               onChange={(e) => setInput3(e.target.value)}
               placeholder="Input 3"
             />
@@ -53,4 +57,4 @@ console.log('----------->',data);
   );
 }
 
-export default PopupForm;
+export default React.memo(PopupForm);

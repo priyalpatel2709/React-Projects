@@ -3,151 +3,105 @@ import axios from "axios";
 import "../styles/Admin.css";
 import { Link } from "react-router-dom";
 import PopupForm from "./PopupForm";
-// import Usestate from "./../../../../my-app/src/Hooks/Usestate";
 
 const Admin = () => {
   const [data, setData] = useState({
     users: [],
     products: [],
-    userProcuct: [],
+    userProduct: [],
     userName: "",
     userId: "",
     userPassword: "",
     userEmail: "",
     updateName: "",
-    updateEmil: "",
+    updateEmail: "",
     updatePassword: "",
   });
 
-  const [boolval, setBoolval] = useState({
+  const [boolVal, setBoolVal] = useState({
     modify: false,
     isOpen: false,
   });
 
-  const deleteProduct = useCallback(
-    async (id) => {
-      //console.log("id------------------->", id);
-      try {
-        const response = await axios.delete(
-          `http://127.0.0.1:5000/admin/user-delete/${id}`,
-          {
-            headers: {
-              "Content-Type": "application/json",
-              authorization: `bearer ${JSON.parse(
-                localStorage.getItem("token")
-              )}`,
-            },
-          }
-        );
+  const deleteProduct = useCallback(async (id) => {
+    try {
+      await axios.delete(`http://127.0.0.1:5000/admin/user-delete/${id}`, {
+        headers: {
+          "Content-Type": "application/json",
+          authorization: `bearer ${JSON.parse(localStorage.getItem("token"))}`,
+        },
+      });
 
-        const result = response.data;
-        // setProducts((prevProducts) =>
-        //   prevProducts.filter((product) => product._id !== id)
-        // );
+      setData((prevData) => ({
+        ...prevData,
+        products: prevData.products.filter((product) => product._id !== id),
+      }));
+    } catch (error) {
+      alert(`Something went wrong, please try again later. ${error.message}`);
+    }
+  }, []);
 
-        setData((prevData) => ({
-          ...prevData,
-          products: data.products.filter((product) => product._id !== id),
-        }));
-      } catch (error) {
-        alert(`Something went wrong, please try again later. ${error.message}`);
-      }
-    },
-    [data]
-  );
-
-  const updateData = async (id, name, email, password) => {
-    // let anyChance = JSON.parse(localStorage.getItem('update'));
-    setBoolval((preval) => ({ ...preval, isOpen: true }));
-    console.log(id);
-    console.log(name);
-    console.log(email);
-    console.log(password);
-    setData((preval) => ({
-      ...preval,
+  const updateData = useCallback((id, name, email, password) => {
+    setBoolVal((prevVal) => ({ ...prevVal, isOpen: true }));
+    setData((prevData) => ({
+      ...prevData,
       userId: id,
       userName: name,
       userPassword: password,
       userEmail: email,
     }));
-    //console.log(data.users.filter((user) => user._id === id));
-    // let checkAnyChanges = JSON.stringify(anyChance) === JSON.stringify(values);
+  }, []);
 
-    // if (checkAnyChanges) {
-    //   alert('Make any changes');
-    // } else {
-    // try {
-    //   const response = await axios.put(
-    //     `http://127.0.0.1:5000/admin/user-update/${id}`,
-    //     {
-    //       name: name,
-    //       email: email,
-    //       password: password,
-    //     },
-    //     {
-    //       headers: {
-    //         "Content-Type": "application/json",
-    //         authorization: `bearer ${JSON.parse(
-    //           localStorage.getItem("token")
-    //         )}`,
-    //       },
-    //     }
-    //   );
+  const saveUpdatedData = useCallback(() => {
+    console.log("save clicked");
+    setBoolVal((prevVal) => ({ ...prevVal, isOpen: false }));
+  }, []);
 
-    //   if (response.data) {
-    //     alert("Changes added");
-    //     // navigate('/')
-    //   }
-    // } catch (error) {
-    //   alert(`Something went wrong, please try again later. ${error.message}`);
-    // }
-    // }
+  const handerlChange = (e, uname, upassword, uemail) => {
+    setData((preval) => ({
+      ...preval,
+      userPassword: upassword,
+      userEmail: uemail,
+      updateName: uname,
+    }));
   };
 
   useEffect(() => {
-    const getData = async () => {
+    const fetchData = async () => {
       try {
-        let result = await axios.get("http://127.0.0.1:5000/admin");
-        let responseData = result.data;
-        let arrData = Object.values(responseData);
+        const result = await axios.get("http://127.0.0.1:5000/admin");
+        const { dataFromModel1, dataFromModel2 } = result.data;
 
         setData((prevData) => ({
           ...prevData,
-          products: [...arrData[1]],
-        }));
-
-        setData((prevData) => ({
-          ...prevData,
-          users: [...arrData[0]],
+          users: dataFromModel1,
+          products: dataFromModel2,
         }));
       } catch (error) {
-        alert(error.message);
+        alert(`Something went wrong, please try again later. ${error.message}`);
         console.error("Error fetching data:", error);
       }
     };
 
-    getData();
-  }, [deleteProduct]);
+    fetchData();
+  }, []);
 
-  const productOfuser = (userId, name) => {
-    const userProducts = data.products.filter(
-      (product) => product.userId === userId
-    );
-    setData((preval) => ({
-      ...preval,
-      userProcuct: [...userProducts],
-      userName: name,
-    }));
-  };
+  const productOfUser = useCallback(
+    (userId, name) => {
+      const userProducts = data.products.filter(
+        (product) => product.userId === userId
+      );
+      setData((prevData) => ({
+        ...prevData,
+        userProduct: userProducts,
+        userName: name,
+      }));
+    },
+    [data.products]
+  );
 
-  const saveUpdatedData = () => {
-    console.log("save clicked");
-    setBoolval((preval) => ({ ...preval, isOpen: false }));
-    //console.log(data.updateName);
-  };
-
-  const renderBtn = (id, name, email, password) => {
-    return (
+  const renderBtn = useCallback(
+    (id, name, email, password) => (
       <>
         <button
           className="td-button"
@@ -160,46 +114,32 @@ const Admin = () => {
           className="td-button"
           onClick={() => updateData(id, name, email, password)}
         >
-          <Link>Update</Link>
+          Update
         </button>
-        {/* <button className="td-button" onClick={() => saveUpdatedData(id)}>
-          Save
-        </button> */}
       </>
-    );
-  };
+    ),
+    [deleteProduct, updateData]
+  );
 
-  const mapprduser = data.users
+  const mappedUsers = data.users
     .filter((val) => val.name && val.email && val.password)
     .map((val, i) => (
       <tr key={val._id}>
-        <td onClick={() => productOfuser(val._id, val.name)}>{i + 1}</td>
-        <td>
-          {val.name}
-          {/* {!(boolval.modify && data.userName === val.name) ? (
-            
-          ) : (
-            <input
-              type="text"
-              onChange={(e) =>
-                setData((preval) => ({ ...preval, updateName: e.target.value }))
-              }
-            />
-          )} */}
-        </td>
+        <td onClick={() => productOfUser(val._id, val.name)}>{i + 1}</td>
+        <td>{val.name}</td>
         <td>{val.email}</td>
         <td>{val.password}</td>
-        {val.name !== "re" && val.email !== "re" && val.password !== "re" ? (
-          <td>{renderBtn(val._id, val.name, val.email, val.password)}</td>
-        ) : (
-          <td>ADMIN</td>
-        )}
+        <td>
+          {val.email !== "re" &&
+            val.password !== "re" &&
+            renderBtn(val._id, val.name, val.email, val.password)}
+        </td>
       </tr>
     ));
 
-  const maapedProduct = data?.products
+  const mappedProducts = data.products
     .filter(
-      (val, i) =>
+      (val) =>
         val.category && val.company && val.name && val.price && val.userId
     )
     .map((val, i) => (
@@ -209,12 +149,11 @@ const Admin = () => {
         <td>{val.company}</td>
         <td>{val.name}</td>
         <td>{val.price}</td>
-
         <td>{renderBtn()}</td>
       </tr>
     ));
 
-  const maapeduserProcuct = data?.userProcuct
+  const mappedUserProducts = data.userProduct
     .filter(
       (val) =>
         val.category && val.company && val.name && val.price && val.userId
@@ -229,13 +168,12 @@ const Admin = () => {
         <td>{renderBtn()}</td>
       </tr>
     ));
-console.log('qweqwewwq');
+
   return (
     <>
-      {" "}
       {data.users.length > 0 ? (
         <div className="table-container">
-          <h3>Usre Info</h3>
+          <h3>User Info</h3>
           <table className="table">
             <thead>
               <tr>
@@ -243,33 +181,32 @@ console.log('qweqwewwq');
                 <th>Name</th>
                 <th>Email</th>
                 <th>Password</th>
-                <th>Oprations</th>
+                <th>Operations</th>
               </tr>
             </thead>
-            <tbody>{mapprduser}</tbody>
+            <tbody>{mappedUsers}</tbody>
           </table>
           <h3>Product Info</h3>
           <table className="table">
             <thead>
               <tr>
-                <th>Sr.no</th>
+                <th>Sr.No</th>
                 <th>Category</th>
                 <th>Company</th>
                 <th>Name</th>
                 <th>Price</th>
-                <th>Oprations</th>
+                <th>Operations</th>
               </tr>
             </thead>
-            <tbody>{maapedProduct}</tbody>
+            <tbody>{mappedProducts}</tbody>
           </table>
         </div>
       ) : (
-        <h1>loading</h1>
+        <h1>Loading...</h1>
       )}
-      {data.userProcuct.length > 0 ? (
+      {data.userProduct.length > 0 ? (
         <>
-          <h2 className="title">{`${data.userName} user Info`}</h2>
-
+          <h2 className="title">{`${data.userName} User Info`}</h2>
           <table className="my-table">
             <thead>
               <tr>
@@ -278,10 +215,10 @@ console.log('qweqwewwq');
                 <th>Company</th>
                 <th>Name</th>
                 <th>Price</th>
-                <th>Oprations</th>
+                <th>Operations</th>
               </tr>
             </thead>
-            <tbody>{maapeduserProcuct}</tbody>
+            <tbody>{mappedUserProducts}</tbody>
           </table>
         </>
       ) : (
@@ -291,11 +228,16 @@ console.log('qweqwewwq');
           </p>
         )
       )}
-      {boolval.isOpen && (
-        <PopupForm isOpen={boolval.isOpen} saveUpdatedData={saveUpdatedData} data={data} />
+      {boolVal.isOpen && (
+        <PopupForm
+          isOpen={boolVal.isOpen}
+          saveUpdatedData={saveUpdatedData}
+          data={data}
+          handerlChange={handerlChange}
+        />
       )}
     </>
   );
 };
 
-export default React.memo(Admin);
+export default Admin;
