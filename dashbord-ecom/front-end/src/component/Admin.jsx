@@ -1,6 +1,8 @@
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useState, useCallback } from "react";
 import axios from "axios";
-import "../styles/Admin.css"; // Import the CSS file containing the styles
+import "../styles/Admin.css";
+import { Link } from "react-router-dom";
+// import Usestate from "./../../../../my-app/src/Hooks/Usestate";
 
 const Admin = () => {
   const [data, setData] = useState({
@@ -8,7 +10,83 @@ const Admin = () => {
     products: [],
     userProcuct: [],
     userName: "",
+    userId: "",
   });
+
+  const [modify, setModify] = useState(true);
+
+  const deleteProduct = useCallback(
+    async (id) => {
+      console.log("id------------------->", id);
+      try {
+        const response = await axios.delete(
+          `http://127.0.0.1:5000/admin/user-delete/${id}`,
+          {
+            headers: {
+              "Content-Type": "application/json",
+              authorization: `bearer ${JSON.parse(
+                localStorage.getItem("token")
+              )}`,
+            },
+          }
+        );
+
+        const result = response.data;
+        // setProducts((prevProducts) =>
+        //   prevProducts.filter((product) => product._id !== id)
+        // );
+
+        setData((prevData) => ({
+          ...prevData,
+          products: data.products.filter((product) => product._id !== id),
+        }));
+      } catch (error) {
+        alert(`Something went wrong, please try again later. ${error.message}`);
+      }
+    },
+    [data]
+  );
+
+  const updateData = async (id, name, email, password) => {
+    // let anyChance = JSON.parse(localStorage.getItem('update'));
+    console.log(id);
+    setData((preval)=>({
+      ...preval,
+      userId:id
+    }))
+    console.log(data.users.filter((user) => user._id == id));
+    // let checkAnyChanges = JSON.stringify(anyChance) === JSON.stringify(values);
+
+    // if (checkAnyChanges) {
+    //   alert('Make any changes');
+    // } else {
+    try {
+      const response = await axios.put(
+        `http://127.0.0.1:5000/admin/user-update/${id}`,
+        {
+          name: name,
+          email: email,
+          password: password,
+        },
+        {
+          headers: {
+            "Content-Type": "application/json",
+            authorization: `bearer ${JSON.parse(
+              localStorage.getItem("token")
+            )}`,
+          },
+        }
+      );
+
+      if (response.data) {
+        alert("Changes added");
+        // navigate('/')
+      }
+    } catch (error) {
+      alert(`Something went wrong, please try again later. ${error.message}`);
+    }
+    // }
+  };
 
   useEffect(() => {
     const getData = async () => {
@@ -33,7 +111,7 @@ const Admin = () => {
     };
 
     getData();
-  }, []);
+  }, [deleteProduct]);
 
   const productOfuser = (userId, name) => {
     const userProducts = data.products.filter(
@@ -46,14 +124,51 @@ const Admin = () => {
     }));
   };
 
+  const renderBtn = (id) => {
+    return (
+      <>
+        <button
+          className="td-button"
+          type="button"
+          onClick={() => deleteProduct(id)}
+        >
+          Delete
+        </button>
+        <button className="td-button" onClick={() => updateData(id)}>
+          <Link>Update</Link>
+        </button>
+      </>
+    );
+  };
+
   const mapprduser = data.users
     .filter((val) => val.name && val.email && val.password)
     .map((val, i) => (
       <tr key={val._id} onClick={() => productOfuser(val._id, val.name)}>
-        <td>{i+1}</td>
-        <td >{val.name}</td>
+        <td>{i + 1}</td>
+        <td>
+          {(modify && data.userId === val._id) ? (
+            val.name
+          ) : (
+            <input type="text" />
+          )}
+        </td>
         <td>{val.email}</td>
         <td>{val.password}</td>
+        {val.name !== "re" && val.email !== "re" && val.password !== "re" ? (
+          <td>
+            <div
+              onClick={(e) => {
+                e.stopPropagation();
+                setModify(false);
+              }}
+            >
+              {renderBtn(val._id, val.name, val.email, val.password)}
+            </div>
+          </td>
+        ) : (
+          <td>ADMIN</td>
+        )}
       </tr>
     ));
 
@@ -64,12 +179,13 @@ const Admin = () => {
     )
     .map((val, i) => (
       <tr key={i + 1}>
-        <td>{i+1}</td>
+        <td>{i + 1}</td>
         <td>{val.category}</td>
         <td>{val.company}</td>
         <td>{val.name}</td>
         <td>{val.price}</td>
-        <td>{val.userId}</td>
+
+        <td>{renderBtn()}</td>
       </tr>
     ));
 
@@ -85,6 +201,7 @@ const Admin = () => {
         <td>{val.company}</td>
         <td>{val.name}</td>
         <td>{val.price}</td>
+        <td>{renderBtn()}</td>
       </tr>
     ));
 
@@ -99,6 +216,7 @@ const Admin = () => {
               <th>Name</th>
               <th>Email</th>
               <th>Password</th>
+              <th>Oprations</th>
             </tr>
           </thead>
           <tbody>{mapprduser}</tbody>
@@ -112,7 +230,7 @@ const Admin = () => {
               <th>Company</th>
               <th>Name</th>
               <th>Price</th>
-              <th>User ID</th>
+              <th>Oprations</th>
             </tr>
           </thead>
           <tbody>{maapedProduct}</tbody>
@@ -121,8 +239,8 @@ const Admin = () => {
 
       {data.userProcuct.length > 0 ? (
         <>
-        <h2 className="title">{`${data.userName} user Info`}</h2>
-           
+          <h2 className="title">{`${data.userName} user Info`}</h2>
+
           <table className="my-table">
             <thead>
               <tr>
@@ -131,6 +249,7 @@ const Admin = () => {
                 <th>Company</th>
                 <th>Name</th>
                 <th>Price</th>
+                <th>Oprations</th>
               </tr>
             </thead>
             <tbody>{maapeduserProcuct}</tbody>
