@@ -34,7 +34,7 @@ const UpdateProduct = () => {
           console.error('Error:', result.error);
         }
       } catch (error) {
-        console.error('Error:', error);
+        alert(`Something went wrong, please try again later. ${error.message}`);
       }
     };
 
@@ -74,7 +74,7 @@ const UpdateProduct = () => {
           navigate('/')
         }
       } catch (error) {
-        console.error('Error:', error);
+        alert(`Something went wrong, please try again later. ${error.message}`);
       }
     }
   };

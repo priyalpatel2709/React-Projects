@@ -86,6 +86,7 @@ const AddProduct = () => {
         });
       }
     } catch (error) {
+      alert(error.message);
       console.error('Error:', error);
     }
   };

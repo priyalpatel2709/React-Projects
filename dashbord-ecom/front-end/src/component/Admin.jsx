@@ -27,6 +27,7 @@ const Admin = () => {
           users: [...arrData[0]],
         }));
       } catch (error) {
+        alert(error.message);
         console.error("Error fetching data:", error);
       }
     };

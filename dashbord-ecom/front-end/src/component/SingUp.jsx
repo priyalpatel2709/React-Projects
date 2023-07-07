@@ -72,7 +72,7 @@ const SignUp = () => {
         }
       }
     } catch (error) {
-      alert("Something went wrong");
+      alert(`Something went wrong, please try again later. ${error.message}`);
     }
   };
   useEffect(() => {

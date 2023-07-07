@@ -56,25 +56,40 @@ app.post("/login", async (req, resp) => {
 
 app.post("/add-product",verifyToken, async (req, resp) => {
   // console.log("/add-product",req.body);
-  const product = new Product(req.body);
-  let result = await product.save();
-  resp.send(result);
+  try{
+    const product = new Product(req.body);
+    let result = await product.save();
+    resp.send(result);
+  }catch {
+    resp.send({result: "some thing went wrong please try after some time"})
+  }
+
 });
 
 app.get("/products",verifyToken, async (req, resp) => {
-  let products = await Product.find();
-  if (products.length > 0) {
-    resp.send(products);
-  } else {
-    resp.send({ result: "data not found" });
+  try{
+    let products = await Product.find();
+    if (products.length > 0) {
+      resp.send(products);
+    } else {
+      resp.send({ result: "data not found" });
+    }
+  }catch{
+    resp.send({result: "some thing went wrong  please try after some time"})
   }
+  
 });
 
 app.delete("/products/:id",verifyToken, async (req, resp) => {
+  try{
+    const result = await Product.deleteOne({ _id: req.params.id });
+    // console.log("result",result);
+    resp.send(result);
+  }catch{
+    resp.send({result: "some thing went wrong  please try after some time"})
+  }
   // resp.send(req.params.id)
-  const result = await Product.deleteOne({ _id: req.params.id });
-  // console.log("result",result);
-  resp.send(result);
+
 });
 
 app.get("/products/:id", verifyToken,async (req, resp) => {
@@ -92,26 +107,37 @@ app.get("/products/:id", verifyToken,async (req, resp) => {
 });
 
 app.put("/products/:id",verifyToken, async (req, resp) => {
-  let result = await Product.updateOne(
-    {
-      _id: req.params.id,
-    },
-    {
-      $set: req.body,
-    }
-  );
-  resp.send(result);
+  try{
+    let result = await Product.updateOne(
+      {
+        _id: req.params.id,
+      },
+      {
+        $set: req.body,
+      }
+    );
+    resp.send(result);
+  }catch{
+    resp.send({result: "some thing went wrong  please try after some time"})
+  }
+
 });
 
 app.get("/search/:key",verifyToken, async (req, resp) => {
-  let result = await Product.find({
-    $or: [
-      { name: { $regex: req.params.key } },
-      { category: { $regex: req.params.key } },
-      { company: { $regex: req.params.key } },
-    ],
-  });
-  resp.send(result);
+  try{
+    let result = await Product.find({
+      $or: [
+        { name: { $regex: req.params.key } },
+        { category: { $regex: req.params.key } },
+        { company: { $regex: req.params.key } },
+      ],
+    });
+    resp.send(result);
+  }catch{
+    resp.send({result: "some thing went wrong  please try after some time"})
+  }
+
+
 });
 
 app.get("/products/user/:userId",verifyToken, async (req, resp) => {
@@ -127,11 +153,17 @@ app.get("/products/user/:userId",verifyToken, async (req, resp) => {
 
 app.get('/admin',async (req,resp)=>{
   // const name = req.params.name
-  let dataFromModel1  = await User.find().exec()
-  let dataFromModel2  = await Product.find().exec()
+  try{
+    let dataFromModel1  = await User.find().exec()
+    let dataFromModel2  = await Product.find().exec()
+  
+    let comData = {dataFromModel1,dataFromModel2}
+    resp.send(comData)
+  }catch{
+    resp.send({result: "some thing went wrong  please try after some time"})
+  }
 
-  let comData = {dataFromModel1,dataFromModel2}
-  resp.send(comData)
+
 })
 
 function verifyToken(req, resp, next) {

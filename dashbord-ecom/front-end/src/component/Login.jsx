@@ -74,7 +74,7 @@ const Login = ({isAdminLogin}) => {
         // alert('Invalid credentials. Please check your email and password.');
       }
     } catch (error) {
-      alert('Something went wrong, please try again later.');
+      alert(`Something went wrong, please try again later. ${error.message}`);
     }
 
   };
