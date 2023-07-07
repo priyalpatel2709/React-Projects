@@ -1,7 +1,6 @@
 import React, { useEffect, useState } from "react";
 import axios from "axios";
-import "../styles/Admin.css";
-// import { useEffect } from "react";
+import "../styles/Admin.css"; // Import the CSS file containing the styles
 
 const Admin = () => {
   const [data, setData] = useState({
@@ -18,12 +17,12 @@ const Admin = () => {
 
         setData((prevData) => ({
           ...prevData,
-          products: [...prevData.products, ...arrData[1]],
+          products: [...arrData[1]],
         }));
 
         setData((prevData) => ({
           ...prevData,
-          users: [...prevData.users, ...arrData[0]],
+          users: [ ...arrData[0]],
         }));
       } catch (error) {
         console.error("Error fetching data:", error);
@@ -43,13 +42,13 @@ const Admin = () => {
       </tr>
     ));
 
-  const maapedProduct = data.products
+  const maapedProduct = data?.products
     .filter(
-      (val) =>
+      (val,i) =>
         val.category && val.company && val.name && val.price && val.userId
     )
-    .map((val) => (
-      <tr key={val._id}>
+    .map((val,i) => (
+      <tr key={i}>
         <td>{val.category}</td>
         <td>{val.company}</td>
         <td>{val.name}</td>
@@ -58,38 +57,32 @@ const Admin = () => {
       </tr>
     ));
 
-  console.log("users", data.users[0]);
-  console.log("products", data.products[0]);
+    console.log("maapedProduct",maapedProduct);
   return (
-    <div className="row">
-      <div className="column">
-        <h2>Users</h2>
-        <table>
-          <thead>
-            <tr>
-              <th>Name</th>
-              <th>Email</th>
-              <th>Password</th>
-            </tr>
-          </thead>
-          <tbody>{mapprduser}</tbody>
-        </table>
-      </div>
-      <div className="column">
-        <h2>Products</h2>
-        <table>
-          <thead>
-            <tr>
-              <th>Category</th>
-              <th>Company</th>
-              <th>Name</th>
-              <th>Price</th>
-              <th>User ID</th>
-            </tr>
-          </thead>
-          <tbody>{maapedProduct}</tbody>
-        </table>
-      </div>
+    <div className="table-container">
+      <table className="table">
+        <thead>
+          <tr>
+            <th>Name</th>
+            <th>Email</th>
+            <th>Password</th>
+          </tr>
+        </thead>
+        <tbody>{mapprduser}</tbody>
+      </table>
+
+      <table className="table">
+        <thead>
+          <tr>
+            <th>Category</th>
+            <th>Company</th>
+            <th>Name</th>
+            <th>Price</th>
+            <th>User ID</th>
+          </tr>
+        </thead>
+        <tbody>{maapedProduct}</tbody>
+      </table>
     </div>
   );
 };

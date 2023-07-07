@@ -1,33 +1,28 @@
-table {
-    border-collapse: collapse;
-    border-spacing: 0;
+/* CSS for the container */
+.table-container {
+    display: flex;
+    justify-content: center;
+  }
+  
+  /* CSS for each table */
+  .table {
     width: 100%;
-    border: 1px solid #ddd;
+    border-collapse: collapse;
+    margin: 10px;
   }
   
-  th, td {
-    text-align: left;
-    padding: 16px;
-  }
-  
-  tr:nth-child(even) {
+  /* CSS for table headers */
+  .table th {
     background-color: #f2f2f2;
-  }
-
-  .row {
-    margin-left:-5px;
-    margin-right:-5px;
-  }
-    
-  .column {
-    float: left;
-    width: 50%;
-    padding: 5px;
+    padding: 8px;
+    border: 1px solid #ccc;
   }
   
-  /* Clearfix (clear floats) */
-  .row::after {
-    content: "";
-    clear: both;
-    display: table;
+  /* CSS for table cells */
+  .table td {
+    padding: 8px;
+    border: 1px solid #ccc;
   }
+  
+  /* Additional styling as per your requirements */
+  
