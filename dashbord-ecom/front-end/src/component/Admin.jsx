@@ -2,6 +2,7 @@ import React, { useEffect, useState, useCallback } from "react";
 import axios from "axios";
 import "../styles/Admin.css";
 import PopupForm from "./PopupForm";
+import { Link } from "react-router-dom";
 
 const Admin = () => {
   const [data, setData] = useState({
@@ -22,33 +23,86 @@ const Admin = () => {
     isOpen: false,
   });
 
-  const deleteProduct = useCallback(async (id) => {
+  const fetchData = async () => {
     try {
-      await axios.delete(`http://127.0.0.1:5000/admin/user-delete/${id}`, {
-        headers: {
-          "Content-Type": "application/json",
-          authorization: `bearer ${JSON.parse(localStorage.getItem("token"))}`,
-        },
-      });
+      const result = await axios.get("http://127.0.0.1:5000/admin");
+      const { dataFromModel1, dataFromModel2 } = result.data;
 
       setData((prevData) => ({
         ...prevData,
-        products: prevData.products.filter((product) => product._id !== id),
+        users: dataFromModel1,
+        products: dataFromModel2,
       }));
     } catch (error) {
       alert(`Something went wrong, please try again later. ${error.message}`);
+      console.error("Error fetching data:", error);
+    }
+  };
+
+  const deleteUser = useCallback(async (info, id) => {
+    if (info === "user") {
+      try {
+        let result = await axios.delete(
+          `http://127.0.0.1:5000/admin/user-delete/${id}`,
+          {
+            headers: {
+              "Content-Type": "application/json",
+              authorization: `bearer ${JSON.parse(
+                localStorage.getItem("token")
+              )}`,
+            },
+          }
+        );
+        if (result.data.deletedCount === 1) {
+          fetchData();
+          alert("deleteed");
+        } else {
+          alert("item not found");
+        }
+      } catch (error) {
+        alert(`Something went wrong, please try again later. ${error.message}`);
+      }
+    } else {
+      try {
+        const response = await axios.delete(
+          `http://127.0.0.1:5000/products/${id}`,
+          {
+            headers: {
+              "Content-Type": "application/json",
+              authorization: `bearer ${JSON.parse(
+                localStorage.getItem("token")
+              )}`,
+            },
+          }
+        );
+
+        const result = response.data;
+        if (result.deletedCount === 1) {
+          alert("deleted");
+          fetchData();
+        } else {
+          alert("somethig is wrong...");
+        }
+        console.log(result);
+      } catch (error) {
+        alert(`Something went wrong, please try again later. ${error.message}`);
+      }
     }
   }, []);
 
-  const updateData = useCallback((id, name, email, password) => {
-    setBoolVal((prevVal) => ({ ...prevVal, isOpen: true }));
-    setData((prevData) => ({
-      ...prevData,
-      userId: id,
-      userName: name,
-      userPassword: password,
-      userEmail: email,
-    }));
+  const updateData = useCallback((info, id, name, email, password) => {
+    if (info === "user") {
+      setBoolVal((prevVal) => ({ ...prevVal, isOpen: true }));
+      setData((prevData) => ({
+        ...prevData,
+        userId: id,
+        userName: name,
+        userPassword: password,
+        userEmail: email,
+      }));
+    } else {
+      console.log("i am ??");
+    }
   }, []);
 
   const saveUpdatedData = useCallback(async () => {
@@ -58,9 +112,9 @@ const Admin = () => {
     let result = await axios.put(
       `http://127.0.0.1:5000/admin/user-update/${data.userId}`,
       {
-        name: data.updateName,
-        email: data.updateEmail,
-        password: data.updatePassword,
+        name: data.userName,
+        email: data.userEmail,
+        password: data.userPassword,
       },
       {
         headers: {
@@ -69,20 +123,16 @@ const Admin = () => {
         },
       }
     );
-
-    if (result.data) {
-      setData((prevData) => ({
-        ...prevData,
-        updateName: "",
-        updateEmail: "",
-        updatePassword: "",
-      }));
+    console.log(result.data);
+    if (result.data.modifiedCount === 1) {
+      fetchData();
+    } else if (!result.data.acknowledged) {
+      alert("Data not found");
+    } else if (result.data.modifiedCount === 0) {
+      alert("make any changes");
+    } else {
+      alert("some thing went wrong!!!!");
     }
-
-    console.log("name", data.updateName);
-    console.log("email", data.updateEmail);
-    console.log("passwrd", data.updatePassword);
-    console.log("userId", data.userId);
   }, [data]);
 
   const handleChange = (e) => {
@@ -92,26 +142,6 @@ const Admin = () => {
       [name]: value,
     }));
   };
-
-  useEffect(() => {
-    const fetchData = async () => {
-      try {
-        const result = await axios.get("http://127.0.0.1:5000/admin");
-        const { dataFromModel1, dataFromModel2 } = result.data;
-
-        setData((prevData) => ({
-          ...prevData,
-          users: dataFromModel1,
-          products: dataFromModel2,
-        }));
-      } catch (error) {
-        alert(`Something went wrong, please try again later. ${error.message}`);
-        console.error("Error fetching data:", error);
-      }
-    };
-
-    fetchData();
-  }, [data.updateEmail, data.updateName, data.updatePassword]);
 
   const productOfUser = useCallback(
     (userId, name) => {
@@ -128,24 +158,30 @@ const Admin = () => {
   );
 
   const renderBtn = useCallback(
-    (id, name, email, password) => (
+    (info, id, name, email, password) => (
       <>
         <button
           className="td-button"
           type="button"
-          onClick={() => deleteProduct(id)}
+          onClick={() => deleteUser(info, id)}
         >
           Delete
         </button>
-        <button
-          className="td-button"
-          onClick={() => updateData(id, name, email, password)}
-        >
-          Update
-        </button>
+        {info === "user" ? (
+          <button
+            className="td-button"
+            onClick={() => updateData(info, id, name, email, password)}
+          >
+            Update
+          </button>
+        ) : (
+          <button className="td-button">
+            <Link to={`/update/${id}`}>Update</Link>
+          </button>
+        )}
       </>
     ),
-    [deleteProduct, updateData]
+    [deleteUser, updateData]
   );
 
   const mappedUsers = data.users
@@ -159,7 +195,7 @@ const Admin = () => {
         <td>
           {val.email !== "re" &&
             val.password !== "re" &&
-            renderBtn(val._id, val.name, val.email, val.password)}
+            renderBtn("user", val._id, val.name, val.email, val.password)}
         </td>
       </tr>
     ));
@@ -176,7 +212,7 @@ const Admin = () => {
         <td>{val.company}</td>
         <td>{val.name}</td>
         <td>{val.price}</td>
-        <td>{renderBtn()}</td>
+        <td>{renderBtn("product", val._id)}</td>
       </tr>
     ));
 
@@ -192,9 +228,20 @@ const Admin = () => {
         <td>{val.company}</td>
         <td>{val.name}</td>
         <td>{val.price}</td>
-        <td>{renderBtn()}</td>
+        <td>{renderBtn("product", val._id)}</td>
       </tr>
     ));
+
+    const CanclePopup=()=>{
+      setBoolVal(preval=>({
+        ...preval,
+        isOpen: false
+      }))
+    }
+
+  useEffect(() => {
+    fetchData();
+  }, [data.userEmail, data.userName, data.userPassword]);
   console.log("admin");
   return (
     <>
@@ -261,9 +308,7 @@ const Admin = () => {
           saveUpdatedData={saveUpdatedData}
           data={data}
           handleChange={handleChange}
-          updatePassword={data.updatePassword}
-          updateEmail={data.updateEmail}
-          updateName={data.updateName}
+          CanclePopup={CanclePopup}
         />
       )}
     </>

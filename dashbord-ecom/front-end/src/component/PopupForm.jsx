@@ -1,24 +1,12 @@
 import React from "react";
 import "../styles/PopupForm.css";
-function PopupForm({
-  isOpen,
-  saveUpdatedData,
-  data,
-  handleChange,
-  updatePassword,
-  updateEmail,
-  updateName,
-}) {
-  // Function to handle form submission
+function PopupForm({ isOpen, saveUpdatedData, data, handleChange,CanclePopup }) {
   const handleSubmit = (e) => {
     e.preventDefault();
     saveUpdatedData();
   };
-  // console.log('----------->',data);
+
   let { userEmail, userName, userPassword } = data;
-  console.log("---------->", userName);
-  console.log("---------->", userEmail);
-  console.log("---------->", userPassword);
   return (
     <div>
       {isOpen && (
@@ -26,27 +14,29 @@ function PopupForm({
           <form onSubmit={handleSubmit}>
             <input
               type="text"
-              value={updateName}
+              value={userName}
               onChange={(e) => handleChange(e)}
-              placeholder="Input 1"
-              name="updateName"
+              placeholder={userName}
+              name="userName"
             />
             <input
               type="text"
-              value={updateEmail}
+              value={userEmail}
               onChange={(e) => handleChange(e)}
-              placeholder="Input 2"
-              name="updateEmail"
+              placeholder={userEmail}
+              name="userEmail"
             />
             <input
               type="text"
-              value={updatePassword}
+              value={userPassword}
               onChange={(e) => handleChange(e)}
-              placeholder="Input 3"
-              name="updatePassword"
+              placeholder={userPassword}
+              name="userPassword"
             />
-
-            <button type="submit">Submit</button>
+            <div>
+              <button type="submit">Submit</button>
+              <button type="button" onClick={()=>CanclePopup()} >Cancle</button>
+            </div>
           </form>
         </div>
       )}
