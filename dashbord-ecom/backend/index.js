@@ -168,7 +168,7 @@ app.delete("/admin/user-delete/:id", verifyToken, async (req, resp) => {
   }
 });
 
-app.put("/admin/user-update/:id", async (req, resp) => {
+app.put("/admin/user-update/:id",verifyToken, async (req, resp) => {
   try {
     let result = await User.updateOne(
       {

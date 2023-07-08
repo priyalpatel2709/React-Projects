@@ -1,7 +1,6 @@
 import React, { useEffect, useState, useCallback } from "react";
 import axios from "axios";
 import "../styles/Admin.css";
-import { Link } from "react-router-dom";
 import PopupForm from "./PopupForm";
 
 const Admin = () => {
@@ -52,17 +51,45 @@ const Admin = () => {
     }));
   }, []);
 
-  const saveUpdatedData = useCallback(() => {
+  const saveUpdatedData = useCallback(async () => {
     console.log("save clicked");
     setBoolVal((prevVal) => ({ ...prevVal, isOpen: false }));
-  }, []);
 
-  const handerlChange = (e, uname, upassword, uemail) => {
-    setData((preval) => ({
-      ...preval,
-      userPassword: upassword,
-      userEmail: uemail,
-      updateName: uname,
+    let result = await axios.put(
+      `http://127.0.0.1:5000/admin/user-update/${data.userId}`,
+      {
+        name: data.updateName,
+        email: data.updateEmail,
+        password: data.updatePassword,
+      },
+      {
+        headers: {
+          "Content-Type": "application/json",
+          authorization: `bearer ${JSON.parse(localStorage.getItem("token"))}`,
+        },
+      }
+    );
+
+    if (result.data) {
+      setData((preval) => ({
+        ...preval,
+        updateName: "",
+        updateEmail: "",
+        updatePassword: "",
+      }));
+    }
+
+    console.log("name", data.updateName);
+    console.log("email", data.updateEmail);
+    console.log("passwrd", data.updatePassword);
+    console.log("userId", data.userId);
+  }, [data]);
+
+  const handleChange = (e) => {
+    const { name, value } = e.target;
+    setData((prevValues) => ({
+      ...prevValues,
+      [name]: value,
     }));
   };
 
@@ -84,7 +111,7 @@ const Admin = () => {
     };
 
     fetchData();
-  }, []);
+  }, [saveUpdatedData]);
 
   const productOfUser = useCallback(
     (userId, name) => {
@@ -168,7 +195,7 @@ const Admin = () => {
         <td>{renderBtn()}</td>
       </tr>
     ));
-
+console.log('admin');
   return (
     <>
       {data.users.length > 0 ? (
@@ -233,7 +260,10 @@ const Admin = () => {
           isOpen={boolVal.isOpen}
           saveUpdatedData={saveUpdatedData}
           data={data}
-          handerlChange={handerlChange}
+          handleChange={handleChange}
+          updatePassword={data.updatePassword}
+          updateEmail={data.updateEmail}
+          updateName={data.updateName}
         />
       )}
     </>
