@@ -71,8 +71,8 @@ const Admin = () => {
     );
 
     if (result.data) {
-      setData((preval) => ({
-        ...preval,
+      setData((prevData) => ({
+        ...prevData,
         updateName: "",
         updateEmail: "",
         updatePassword: "",
@@ -111,7 +111,7 @@ const Admin = () => {
     };
 
     fetchData();
-  }, [saveUpdatedData]);
+  }, [data.updateEmail, data.updateName, data.updatePassword]);
 
   const productOfUser = useCallback(
     (userId, name) => {
@@ -195,7 +195,7 @@ const Admin = () => {
         <td>{renderBtn()}</td>
       </tr>
     ));
-console.log('admin');
+  console.log("admin");
   return (
     <>
       {data.users.length > 0 ? (
