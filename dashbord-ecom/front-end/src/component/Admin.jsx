@@ -43,15 +43,7 @@ const Admin = () => {
     if (info === "user") {
       try {
         let result = await axios.delete(
-          `http://127.0.0.1:5000/admin/user-delete/${id}`,
-          {
-            headers: {
-              "Content-Type": "application/json",
-              authorization: `bearer ${JSON.parse(
-                localStorage.getItem("token")
-              )}`,
-            },
-          }
+          `http://127.0.0.1:5000/admin/user-delete/${id}`
         );
         if (result.data.deletedCount === 1) {
           fetchData();
@@ -66,14 +58,6 @@ const Admin = () => {
       try {
         const response = await axios.delete(
           `http://127.0.0.1:5000/products/${id}`,
-          {
-            headers: {
-              "Content-Type": "application/json",
-              authorization: `bearer ${JSON.parse(
-                localStorage.getItem("token")
-              )}`,
-            },
-          }
         );
 
         const result = response.data;
@@ -116,13 +100,7 @@ const Admin = () => {
         email: data.userEmail,
         password: data.userPassword,
       },
-      {
-        headers: {
-          "Content-Type": "application/json",
-          authorization: `bearer ${JSON.parse(localStorage.getItem("token"))}`,
-        },
-      }
-    );
+      );
     console.log(result.data);
     if (result.data.modifiedCount === 1) {
       fetchData();
@@ -232,12 +210,12 @@ const Admin = () => {
       </tr>
     ));
 
-    const CanclePopup=()=>{
-      setBoolVal(preval=>({
-        ...preval,
-        isOpen: false
-      }))
-    }
+  const CanclePopup = () => {
+    setBoolVal((preval) => ({
+      ...preval,
+      isOpen: false,
+    }));
+  };
 
   useEffect(() => {
     fetchData();

@@ -3,6 +3,22 @@ import ReactDOM from 'react-dom/client';
 import './index.css';
 import App from './App';
 import reportWebVitals from './reportWebVitals';
+import axios from 'axios';
+
+axios.interceptors.request.use((req) => {
+  if (req.method !== "post") {
+    req.headers = {
+      ...req.headers,
+      authorization: `bearer ${JSON.parse(localStorage.getItem("token"))}`
+    };
+  }
+  return req;
+});
+
+
+axios.interceptors.response.use((resp)=>{
+  return resp;
+})
 
 const root = ReactDOM.createRoot(document.getElementById('root'));
 root.render(

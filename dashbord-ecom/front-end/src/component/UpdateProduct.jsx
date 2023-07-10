@@ -18,11 +18,8 @@ const UpdateProduct = () => {
   useEffect(() => {
     const getUpdatedData = async () => {
       try {
-        const response = await axios.get(`http://127.0.0.1:5000/products/${id}`, {
-          headers: {
-            'authorization': `bearer ${JSON.parse(localStorage.getItem('token'))}`,
-          },
-        });
+        const response = await axios.get(`http://127.0.0.1:5000/products/${id}`, 
+        );
     
         const result = response.data;
         // console.log(result);
@@ -62,12 +59,8 @@ const UpdateProduct = () => {
           price: values.price,
           category: values.category,
           company: values.company,
-        }, {
-          headers: {
-            'Content-Type': 'application/json',
-            'authorization': `bearer ${JSON.parse(localStorage.getItem('token'))}`,
-          },
-        });
+        }, 
+        );
   
         if (response.data) {
           alert('Changes added');

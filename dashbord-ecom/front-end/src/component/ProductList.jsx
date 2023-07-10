@@ -13,14 +13,6 @@ const ProductList = () => {
       try {
         const response = await axios.delete(
           `http://127.0.0.1:5000/products/${id}`,
-          {
-            headers: {
-              "Content-Type": "application/json",
-              authorization: `bearer ${JSON.parse(
-                localStorage.getItem("token")
-              )}`,
-            },
-          }
         );
 
         const result = response.data;
@@ -48,11 +40,7 @@ const ProductList = () => {
         return;
       }
 
-      const response = await axios.get("http://127.0.0.1:5000/products", {
-        headers: {
-          authorization: `bearer ${JSON.parse(localStorage.getItem("token"))}`,
-        },
-      });
+      const response = await axios.get("http://127.0.0.1:5000/products");
 
       const result = response.data;
       setProducts(result);
@@ -69,13 +57,6 @@ const ProductList = () => {
       if (key) {
         const response = await axios.get(
           `http://127.0.0.1:5000/search/${key}`,
-          {
-            headers: {
-              authorization: `bearer ${JSON.parse(
-                localStorage.getItem("token")
-              )}`,
-            },
-          }
         );
 
         const result = response.data;
