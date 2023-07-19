@@ -4,6 +4,7 @@ const Jwt = require("jsonwebtoken");
 require("./db/config");
 const User = require("./db/User");
 const Product = require("./db/Product");
+// const Product = require("./db/Product");
 const app = express();
 app.use(express.json());
 app.use(cors());
@@ -30,7 +31,7 @@ app.post("/register", async (req, resp) => {
         }
       });
     }
-  }else{
+  } else {
     resp.send({ result: "please enter name,email and password" });
   }
 });
@@ -57,30 +58,42 @@ app.post("/login", async (req, resp) => {
   }
 });
 
-app.post("/add-product",verifyToken, async (req, resp) => {
+app.post("/add-product", verifyToken, async (req, resp) => {
   // console.log("/add-product",req.body);
-  const product = new Product(req.body);
-  let result = await product.save();
-  resp.send(result);
-});
-
-app.get("/products", async (req, resp) => {
-  let products = await Product.find();
-  if (products.length > 0) {
-    resp.send(products);
-  } else {
-    resp.send({ result: "data not found" });
+  try {
+    const product = new Product(req.body);
+    let result = await product.save();
+    resp.send(result);
+  } catch {
+    resp.send({ result: "some thing went wrong please try after some time" });
   }
 });
 
-app.delete("/products/:id",verifyToken, async (req, resp) => {
-  // resp.send(req.params.id)
-  const result = await Product.deleteOne({ _id: req.params.id });
-  // console.log("result",result);
-  resp.send(result);
+app.get("/products", verifyToken, async (req, resp) => {
+  try {
+    let products = await Product.find();
+    if (products.length > 0) {
+      resp.send(products);
+    } else {
+      resp.send({ result: "data not found" });
+    }
+  } catch {
+    resp.send({ result: "some thing went wrong  please try after some time" });
+  }
 });
 
-app.get("/products/:id", verifyToken,async (req, resp) => {
+app.delete("/products/:id", verifyToken, async (req, resp) => {
+  try {
+    const result = await Product.deleteOne({ _id: req.params.id });
+    // console.log("result",result);
+    resp.send(result);
+  } catch {
+    resp.send({ result: "some thing went wrong  please try after some time" });
+  }
+  // resp.send(req.params.id)
+});
+
+app.get("/products/:id", verifyToken, async (req, resp) => {
   try {
     let result = await Product.findOne({ _id: req.params.id });
 
@@ -90,34 +103,42 @@ app.get("/products/:id", verifyToken,async (req, resp) => {
       resp.status(404).send({ error: "Record not found" });
     }
   } catch (error) {
-    resp.status(500).send({ error: "Internal Server Error",error });
+    resp.status(500).send({ error: "Internal Server Error", error });
   }
 });
 
-app.put("/products/:id",verifyToken, async (req, resp) => {
-  let result = await Product.updateOne(
-    {
-      _id: req.params.id,
-    },
-    {
-      $set: req.body,
-    }
-  );
-  resp.send(result);
+app.put("/products/:id", verifyToken, async (req, resp) => {
+  try {
+    let result = await Product.updateOne(
+      {
+        _id: req.params.id,
+      },
+      {
+        $set: req.body,
+      }
+    );
+    resp.send(result);
+  } catch {
+    resp.send({ result: "some thing went wrong  please try after some time" });
+  }
 });
 
-app.get("/search/:key",verifyToken, async (req, resp) => {
-  let result = await Product.find({
-    $or: [
-      { name: { $regex: req.params.key } },
-      { category: { $regex: req.params.key } },
-      { company: { $regex: req.params.key } },
-    ],
-  });
-  resp.send(result);
+app.get("/search/:key", verifyToken, async (req, resp) => {
+  try {
+    let result = await Product.find({
+      $or: [
+        { name: { $regex: req.params.key } },
+        { category: { $regex: req.params.key } },
+        { company: { $regex: req.params.key } },
+      ],
+    });
+    resp.send(result);
+  } catch {
+    resp.send({ result: "some thing went wrong  please try after some time" });
+  }
 });
 
-app.get("/products/user/:userId",verifyToken, async (req, resp) => {
+app.get("/products/user/:userId", verifyToken, async (req, resp) => {
   try {
     const userId = req.params.userId;
     const products = await Product.find({ userId: userId });
@@ -125,6 +146,45 @@ app.get("/products/user/:userId",verifyToken, async (req, resp) => {
     resp.send(products);
   } catch (error) {
     resp.status(500).send({ error: "Internal Server Error", error });
+  }
+});
+
+app.get("/admin", async (req, resp) => {
+  // const name = req.params.name
+  try {
+    let dataFromModel1 = await User.find().exec();
+    let dataFromModel2 = await Product.find().exec();
+
+    let comData = { dataFromModel1, dataFromModel2 };
+    resp.send(comData);
+  } catch {
+    resp.send({ result: "some thing went wrong  please try after some time" });
+  }
+});
+
+app.delete("/admin/user-delete/:id", verifyToken, async (req, resp) => {
+  try {
+    const result = await User.deleteOne({ _id: req.params.id });
+    // console.log("result",result);
+    resp.send(result);
+  } catch {
+    resp.send({ result: "some thing went wrong  please try after some time" });
+  }
+});
+
+app.put("/admin/user-update/:id",verifyToken, async (req, resp) => {
+  try {
+    let result = await User.updateOne(
+      {
+        _id: req.params.id,
+      },
+      {
+        $set: req.body,
+      }
+    );
+    resp.send(result);
+  } catch {
+    resp.send({ result: "some thing went wrong  please try after some time" });
   }
 });
 

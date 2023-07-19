@@ -1,10 +1,11 @@
 import React, { useEffect, useState } from "react";
-import { useParams } from "react-router-dom";
+import { useParams,useNavigate } from "react-router-dom";
 import "../styles/UpdateProduct.css";
 import axios from 'axios';
 
 const UpdateProduct = () => {
   const { id } = useParams();
+  let navigate = useNavigate()
   //   console.log('paramName', id);
 
   const [values, setValues] = useState({
@@ -17,11 +18,8 @@ const UpdateProduct = () => {
   useEffect(() => {
     const getUpdatedData = async () => {
       try {
-        const response = await axios.get(`http://127.0.0.1:5000/products/${id}`, {
-          headers: {
-            'authorization': `bearer ${JSON.parse(localStorage.getItem('token'))}`,
-          },
-        });
+        const response = await axios.get(`http://127.0.0.1:5000/products/${id}`, 
+        );
     
         const result = response.data;
         // console.log(result);
@@ -33,7 +31,7 @@ const UpdateProduct = () => {
           console.error('Error:', result.error);
         }
       } catch (error) {
-        console.error('Error:', error);
+        alert(`Something went wrong, please try again later. ${error.message}`);
       }
     };
 
@@ -48,35 +46,6 @@ const UpdateProduct = () => {
     }));
   };
 
-  // const updateData = async () => {
-  //   let anyChance = JSON.parse(localStorage.getItem("update"));
-  //   let checkAnyChanges = JSON.stringify(anyChance) === JSON.stringify(values);
-
-  //   if (checkAnyChanges) {
-  //     alert("make any changes");
-  //   } else {
-  //     let result = await fetch(`http://127.0.0.1:5000/products/${id}`, {
-  //       method: "put",
-  //       headers: {
-  //         "Content-Type": "application/json",
-  //         authorization: `bearer ${JSON.parse(localStorage.getItem("token"))}`,
-  //       },
-  //       body: JSON.stringify({
-  //         name: values.name,
-  //         price: values.price,
-  //         category: values.category,
-  //         company: values.company,
-  //       }),
-  //     });
-  //     result = await result.json();
-  //     if (result) {
-  //       alert("changes added");
-  //     }
-  //   }
-  // };
-
-  //   console.log("data", values);
-
   const updateData = async () => {
     let anyChance = JSON.parse(localStorage.getItem('update'));
     let checkAnyChanges = JSON.stringify(anyChance) === JSON.stringify(values);
@@ -90,18 +59,15 @@ const UpdateProduct = () => {
           price: values.price,
           category: values.category,
           company: values.company,
-        }, {
-          headers: {
-            'Content-Type': 'application/json',
-            'authorization': `bearer ${JSON.parse(localStorage.getItem('token'))}`,
-          },
-        });
+        }, 
+        );
   
         if (response.data) {
           alert('Changes added');
+          navigate('/')
         }
       } catch (error) {
-        console.error('Error:', error);
+        alert(`Something went wrong, please try again later. ${error.message}`);
       }
     }
   };

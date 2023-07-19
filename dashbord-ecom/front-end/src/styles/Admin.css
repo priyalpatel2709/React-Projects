@@ -1,0 +1,52 @@
+/* CSS for the container */
+.table-container {
+    display: flex;
+    justify-content: center;
+  }
+  
+  /* CSS for each table */
+  .table {
+    width: 100%;
+    border-collapse: collapse;
+    margin: 10px;
+  }
+  
+  /* CSS for table headers */
+  .table th {
+    background-color: #f2f2f2;
+    padding: 8px;
+    border: 1px solid #ccc;
+  }
+  
+  /* CSS for table cells */
+  .table td {
+    padding: 8px;
+    border: 1px solid #ccc;
+  }
+
+  .my-table {
+    width: 80%;
+    border-collapse: collapse;
+    margin-left: 12%;
+    /* margin-top: 5%; */
+    margin-bottom: 5%;
+  }
+  
+  .my-table th, .my-table td {
+    padding: 8px;
+    border: 1px solid #ccc;
+  }
+  
+  .my-table th {
+    background-color: #f2f2f2;
+  }
+  
+  .my-table tr:nth-child(even) {
+    background-color: #eaeaea;
+  }
+
+  .title {
+    margin-left: 49%;
+  }
+
+  

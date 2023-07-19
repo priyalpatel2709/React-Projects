@@ -3,7 +3,6 @@ import { Link } from "react-router-dom";
 import "../styles/ListTable.css";
 
 const ListTable = ({ products, deleteProduct, isLoading }) => {
-  console.log("products--->", products);
   const [currentPage, setCurrentPage] = useState(1);
   const rowsPerPage = 5;
   const totalPages = Math.ceil(products.length / rowsPerPage);

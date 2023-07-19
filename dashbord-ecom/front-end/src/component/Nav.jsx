@@ -2,17 +2,16 @@
 import { Link, useNavigate } from "react-router-dom";
 import "../styles/Nav.css";
 
-const Nav = () => {
+const Nav = ({admin , setAdmin}) => {
   let navigate = useNavigate();
   const auth = localStorage.getItem("user");
   // console.log("auth -->Nav",auth);
   const logOut = () => {
     // console.log("sd");
     localStorage.clear();
+    setAdmin()
     navigate("/singup");
   };
-
-  // console.log('------>',JSON.parse(auth).name);
 
   return (
     <div>
@@ -29,10 +28,15 @@ const Nav = () => {
           </li>
           <li>
             <Link onClick={logOut} to="/singup">
-            {/* Logout */}
+              {/* Logout */}
               Logout({JSON.parse(auth).name})
             </Link>
           </li>
+          { admin &&
+            <li>
+              <Link to={`/admin`}>admin</Link>
+            </li>
+          }
         </ul>
       ) : (
         <div className="nav-right">
