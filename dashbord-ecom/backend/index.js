@@ -69,13 +69,13 @@ app.post("/add-product", verifyToken, async (req, resp) => {
   }
 });
 
-app.get("/products", verifyToken, async (req, resp) => {
+app.get("/products", async (req, resp) => {
   try {
     let products = await Product.find();
     if (products.length > 0) {
       resp.send(products);
     } else {
-      resp.send({ result: "data not found" });
+      resp.send({ result: `data not found  ${products}` });
     }
   } catch {
     resp.send({ result: "some thing went wrong  please try after some time" });
