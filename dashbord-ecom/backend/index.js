@@ -7,6 +7,10 @@ const Product = require("./db/Product");
 const app = express();
 app.use(express.json());
 app.use(cors());
+app.use((req, res, next) => {
+  res.setHeader('Access-Control-Allow-Origin', '*');
+  next();
+});
 
 const JwtKey = "e-comm";
 
@@ -60,7 +64,7 @@ app.post("/add-product",verifyToken, async (req, resp) => {
   resp.send(result);
 });
 
-app.get("/products",verifyToken, async (req, resp) => {
+app.get("/products", async (req, resp) => {
   let products = await Product.find();
   if (products.length > 0) {
     resp.send(products);
@@ -145,4 +149,5 @@ function verifyToken(req, resp, next) {
 
 app.listen(5000, () => {
   console.log("Server is running on port http://127.0.0.1:5000");
+  console.log(`base url is ? http://127.0.0.1:5000/`);
 });
