@@ -31,7 +31,7 @@ const AddProduct = () => {
 
     const userId = JSON.parse(localStorage.getItem("user"))._id;
     try {
-      const response = await axios.post('http://127.0.0.1:5000/add-product', {
+      const response = await axios.post('https://srever-ecomm.vercel.app/add-product', {
         name: values.name,
         price: values.price,
         category: values.category,

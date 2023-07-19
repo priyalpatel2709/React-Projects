@@ -25,7 +25,7 @@ const Admin = () => {
 
   const fetchData = async () => {
     try {
-      const result = await axios.get("http://127.0.0.1:5000/admin");
+      const result = await axios.get("https://srever-ecomm.vercel.app/admin");
       const { dataFromModel1, dataFromModel2 } = result.data;
 
       setData((prevData) => ({
@@ -43,7 +43,7 @@ const Admin = () => {
     if (info === "user") {
       try {
         let result = await axios.delete(
-          `http://127.0.0.1:5000/admin/user-delete/${id}`
+          `https://srever-ecomm.vercel.app/admin/user-delete/${id}`
         );
         if (result.data.deletedCount === 1) {
           fetchData();
@@ -57,7 +57,7 @@ const Admin = () => {
     } else {
       try {
         const response = await axios.delete(
-          `http://127.0.0.1:5000/products/${id}`,
+          `https://srever-ecomm.vercel.app/products/${id}`,
         );
 
         const result = response.data;
@@ -94,7 +94,7 @@ const Admin = () => {
     setBoolVal((prevVal) => ({ ...prevVal, isOpen: false }));
 
     let result = await axios.put(
-      `http://127.0.0.1:5000/admin/user-update/${data.userId}`,
+      `https://srever-ecomm.vercel.app/admin/user-update/${data.userId}`,
       {
         name: data.userName,
         email: data.userEmail,

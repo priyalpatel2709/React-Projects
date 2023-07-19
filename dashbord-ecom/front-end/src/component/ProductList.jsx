@@ -12,7 +12,7 @@ const ProductList = () => {
     async (id) => {
       try {
         const response = await axios.delete(
-          `http://127.0.0.1:5000/products/${id}`,
+          `https://srever-ecomm.vercel.app/products/${id}`,
         );
 
         const result = response.data;
@@ -40,7 +40,7 @@ const ProductList = () => {
         return;
       }
 
-      const response = await axios.get("http://127.0.0.1:5000/products");
+      const response = await axios.get("https://srever-ecomm.vercel.app/products");
 
       const result = response.data;
       setProducts(result);
@@ -56,7 +56,7 @@ const ProductList = () => {
 
       if (key) {
         const response = await axios.get(
-          `http://127.0.0.1:5000/search/${key}`,
+          `https://srever-ecomm.vercel.app/search/${key}`,
         );
 
         const result = response.data;

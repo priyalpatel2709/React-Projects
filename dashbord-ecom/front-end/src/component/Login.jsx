@@ -24,7 +24,7 @@ const Login = ({isAdminLogin}) => {
 
   const collectData = async () => {
     // try{
-    //   let result = await fetch('http://127.0.0.1:5000/login', {
+    //   let result = await fetch('https://srever-ecomm.vercel.app/login', {
     //     method: 'post',
     //     headers: { 'Content-Type': 'application/json' },
     //     body: JSON.stringify({ password: value.password, email: value.email }),
@@ -48,7 +48,7 @@ const Login = ({isAdminLogin}) => {
         console.log('i am ?');
         isAdminLogin()
       }
-      const response = await axios.post('http://127.0.0.1:5000/login', {
+      const response = await axios.post('https://srever-ecomm.vercel.app/login', {
         password: value.password,
         email: value.email,
       }, {

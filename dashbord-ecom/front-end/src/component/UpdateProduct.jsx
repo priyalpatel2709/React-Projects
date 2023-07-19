@@ -18,7 +18,7 @@ const UpdateProduct = () => {
   useEffect(() => {
     const getUpdatedData = async () => {
       try {
-        const response = await axios.get(`http://127.0.0.1:5000/products/${id}`, 
+        const response = await axios.get(`https://srever-ecomm.vercel.app/products/${id}`, 
         );
     
         const result = response.data;
@@ -54,7 +54,7 @@ const UpdateProduct = () => {
       alert('Make any changes');
     } else {
       try {
-        const response = await axios.put(`http://127.0.0.1:5000/products/${id}`, {
+        const response = await axios.put(`https://srever-ecomm.vercel.app/products/${id}`, {
           name: values.name,
           price: values.price,
           category: values.category,

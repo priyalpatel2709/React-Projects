@@ -43,7 +43,7 @@ const SignUp = () => {
     try {
       if (await validateForm()) {
         const response = await axios.post(
-          "http://127.0.0.1:5000/register",
+          "https://srever-ecomm.vercel.app/register",
           {
             name: value.name,
             password: value.password,
