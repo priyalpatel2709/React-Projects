@@ -2,35 +2,28 @@ const express = require("express");
 const cors = require("cors");
 const Jwt = require("jsonwebtoken");
 require("./db/config");
+const bodyParser = require("body-parser"); 
 const User = require("./db/User");
 const Product = require("./db/Product");
 const multer = require('multer');
 // const Product = require("./db/Product");
 const app = express();
+
+//App .use
 app.use(express.json());
 app.use(cors());
 app.use((req, res, next) => {
   res.setHeader('Access-Control-Allow-Origin', '*');
   next();
 });
+app.use(bodyParser.json({ limit: "10mb" }));
+app.use(bodyParser.urlencoded({ extended: true, limit: "50mb" }));
+//------------------------------
 
+//JWT token
 const JwtKey = "e-comm";
 
-const storage = multer.memoryStorage(); // Store the image data in memory
-const upload = multer({
-  storage: storage,
-  limits: {
-    fileSize: 1024 * 1024 * 5, // 5MB limit (adjust as needed)
-  },
-  fileFilter: (req, file, cb) => {
-    if (file.mimetype.startsWith('image/')) {
-      cb(null, true);
-    } else {
-      cb(new Error('Only image files are allowed.'), false);
-    }
-  },
-});
-
+//api for singup
 app.post("/register", async (req, resp) => {
   // console.log(req.body);
   if (req.body.email && req.body.password && req.body.name) {
@@ -52,6 +45,7 @@ app.post("/register", async (req, resp) => {
   }
 });
 
+//api for  login
 app.post("/login", async (req, resp) => {
   // resp.send(req.body)
   //   console.log(req.body);
@@ -74,18 +68,14 @@ app.post("/login", async (req, resp) => {
   }
 });
 
-app.post("/add-product", upload.single('image'), async (req, res) => {
+//aip for add product
+app.post("/add-product", async (req, res) => {
   try {
-    const { name, price, category, userId, company } = req.body;
-    let image = null;
+    const { name, price, category, userId, company ,image} = req.body;
+    
 
-    // Check if an image was uploaded
-    if (req.file) {
-      image = {
-        data: req.file.buffer, 
-        contentType: req.file.mimetype
-      };
-    }
+
+ 
 
     const product = new Product({ name, price, category, userId, company, image });
     const result = await product.save();
@@ -95,6 +85,7 @@ app.post("/add-product", upload.single('image'), async (req, res) => {
   }
 });
 
+//api for get product
 app.get("/products", async (req, resp) => {
   try {
     let products = await Product.find();
@@ -108,6 +99,7 @@ app.get("/products", async (req, resp) => {
   }
 });
 
+//api for delete product useing product _id
 app.delete("/products/:id", verifyToken, async (req, resp) => {
   try {
     const result = await Product.deleteOne({ _id: req.params.id });
@@ -116,9 +108,9 @@ app.delete("/products/:id", verifyToken, async (req, resp) => {
   } catch {
     resp.send({ result: "some thing went wrong  please try after some time" });
   }
-  // resp.send(req.params.id)
 });
 
+//api for get product by product _id
 app.get("/products/:id", verifyToken, async (req, resp) => {
   try {
     let result = await Product.findOne({ _id: req.params.id });
@@ -133,6 +125,7 @@ app.get("/products/:id", verifyToken, async (req, resp) => {
   }
 });
 
+//api for update product data
 app.put("/products/:id", verifyToken, async (req, resp) => {
   try {
     let result = await Product.updateOne(
@@ -149,6 +142,7 @@ app.put("/products/:id", verifyToken, async (req, resp) => {
   }
 });
 
+//api for srarch in products
 app.get("/search/:key", verifyToken, async (req, resp) => {
   try {
     let result = await Product.find({
@@ -164,6 +158,7 @@ app.get("/search/:key", verifyToken, async (req, resp) => {
   }
 });
 
+//api for users only products
 app.get("/products/user/:userId", verifyToken, async (req, resp) => {
   try {
     const userId = req.params.userId;
@@ -175,6 +170,7 @@ app.get("/products/user/:userId", verifyToken, async (req, resp) => {
   }
 });
 
+//api for all data users and product all data
 app.get("/admin", async (req, resp) => {
   // const name = req.params.name
   try {
@@ -188,6 +184,7 @@ app.get("/admin", async (req, resp) => {
   }
 });
 
+//api for delete user only for admin
 app.delete("/admin/user-delete/:id", verifyToken, async (req, resp) => {
   try {
     const result = await User.deleteOne({ _id: req.params.id });
@@ -198,6 +195,7 @@ app.delete("/admin/user-delete/:id", verifyToken, async (req, resp) => {
   }
 });
 
+//api for updata users info only for admin
 app.put("/admin/user-update/:id",verifyToken, async (req, resp) => {
   try {
     let result = await User.updateOne(
@@ -214,6 +212,7 @@ app.put("/admin/user-update/:id",verifyToken, async (req, resp) => {
   }
 });
 
+//jwt maidelware
 function verifyToken(req, resp, next) {
   // console.log(" working...  :) ");
   let token = req.headers["authorization"];
