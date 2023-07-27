@@ -9,7 +9,14 @@ const AddProduct = () => {
     category: "",
     company: "",
     error: false,
+    image: null
   });
+
+  
+  const handleImageChange = (e) => {
+    const file = e.target.files[0];
+    setValues({ ...values, image: file });
+  };
 
   const handleChange = (e) => {
     const { name, value } = e.target;
@@ -28,15 +35,20 @@ const AddProduct = () => {
       }));
       return;
     }
-
-    const userId = JSON.parse(localStorage.getItem("user"))._id;
+  
+    const formData = new FormData();
+    formData.append('name', values.name);
+    formData.append('price', values.price);
+    formData.append('category', values.category);
+    formData.append('company', values.company);
+    formData.append('userId', JSON.parse(localStorage.getItem('user'))._id);
+    formData.append('image', values.image); // The image file
+  
     try {
-      const response = await axios.post('https://srever-ecomm.vercel.app/add-product', {
-        name: values.name,
-        price: values.price,
-        category: values.category,
-        company: values.company,
-        userId: userId,
+      const response = await axios.post('http://127.0.0.1:5000/add-product', formData, {
+        headers: {
+          'Content-Type': 'multipart/form-data',
+        },
       });
   
       const result = response.data;
@@ -56,6 +68,7 @@ const AddProduct = () => {
       console.error('Error:', error);
     }
   };
+  
 
   return (
     <div className="container">
@@ -120,6 +133,9 @@ const AddProduct = () => {
         {values.error && !values.company && (
           <span className="err-span">Please enter a company</span>
         )}
+        <div>
+        <input type="file" name="image" onChange={handleImageChange} />
+        </div>
       </div>
       <button className="add-btn" onClick={collectData} type="button">
         Add Product

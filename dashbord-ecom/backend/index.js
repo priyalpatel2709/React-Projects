@@ -4,6 +4,7 @@ const Jwt = require("jsonwebtoken");
 require("./db/config");
 const User = require("./db/User");
 const Product = require("./db/Product");
+const multer = require('multer');
 // const Product = require("./db/Product");
 const app = express();
 app.use(express.json());
@@ -14,6 +15,21 @@ app.use((req, res, next) => {
 });
 
 const JwtKey = "e-comm";
+
+const storage = multer.memoryStorage(); // Store the image data in memory
+const upload = multer({
+  storage: storage,
+  limits: {
+    fileSize: 1024 * 1024 * 5, // 5MB limit (adjust as needed)
+  },
+  fileFilter: (req, file, cb) => {
+    if (file.mimetype.startsWith('image/')) {
+      cb(null, true);
+    } else {
+      cb(new Error('Only image files are allowed.'), false);
+    }
+  },
+});
 
 app.post("/register", async (req, resp) => {
   // console.log(req.body);
@@ -58,14 +74,24 @@ app.post("/login", async (req, resp) => {
   }
 });
 
-app.post("/add-product", verifyToken, async (req, resp) => {
-  // console.log("/add-product",req.body);
+app.post("/add-product", upload.single('image'), async (req, res) => {
   try {
-    const product = new Product(req.body);
-    let result = await product.save();
-    resp.send(result);
-  } catch {
-    resp.send({ result: "some thing went wrong please try after some time" });
+    const { name, price, category, userId, company } = req.body;
+    let image = null;
+
+    // Check if an image was uploaded
+    if (req.file) {
+      image = {
+        data: req.file.buffer, 
+        contentType: req.file.mimetype
+      };
+    }
+
+    const product = new Product({ name, price, category, userId, company, image });
+    const result = await product.save();
+    res.send(result);
+  } catch (error) {
+    res.status(500).send({ result: "Something went wrong. Please try again later." });
   }
 });
 
