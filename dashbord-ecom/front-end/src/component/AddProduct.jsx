@@ -9,13 +9,26 @@ const AddProduct = () => {
     category: "",
     company: "",
     error: false,
-    image: null
+    image: ''
   });
 
   
   const handleImageChange = (e) => {
     const file = e.target.files[0];
-    setValues({ ...values, image: file });
+    const reader = new FileReader();
+  
+    reader.onload = () => {
+      // Successfully loaded the image
+      console.log(reader.result);
+      setValues({...values,image : reader.result})
+    };
+  
+    reader.onerror = () => {
+      // Error occurred while reading the image
+      console.log('Error occurred while reading the image.');
+    };
+  
+    reader.readAsDataURL(file);
   };
 
   const handleChange = (e) => {
@@ -42,12 +55,12 @@ const AddProduct = () => {
     formData.append('category', values.category);
     formData.append('company', values.company);
     formData.append('userId', JSON.parse(localStorage.getItem('user'))._id);
-    formData.append('image', values.image); // The image file
+    formData.append('image', values.image); 
   
     try {
       const response = await axios.post('http://127.0.0.1:5000/add-product', formData, {
         headers: {
-          'Content-Type': 'multipart/form-data',
+          'Content-Type': 'application/json',
         },
       });
   
@@ -134,12 +147,14 @@ const AddProduct = () => {
           <span className="err-span">Please enter a company</span>
         )}
         <div>
-        <input type="file" name="image" onChange={handleImageChange} />
+        <input type="file" accept="image/*" onChange={handleImageChange} />
         </div>
       </div>
       <button className="add-btn" onClick={collectData} type="button">
         Add Product
       </button>
+            <img src={values.image} alt="bla-bla-la"  width='100' height='100'/>
+      
     </div>
   );
 };

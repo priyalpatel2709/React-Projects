@@ -87,16 +87,16 @@ app.post("/add-product", async (req, res) => {
 
 //api for get product
 app.get("/products", async (req, resp) => {
-  try {
+   try {
     let products = await Product.find();
     if (products.length > 0) {
       resp.send(products);
     } else {
       resp.send({ result: `data not found  ${products}` });
     }
-  } catch {
+   } catch {
     resp.send({ result: "some thing went wrong  please try after some time" });
-  }
+   }
 });
 
 //api for delete product useing product _id
@@ -105,7 +105,7 @@ app.delete("/products/:id", verifyToken, async (req, resp) => {
     const result = await Product.deleteOne({ _id: req.params.id });
     // console.log("result",result);
     resp.send(result);
-  } catch {
+    } catch {
     resp.send({ result: "some thing went wrong  please try after some time" });
   }
 });

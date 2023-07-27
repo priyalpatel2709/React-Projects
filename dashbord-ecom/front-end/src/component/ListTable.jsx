@@ -160,6 +160,9 @@ const ListTable = ({ products, deleteProduct, isLoading }) => {
                   <td>{item.company}</td>
                   <td>{item.category}</td>
                   <td>
+                  <img src={item.image} alt="bla-bla-la"  width='100' height='100'/>
+                  </td>
+                  <td>
                     <button
                       className="td-button"
                       type="button"

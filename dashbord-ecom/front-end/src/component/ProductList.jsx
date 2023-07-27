@@ -40,7 +40,7 @@ const ProductList = () => {
         return;
       }
 
-      const response = await axios.get("https://srever-ecomm.vercel.app/products");
+      const response = await axios.get("http://127.0.0.1:5000/products");
 
       const result = response.data;
       setProducts(result);
