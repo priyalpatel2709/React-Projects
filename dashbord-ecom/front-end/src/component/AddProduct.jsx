@@ -1,6 +1,6 @@
 import React, { useState } from "react";
 import "../styles/AddProduct.css";
-import axios from 'axios';
+import axios from "axios";
 
 const AddProduct = () => {
   const [values, setValues] = useState({
@@ -9,27 +9,17 @@ const AddProduct = () => {
     category: "",
     company: "",
     error: false,
-    image: ''
+    image: "",
   });
 
-  
+  // const [img,setImg] = useState(null)
+
   const handleImageChange = (e) => {
     const file = e.target.files[0];
-    const reader = new FileReader();
-  
-    reader.onload = () => {
-      // Successfully loaded the image
-      console.log(reader.result);
-      setValues({...values,image : reader.result})
-    };
-  
-    reader.onerror = () => {
-      // Error occurred while reading the image
-      console.log('Error occurred while reading the image.');
-    };
-  
-    reader.readAsDataURL(file);
+    setValues({...values,image : file})
   };
+  
+  
 
   const handleChange = (e) => {
     const { name, value } = e.target;
@@ -48,40 +38,45 @@ const AddProduct = () => {
       }));
       return;
     }
-  
+
     const formData = new FormData();
-    formData.append('name', values.name);
-    formData.append('price', values.price);
-    formData.append('category', values.category);
-    formData.append('company', values.company);
-    formData.append('userId', JSON.parse(localStorage.getItem('user'))._id);
-    formData.append('image', values.image); 
-  
+    formData.append("name", values.name);
+    formData.append("price", values.price);
+    formData.append("category", values.category);
+    formData.append("company", values.company);
+    formData.append("userId", JSON.parse(localStorage.getItem("user"))._id);
+    formData.append("image", values.image);// Assuming you have an image file object (e.g., from an input field) called 'imageFile'
+
     try {
-      const response = await axios.post('http://127.0.0.1:5000/add-product', formData, {
-        headers: {
-          'Content-Type': 'application/json',
-        },
-      });
-  
+      const response = await axios.post(
+        "http://127.0.0.1:5000/add-product",
+        formData,
+        {
+          headers: {
+            "Content-Type": "multipart/form-data", 
+          },
+        }
+      );
+
       const result = response.data;
-      if (result.name) {
-        localStorage.setItem('product', JSON.stringify(result));
-        alert('Added Successfully');
+      if (result._id) {
+        localStorage.setItem("product", JSON.stringify(result));
+        alert("Added Successfully");
         setValues({
-          name: '',
-          price: '',
-          category: '',
-          company: '',
+          name: "",
+          price: "",
+          category: "",
+          company: "",
           error: false,
         });
+      } else {
+        alert("Failed to add product.");
       }
     } catch (error) {
-      alert(error.message);
-      console.error('Error:', error);
+      alert("Something went wrong. Please try again later.");
+      console.error("Error:", error);
     }
   };
-  
 
   return (
     <div className="container">
@@ -147,14 +142,13 @@ const AddProduct = () => {
           <span className="err-span">Please enter a company</span>
         )}
         <div>
-        <input type="file" accept="image/*" onChange={handleImageChange} />
+        <input type="file" name="image" onChange={handleImageChange} />
         </div>
       </div>
       <button className="add-btn" onClick={collectData} type="button">
         Add Product
       </button>
-            <img src={values.image} alt="bla-bla-la"  width='100' height='100'/>
-      
+      {/* <img src={values.image} alt="bla-bla-la"  width='100' height='100'/> */}
     </div>
   );
 };

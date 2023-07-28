@@ -104,3 +104,13 @@
   color: #ffffff;
   text-decoration: none;
 }
+
+.td-button-downlod{
+  background-color: #6ba7ee;
+  color: #ffffff;
+  padding: 4px 5px;
+  border: none;
+  border-radius: 4px;
+  cursor: pointer;
+  margin-left: 12px;
+}

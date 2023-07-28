@@ -6,6 +6,9 @@ const bodyParser = require("body-parser");
 const User = require("./db/User");
 const Product = require("./db/Product");
 const multer = require('multer');
+
+const sharp = require("sharp");
+
 // const Product = require("./db/Product");
 const app = express();
 
@@ -22,6 +25,8 @@ app.use(bodyParser.urlencoded({ extended: true, limit: "50mb" }));
 
 //JWT token
 const JwtKey = "e-comm";
+
+
 
 //api for singup
 app.post("/register", async (req, resp) => {
@@ -68,20 +73,35 @@ app.post("/login", async (req, resp) => {
   }
 });
 
+
+// const upload = multer().single('image');  
+const upload = multer({
+  limits: { fileSize: 5 * 1024 * 1024 },
+}).single("image");
 //aip for add product
-app.post("/add-product", async (req, res) => {
+app.post("/add-product", upload, async (req, res) => {
   try {
-    const { name, price, category, userId, company ,image} = req.body;
-    
+      const { name, price, category, userId, company } = req.body;
+      const product = new Product({ name, price, category, userId, company });
+      
+      // Handle image upload
+      if (req.file) {
+        try{
+          if (req.file.buffer.length > 5 * 1024 * 1024) {
+            return res.status(400).send({result: "Image size exceeds 5 MB limit."});
+          }else{
+            product.image.data = req.file.buffer;
+            product.image.contentType = req.file.mimetype;
+          }
+        }catch (e){
+          console.log(`Error:- ${e}`);
+        }
+      }
 
-
- 
-
-    const product = new Product({ name, price, category, userId, company, image });
-    const result = await product.save();
-    res.send(result);
+      const result = await product.save();
+      res.send(result);
   } catch (error) {
-    res.status(500).send({ result: "Something went wrong. Please try again later." });
+      res.status(500).send({ result: "Something went wrong. Please try again later." });
   }
 });
 
