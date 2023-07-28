@@ -33,7 +33,7 @@ const ListTable = ({ products, deleteProduct, isLoading }) => {
       const base64String = btoa(String.fromCharCode(...new Uint8Array(data)));
 
       // Construct and return the base64 URL
-      // console.log(`data:${contentType};base64,${base64String}`);
+      console.log(`data:${contentType};base64,${base64String}`);
       return `data:${contentType};base64,${base64String}`;
     }
   };

@@ -60,7 +60,7 @@ const AddProduct = () => {
 
       const result = response.data;
       if (result._id) {
-        localStorage.setItem("product", JSON.stringify(result));
+        // localStorage.setItem("product", JSON.stringify(result));
         alert("Added Successfully");
         setValues({
           name: "",
