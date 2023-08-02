@@ -49,7 +49,7 @@ const AddProduct = () => {
 
     try {
       const response = await axios.post(
-        "http://127.0.0.1:5000/add-product",
+        "https://srever-ecomm.vercel.app/add-product",
         formData,
         {
           headers: {
