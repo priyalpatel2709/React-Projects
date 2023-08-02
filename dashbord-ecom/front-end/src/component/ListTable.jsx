@@ -2,6 +2,7 @@
 import React, { useState } from "react";
 import { Link } from "react-router-dom";
 import "../styles/ListTable.css";
+import { imagefrombuffer } from "imagefrombuffer"; //first import 
 
 const ListTable = ({ products, deleteProduct, isLoading }) => {
   const [currentPage, setCurrentPage] = useState(1);
@@ -24,7 +25,7 @@ const ListTable = ({ products, deleteProduct, isLoading }) => {
     setCurrentPage(pageNumber);
   };
 
-  const getImgURL = (data, contentType) => {
+  const getImgURL = (data, contentType,i) => {
     console.log("contentType", contentType);
     if (data == null || contentType == null) {
       return null;
@@ -33,7 +34,7 @@ const ListTable = ({ products, deleteProduct, isLoading }) => {
       const base64String = btoa(String.fromCharCode(...new Uint8Array(data)));
 
       // Construct and return the base64 URL
-      console.log(`data:${contentType};base64,${base64String}`);
+      console.log(`${i} data:${contentType};base64,${base64String}`);
       return `data:${contentType};base64,${base64String}`;
     }
   };
@@ -193,10 +194,11 @@ const ListTable = ({ products, deleteProduct, isLoading }) => {
                       <>
                         {item.image.contentType === "image/png" ? (
                           <img
-                            src={getImgURL(
-                              item.image.data.data,
-                              item.image.contentType
-                            )}
+                            src={imagefrombuffer({
+                              data:  item.image.data.data,
+                              type: item.image.contentType,
+                     
+                            })}
                             alt="Product Image"
                             width="100"
                             height="100"
