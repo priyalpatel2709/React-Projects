@@ -2,7 +2,7 @@
 import React, { useState } from "react";
 import { Link } from "react-router-dom";
 import "../styles/ListTable.css";
-import { imagefrombuffer } from "imagefrombuffer"; //first import 
+import { imagefrombuffer } from "imagefrombuffer"; //first import
 
 const ListTable = ({ products, deleteProduct, isLoading }) => {
   const [currentPage, setCurrentPage] = useState(1);
@@ -25,7 +25,7 @@ const ListTable = ({ products, deleteProduct, isLoading }) => {
     setCurrentPage(pageNumber);
   };
 
-  const getImgURL = (data, contentType,i) => {
+  const getImgURL = (data, contentType, i) => {
     console.log("contentType", contentType);
     if (data == null || contentType == null) {
       return null;
@@ -148,15 +148,22 @@ const ListTable = ({ products, deleteProduct, isLoading }) => {
   };
 
   const handleDownload = (imageUrl, imageName) => {
-    console.log("imageUrl", imageUrl);
-    console.log("imageName", imageName);
-    // Create a virtual link and click it to trigger the download
-    const link = document.createElement("a");
-    link.href = imageUrl;
-    link.download = imageName;
-    document.body.appendChild(link);
-    link.click();
-    document.body.removeChild(link);
+    if (imageUrl && imageName) {
+      try {
+        // Create a virtual link and click it to trigger the download
+        const link = document.createElement("a");
+        link.href = imageUrl;
+        link.download = imageName;
+        document.body.appendChild(link);
+        link.click();
+        document.body.removeChild(link);
+        alert('"Download triggered successfully."')
+      } catch (error) {
+        console.error("Error occurred during download:", error);
+      }
+    } else {
+      console.error("imageUrl or imageName is missing. Unable to trigger download.");
+    }
   };
 
   // console.log(products);
@@ -195,9 +202,8 @@ const ListTable = ({ products, deleteProduct, isLoading }) => {
                         {item.image.contentType === "image/png" ? (
                           <img
                             src={imagefrombuffer({
-                              data:  item.image.data.data,
+                              data: item.image.data.data,
                               type: item.image.contentType,
-                     
                             })}
                             alt="Product Image"
                             width="100"
@@ -211,21 +217,21 @@ const ListTable = ({ products, deleteProduct, isLoading }) => {
                         ) : null}
 
                         <>
-                        <button className="td-button-downlod"
-                          onClick={() =>
-                            handleDownload(
-                              getImgURL(
-                                item.image.data.data,
-                                item.image.contentType
-                              ),
-                              `${Date.now()}${item.name}`
-                            )
-                          }
-                        >
-                          Download
-                        </button>
+                          <button
+                            className="td-button-downlod"
+                            onClick={() =>
+                              handleDownload(
+                                getImgURL(
+                                  item.image.data.data,
+                                  item.image.contentType
+                                ),
+                                `${Date.now()}${item.name}`
+                              )
+                            }
+                          >
+                            Download
+                          </button>
                         </>
-
                       </>
                     )}
                   </td>
