@@ -60,25 +60,33 @@ export const deleteSubscriptionDate = async (subscriptionId, gridDetailId) => {
 };
 
 export const fetchUser = async () => {
-  try{
-    const response = await axios.get(`${BASE_URL}/get-user`)
+  try {
+    const response = await axios.get(`${BASE_URL}/get-user`);
     return response.data;
-  }
-  catch (err){
+  } catch (err) {
     console.log(err);
   }
-}
+};
 
-export const fetchUserAppointments = async (date,user) => {
-  try{
-    const response = await axios.get(`${BASE_URL}/booked-time-slots`,{
+export const fetchUserAppointments = async (date, user) => {
+  try {
+    const response = await axios.get(`${BASE_URL}/booked-time-slots`, {
       params: {
         date: date,
         user: user,
       },
-    })
-    return response.data
-  }catch (err){
+    });
+    return response.data;
+  } catch (err) {
     console.log(err);
   }
-}
+};
+
+export const AddUserInfo = async (user) => {
+  try {
+    const response = await axios.post(`${BASE_URL}/add-user`, user);
+    return response.data;
+  } catch (err) {
+    console.log(err);
+  }
+};

@@ -1,6 +1,5 @@
 import React, { useEffect, useState, useCallback } from "react";
 import { Link } from "react-router-dom";
-import axios from "axios";
 import DropDown from "../utils/DropDown";
 import { fetchUserAppointments } from "../services/subscriptionService";
 
@@ -13,17 +12,11 @@ const TimeSlot = ({ UpdateSlotName, SelectslotName }) => {
     user: "",
   });
 
-  // const user = "USER"
-
   const [bookedTimeSlots, setBookedTimeSlots] = useState([]);
 
   const handleGetBookedTimeSlots = async () => {
     UserAppointments();
   };
-
-  // useEffect(()=>{
-  //   handleGetBookedTimeSlots()
-  // },[])
 
   const UserAppointments = async () => {
     const UserAppointment = await fetchUserAppointments(
@@ -85,6 +78,10 @@ const TimeSlot = ({ UpdateSlotName, SelectslotName }) => {
       </ul>
       <span>
         Add <Link to="/">New Subscribers</Link>
+      </span>
+      <br />
+      <span>
+        Add <Link to="/Add-user">New user</Link>
       </span>
       <br />
     </div>

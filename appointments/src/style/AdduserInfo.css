@@ -1,0 +1,27 @@
+.input-container {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 100vh;
+    /* This will center the inputs vertically on the page */
+}
+
+.input-column {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+}
+
+/* Optional: Add some styling to the inputs */
+.input-column input {
+    margin-bottom: 10px;
+    padding: 10px;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+}
+
+.empty-input,
+input:required:invalid {
+    border: 1px solid red;
+}
