@@ -41,7 +41,8 @@ export const updateSubscription = async (subscription, id) => {
 
 export const deleteSubscription = async (id) => {
   try {
-    await axios.delete(`${BASE_URL}/subscriptions-delete/${id}`);
+    let result = await axios.delete(`${BASE_URL}/subscriptions-delete/${id}`);
+    return result;
   } catch (error) {
     console.error("Error deleting subscription:", error);
     throw error;
@@ -65,6 +66,7 @@ export const fetchUser = async () => {
     return response.data;
   } catch (err) {
     console.log(err);
+    throw err;
   }
 };
 
@@ -79,6 +81,7 @@ export const fetchUserAppointments = async (date, user) => {
     return response.data;
   } catch (err) {
     console.log(err);
+    throw err;
   }
 };
 
@@ -88,5 +91,26 @@ export const AddUserInfo = async (user) => {
     return response.data;
   } catch (err) {
     console.log(err);
+    throw err;
   }
 };
+
+export const DeleteUSer = async (id) =>{
+  try{
+    let result = await axios.delete(`${BASE_URL}/delete-user/${id}`);
+    return result.data;
+  }catch (err){
+    throw err;
+  }
+}
+
+
+export const updateUser = async (id,update) =>{
+  try{
+    let result = await axios.put(`${BASE_URL}/update-user/${id}`,update);
+    return result.data;
+  }catch (err){
+    console.log(err);
+    throw err;
+  }
+}

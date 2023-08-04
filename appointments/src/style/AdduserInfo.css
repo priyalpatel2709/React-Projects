@@ -1,27 +1,62 @@
+/* AdduserInfo.css */
+
 .input-container {
     display: flex;
     justify-content: center;
     align-items: center;
-    height: 100vh;
-    /* This will center the inputs vertically on the page */
-}
-
-.input-column {
+    /* height: 100vh; */
+    padding-top: 30px;
+  }
+  
+  .input-column {
     display: flex;
     flex-direction: column;
-    justify-content: center;
     align-items: center;
-}
-
-/* Optional: Add some styling to the inputs */
-.input-column input {
-    margin-bottom: 10px;
-    padding: 10px;
+    padding: 20px;
     border: 1px solid #ccc;
     border-radius: 5px;
-}
-
-.empty-input,
-input:required:invalid {
-    border: 1px solid red;
-}
+  }
+  
+  h1 {
+    margin-bottom: 20px;
+  }
+  
+  input {
+    padding: 8px;
+    margin-bottom: 10px;
+    width: 250px;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+  }
+  
+  button {
+    padding: 10px 20px;
+    background-color: #007bff;
+    color: #fff;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+  }
+  
+  button:hover {
+    background-color: #0056b3;
+  }
+  
+  table {
+    margin-top: 30px;
+    border-collapse: collapse;
+    width: 30%;
+    margin-left: 35%;
+  }
+  
+  th,
+  td {
+    padding: 10px;
+    border: 1px solid #ccc;
+    text-align: center;
+  }
+  
+  thead {
+    background-color: #f2f2f2;
+  }
+  

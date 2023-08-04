@@ -122,7 +122,8 @@ const SubscriptionList = () => {
               {subscription.gridDetails.map((gridDetail, index) => (
                 <li key={gridDetail._id}>
                   Date: {new Date(gridDetail.date).toLocaleDateString()}, Start
-                  Time: {convertTo12HourFormat( gridDetail.startTime)}, End Time: { convertTo12HourFormat(gridDetail.endTime)}
+                  Time: {convertTo12HourFormat(gridDetail.startTime)}, End Time:{" "}
+                  {convertTo12HourFormat(gridDetail.endTime)}
                   <button
                     className="edit-button"
                     onClick={() => handleEditRow(subscription, gridDetail)}
@@ -145,6 +146,8 @@ const SubscriptionList = () => {
       ) : (
         <>
           <span>No Subscription Added</span>
+          <br />
+          <br />
         </>
       )}
 
@@ -217,10 +220,13 @@ const SubscriptionList = () => {
         </div>
       )}
 
-      <span>Add <Link to="/">New Subscribers</Link></span><br/>
-      <span>Add <Link to="/booked-time-slots">booked-time-slots</Link></span>
-        
-      
+      <span>
+        Add <Link to="/">New Subscribers</Link>
+      </span>
+      <br />
+      <span>
+        Add <Link to="/booked-time-slots">booked-time-slots</Link>
+      </span>
     </div>
   );
 };

@@ -1,21 +1,21 @@
 import React, { useEffect, useState } from "react";
 import { fetchUser } from "../services/subscriptionService";
 
-const DropDown = ({SelectslotName,UpdateSlotName}) => {
-  const [data,setData] = useState([])
+const DropDown = ({ SelectslotName, UpdateSlotName }) => {
+  const [data, setData] = useState([]);
   const fetchUsers = async () => {
     try {
       let users = await fetchUser();
       setData(users);
-      console.log('user',users);
+      console.log("user", users);
     } catch (error) {
       console.error("Error fetching users:", error);
     }
   };
 
-  useEffect(()=>{
+  useEffect(() => {
     fetchUsers();
-  },[])
+  }, []);
 
   const usersName = (
     <select onChange={(e) => UpdateSlotName(e)}>
@@ -26,11 +26,7 @@ const DropDown = ({SelectslotName,UpdateSlotName}) => {
       ))}
     </select>
   );
-  return (
-    <div>
-      {usersName}
-    </div>
-  );
+  return <div>{usersName}</div>;
 };
 
 export default DropDown;

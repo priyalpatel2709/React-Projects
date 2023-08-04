@@ -84,7 +84,10 @@ const SubscriptionForm = ({ SelectslotName, UpdateSlotName }) => {
   return (
     <div className="subscription-form-container">
       <h2>Subscription Form</h2>
-      <DropDown SelectslotName={SelectslotName} UpdateSlotName={UpdateSlotName}/>
+      <DropDown
+        SelectslotName={SelectslotName}
+        UpdateSlotName={UpdateSlotName}
+      />
       <form onSubmit={handleSubmit}>
         {/* Subscription Name Field */}
         <div>
@@ -162,7 +165,6 @@ const SubscriptionForm = ({ SelectslotName, UpdateSlotName }) => {
         Add <Link to="/booked-time-slots">booked-time-slots</Link>
       </span>
       <br />
-      
     </div>
   );
 };
