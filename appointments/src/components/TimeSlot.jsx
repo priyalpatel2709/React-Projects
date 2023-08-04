@@ -56,7 +56,7 @@ const TimeSlot = ({ UpdateSlotName, SelectslotName }) => {
         required
       />
 
-      <button onClick={handleGetBookedTimeSlots}>Get Booked Time Slots</button>
+      <button style={{marginLeft:'5px'}} onClick={handleGetBookedTimeSlots}>Get Booked Time Slots</button>
       <ul>
         {bookedTimeSlots?.bookedTimeSlots?.length > 0 ? (
           bookedTimeSlots?.bookedTimeSlots?.map((timeSlot, index) => (

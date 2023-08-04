@@ -18,7 +18,7 @@ const DropDown = ({ SelectslotName, UpdateSlotName }) => {
   }, []);
 
   const usersName = (
-    <select onChange={(e) => UpdateSlotName(e)}>
+    <select onChange={(e) => UpdateSlotName(e)} style={{width:"80px", height:'30px',textAlign:'center'}}>
       {data?.map((user) => (
         <option key={user._id} value={user.name}>
           {user.name}

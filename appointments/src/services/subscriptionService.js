@@ -2,6 +2,9 @@ import axios from "axios";
 
 const BASE_URL = "http://localhost:2709";
 
+// const BASE_URL = "https://appointments-backend.vercel.app";
+
+
 export const fetchSubscriptions = async () => {
   try {
     const response = await axios.get(`${BASE_URL}/subscriptions`);

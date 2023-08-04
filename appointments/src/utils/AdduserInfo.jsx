@@ -6,152 +6,170 @@ import {
   fetchUser,
   DeleteUSer,
   updateUser,
-} from "../services/subscriptionService";
+} from "../services/subscriptionService"; // Update the import statements to match your service file
 
 const AdduserInfo = () => {
-  const [userInfo, setUserInfo] = useState({
+  const [userDetails, setUserDetails] = useState({
     name: "",
     description: "",
     id: "",
+    MaxSlots: 0,
+  });
+
+  const [userStatus, setUserStatus] = useState({
     isNameEmpty: false,
     errMsg: "",
-    AllusersList: [],
     isUpdate: false,
+    AllusersList: [],
   });
 
   const handleClick = async () => {
-    if (userInfo.name.trim() === "") {
-      setUserInfo((preval) => ({
-        ...preval,
+    if (userDetails.name.trim() === "") {
+      setUserStatus((prevState) => ({
+        ...prevState,
         isNameEmpty: true,
-        errMsg: "Name is require*",
+        errMsg: "Name is required*",
       }));
     } else {
       let user = {
-        name: userInfo.name,
-        description: userInfo.description,
+        name: userDetails.name,
+        description: userDetails.description,
+        MaxSlots: userDetails.MaxSlots,
       };
 
-      const AddUser = await AddUserInfo(user);
-      console.log("AddUser", AddUser);
-      if (AddUser.result) {
-        console.log(" i am");
-        setUserInfo((preval) => ({
-          ...preval,
+      const AddNewUser = await AddUserInfo(user);
+      if (AddNewUser.result) {
+        setUserStatus((prevState) => ({
+          ...prevState,
           isNameEmpty: true,
-          errMsg: AddUser.result,
+          errMsg: AddNewUser.result,
         }));
       } else {
-        fetchUsers();
-        setUserInfo({
-          isNameEmpty: false,
+        fetchAllUsers();
+        setUserDetails({
           name: "",
           description: "",
-          errMsg: "",
+          id: "",
+          MaxSlots: 0,
         });
+        setUserStatus((prevState) => ({
+          ...prevState,
+          isNameEmpty: false,
+          errMsg: "",
+        }));
       }
     }
   };
 
-  const fetchUsers = async () => {
+  const fetchAllUsers = async () => {
     try {
       let users = await fetchUser();
-      setUserInfo((preval) => ({
-        ...preval,
+      setUserStatus((prevState) => ({
+        ...prevState,
         AllusersList: users,
       }));
-      console.log("user", users);
     } catch (error) {
       console.error("Error fetching users:", error);
     }
   };
 
   useEffect(() => {
-    fetchUsers();
+    fetchAllUsers();
   }, []);
 
-  const deleteUser = async (id) => {
-    let deleteuser = await DeleteUSer(id);
-    console.log("deleteuser", deleteuser);
-    fetchUsers();
+  const handleDeleteUser = async (id) => {
+    let deleteResult = await DeleteUSer(id);
+    if (deleteResult.deletedCount > 0) {
+      fetchAllUsers();
+    }
   };
 
-  const updateuser = (id, name, description) => {
-    setUserInfo((preval) => ({
-      ...preval,
+  const updateUserDetails = (id, name, description, MaxSlots) => {
+    setUserDetails({
       name: name,
       description: description,
       id: id,
+      MaxSlots: MaxSlots,
+    });
+    setUserStatus((prevState) => ({
+      ...prevState,
       isUpdate: true,
     }));
-    console.log(id);
   };
 
-  const AllusrsinfoTable = (
+  const saveUpdate = async () => {
+    let updateUserInfo = {
+      name: userDetails.name,
+      description: userDetails.description,
+      MaxSlots: userDetails.MaxSlots,
+    };
+
+    let updateResult = await updateUser(userDetails.id, updateUserInfo);
+    if (updateResult.modifiedCount === 1) {
+      setUserDetails({
+        name: "",
+        description: "",
+        id: "",
+        MaxSlots: 0,
+      });
+      setUserStatus((prevState) => ({
+        ...prevState,
+        isUpdate: false,
+        errMsg: "",
+      }));
+      fetchAllUsers();
+    } else {
+      setUserStatus((prevState) => ({
+        ...prevState,
+        isNameEmpty: true,
+        errMsg: "Make any changes",
+      }));
+    }
+  };
+
+  const AllUsersInfoTable = (
     <>
       <table>
         <thead>
           <th>Sr.No</th>
           <th>Name</th>
-          <th>description</th>
-          <th>Opration</th>
+          <th>Description</th>
+          <th>Max Slots</th>
+          <th>Operation</th>
         </thead>
         <tbody>
-          {userInfo.AllusersList?.map((user, index) => (
-            <>
-              <tr key={index}>
-                <td>{index + 1}</td>
-                <td>{user.name}</td>
-                <td>{user.description}</td>
-                <td>
-                  <button
-                    style={{ marginRight: "5px" }}
-                    onClick={() => deleteUser(user._id)}
-                  >
-                    Delete
-                  </button>
-                  <button
-                    onClick={() =>
-                      updateuser(user._id, user.name, user.description)
-                    }
-                  >
-                    Update
-                  </button>
-                </td>
-              </tr>
-            </>
+          {userStatus.AllusersList?.map((user, index) => (
+            <tr key={index}>
+              <td>{index + 1}</td>
+              <td>{user.name}</td>
+              <td>{user.description}</td>
+              <td>{user.MaxSlots}</td>
+              <td>
+                <button
+                  style={{ marginRight: "5px" }}
+                  onClick={() => handleDeleteUser(user._id)}
+                >
+                  Delete
+                </button>
+                <button
+                  onClick={() =>
+                    updateUserDetails(
+                      user._id,
+                      user.name,
+                      user.description,
+                      user.MaxSlots
+                    )
+                  }
+                >
+                  Update
+                </button>
+              </td>
+            </tr>
           ))}
         </tbody>
       </table>
     </>
   );
-
-  const saveUpdate = async () => {
-    let updateuserinfo = {
-      name: userInfo.name,
-      description: userInfo.description,
-    };
-
-    console.log("from save", userInfo.id);
-    let updateuser = await updateUser(userInfo.id, updateuserinfo);
-    console.log(updateuser);
-    if (updateuser.modifiedCount === 1) {
-      setUserInfo((preval) => ({
-        ...preval,
-        name: "",
-        description: "",
-        isUpdate: false,
-        id: "",
-      }));
-      fetchUsers();
-    } else {
-      setUserInfo((preval) => ({
-        ...preval,
-        isNameEmpty: true,
-        errMsg: "make any changes",
-      }));
-    }
-  };
 
   return (
     <>
@@ -163,32 +181,44 @@ const AdduserInfo = () => {
             placeholder="Name"
             name="name"
             type="text"
-            value={userInfo.name}
+            value={userDetails.name}
             onChange={(e) =>
-              setUserInfo((prevState) => ({
+              setUserDetails((prevState) => ({
                 ...prevState,
                 name: e.target.value,
               }))
             }
             required
           />
-          {userInfo.isNameEmpty && (
-            <span style={{ color: "red" }}> {userInfo.errMsg}</span>
+          {userStatus.isNameEmpty && (
+            <span style={{ color: "red" }}>{userStatus.errMsg}</span>
           )}
           <input
             placeholder="Description"
             name="description"
             type="text"
-            value={userInfo.description}
+            value={userDetails.description}
             onChange={(e) =>
-              setUserInfo((prevState) => ({
+              setUserDetails((prevState) => ({
                 ...prevState,
                 description: e.target.value,
               }))
             }
           />
-          {userInfo.isUpdate ? (
-            <button onClick={() => saveUpdate()}>Save Update</button>
+          <input
+            placeholder="Max-Slot"
+            name="MaxSlots"
+            type="text"
+            value={userDetails.MaxSlots}
+            onChange={(e) =>
+              setUserDetails((prevState) => ({
+                ...prevState,
+                MaxSlots: e.target.value,
+              }))
+            }
+          />
+          {userStatus.isUpdate ? (
+            <button onClick={saveUpdate}>Save Update</button>
           ) : (
             <button onClick={handleClick}>Add User</button>
           )}
@@ -197,7 +227,7 @@ const AdduserInfo = () => {
           </span>
         </div>
       </div>
-      {AllusrsinfoTable}
+      {AllUsersInfoTable}
     </>
   );
 };
