@@ -1,61 +1,42 @@
-import React, { useEffect, useState,useCallback } from "react";
+import React, { useEffect, useState, useCallback } from "react";
 import { Link } from "react-router-dom";
 import axios from "axios";
 import DropDown from "../utils/DropDown";
-import {fetchUserAppointments} from '../services/subscriptionService'
+import { fetchUserAppointments } from "../services/subscriptionService";
 
 const TimeSlot = ({ UpdateSlotName, SelectslotName }) => {
   const timestamp = new Date().toISOString();
-const dateOnly = timestamp.slice(0, 10);
+  const dateOnly = timestamp.slice(0, 10);
 
   const [date, setDate] = useState({
     date: dateOnly,
-    user: ''
+    user: "",
   });
 
   // const user = "USER"
 
   const [bookedTimeSlots, setBookedTimeSlots] = useState([]);
 
-  const handleGetBookedTimeSlots = useCallback(async () => {
-    UserAppointments()
-    // try {
-    //   const response = await axios.get(
-    //     "http://localhost:2709/booked-time-slots",
-    //     {
-    //       params: {
-    //         date: date.date,
-    //         user: SelectslotName,
-    //       },
-    //     }
-    //   );
-
-
-
-    //   setBookedTimeSlots(response.data);
-    //   setDate(preval=>({
-    //     ...preval,
-    //     user : response.data.user
-    //   }))
-    //   console.log("data", response.data);
-    // } catch (error) {
-    //   console.error(error);
-    // }
-  });
+  const handleGetBookedTimeSlots = async () => {
+    UserAppointments();
+  };
 
   // useEffect(()=>{
   //   handleGetBookedTimeSlots()
   // },[])
 
-  const UserAppointments = async () =>{
-    const UserAppointment = await fetchUserAppointments(date.date,SelectslotName)
-    setBookedTimeSlots(UserAppointment)
-    setDate(preval=>({
+  const UserAppointments = async () => {
+    const UserAppointment = await fetchUserAppointments(
+      date.date,
+      SelectslotName
+    );
+    setBookedTimeSlots(UserAppointment);
+    setDate((preval) => ({
       ...preval,
-      user : UserAppointment.user
-    }))
-    console.log('UserAppointment',UserAppointment);
-  }
+      user: UserAppointment.user,
+    }));
+    console.log("UserAppointment", UserAppointment);
+  };
 
   const convertTo12HourFormat = (time) => {
     const [hours, minutes] = time.split(":");
@@ -67,7 +48,10 @@ const dateOnly = timestamp.slice(0, 10);
 
   return (
     <div className="App-time">
-      <DropDown SelectslotName={SelectslotName} UpdateSlotName={UpdateSlotName}/>
+      <DropDown
+        SelectslotName={SelectslotName}
+        UpdateSlotName={UpdateSlotName}
+      />
       <h1>Check Booked Slot on {date.date}</h1>
       <input
         type="date"
@@ -87,12 +71,15 @@ const dateOnly = timestamp.slice(0, 10);
               {index + 1}:- {`  `}
               {`${timeSlot.name}'s appointment at `}
               {convertTo12HourFormat(timeSlot.startTime)} -{" "}
-              {convertTo12HourFormat(timeSlot.endTime)} 
+              {convertTo12HourFormat(timeSlot.endTime)}
             </li>
           ))
         ) : (
           <>
-            <span> No Booking on {date.date} for {date.user}</span>
+            <span>
+              {" "}
+              No Booking on {date.date} for {date.user}
+            </span>
           </>
         )}
       </ul>
