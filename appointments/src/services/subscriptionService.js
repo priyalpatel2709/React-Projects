@@ -1,6 +1,6 @@
 import axios from "axios";
 
-const BASE_URL = "http://localhost:4800";
+const BASE_URL = "http://localhost:2709";
 
 export const fetchSubscriptions = async () => {
   try {
@@ -58,3 +58,27 @@ export const deleteSubscriptionDate = async (subscriptionId, gridDetailId) => {
     throw error;
   }
 };
+
+export const fetchUser = async () => {
+  try{
+    const response = await axios.get(`${BASE_URL}/get-user`)
+    return response.data;
+  }
+  catch (err){
+    console.log(err);
+  }
+}
+
+export const fetchUserAppointments = async (date,user) => {
+  try{
+    const response = await axios.get(`${BASE_URL}/booked-time-slots`,{
+      params: {
+        date: date,
+        user: user,
+      },
+    })
+    return response.data
+  }catch (err){
+    console.log(err);
+  }
+}

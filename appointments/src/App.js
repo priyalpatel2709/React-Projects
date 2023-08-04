@@ -6,7 +6,7 @@ import TimeSlot from './components/TimeSlot'
 import { useState } from "react";
 
 function App() {
-  const [slotName,setSlotName] = useState('USER')
+  const [slotName,setSlotName] = useState('')
 
   const UpdateSlot = (e)=>{
     setSlotName(e.target.value)

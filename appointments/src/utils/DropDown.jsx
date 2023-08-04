@@ -1,15 +1,43 @@
-import React from "react";
+import React, { useEffect, useState } from "react";
+import { fetchUser } from "../services/subscriptionService";
 
 const DropDown = ({SelectslotName,UpdateSlotName}) => {
+  const [data,setData] = useState([])
+
+
+  const fetchUsers = async () => {
+    try {
+      let users = await fetchUser();
+      setData(users);
+    } catch (error) {
+      // Handle any error that occurs during data fetching
+      console.error("Error fetching users:", error);
+    }
+  };
+
+  useEffect(()=>{
+    fetchUsers();
+  },[])
+
+  // console.log(data);
+  // const usersName = data?.map((user) => (
+  //   <select key={user._id} value={user.name} onChange={(e) => UpdateSlotName(e)}>
+  //     <option value={user.name}>{user.name}</option>
+  //   </select>
+  // ));
+
+  const usersName = (
+    <select onChange={(e) => UpdateSlotName(e)}>
+      {data?.map((user) => (
+        <option key={user._id} value={user.name}>
+          {user.name}
+        </option>
+      ))}
+    </select>
+  );
   return (
     <div>
-      <select value={SelectslotName} onChange={(e) => UpdateSlotName(e)}>
-        <option value="USER">USER</option>
-        <option value="USER1">USER1</option>
-        <option value="USER2">USER2</option>
-        <option value="USER3">USER3</option>
-        <option value="USER4">USER4</option>
-      </select>
+      {usersName}
     </div>
   );
 };
