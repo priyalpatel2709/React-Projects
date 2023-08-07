@@ -84,8 +84,7 @@ const AdduserInfo = () => {
 
   const handleDeleteUser = async (id) => {
     let deleteResult = await DeleteUSer(id);
-    // console.log(deleteResult.result === 'User deleted successfully' );
-    console.log(deleteResult.status === 203);
+    console.log(deleteResult);
     if (deleteResult.status === 203) {
       console.log(deleteResult.data.result, "deleteResult.data.result");
       setUserStatus((preval) => ({
@@ -94,6 +93,7 @@ const AdduserInfo = () => {
         isNameEmpty: true,
       }));
     } else {
+      alert(deleteResult.data.result);
       fetchAllUsers();
       setUserStatus((preval) => ({
         ...preval,
@@ -238,6 +238,19 @@ const AdduserInfo = () => {
   // console.log('additionalDates',additionalDates);
   // console.log(userDetails.date,'userDetails');
 
+  const oncancleUpdate = () =>{
+    setUserDetails({
+      name: '',
+      description: '',
+      id: '',
+      MaxSlots: '',
+    });
+    setUserStatus((prevState) => ({
+      ...prevState,
+      isUpdate: false,
+    }));
+  }
+
   return (
     <>
       <div className="input-container">
@@ -303,9 +316,15 @@ const AdduserInfo = () => {
               required
             />
           ))}
-          <button onClick={AddMoreDates}>Add Dates</button>
+          {!userStatus.isUpdate ? (
+            <button style={{ margin: "5px" }} onClick={AddMoreDates}>
+              Add Dates
+            </button>
+          ) : (
+            <button onClick={()=>oncancleUpdate()} style={{ margin: "5px",backgroundColor: "red",color: "black" }}>cancle</button>
+          )}
           {userStatus.isUpdate ? (
-            <button onClick={saveUpdate}>Save Update</button>
+            <button style={{color:'black'}} onClick={saveUpdate}>Save Update</button>
           ) : (
             <button onClick={handleClick}>Add User</button>
           )}
