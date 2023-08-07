@@ -13,8 +13,11 @@ const AdduserInfo = () => {
     name: "",
     description: "",
     id: "",
-    MaxSlots: 0,
+    MaxSlots: Number,
+    date: [],
   });
+
+  const [additionalDates, setAdditionalDates] = useState([]);
 
   const [userStatus, setUserStatus] = useState({
     isNameEmpty: false,
@@ -24,19 +27,19 @@ const AdduserInfo = () => {
   });
 
   const handleClick = async () => {
-    if (userDetails.name.trim() === "") {
+    if (userDetails.name.trim() === "" || userDetails.date.length === 0) {
       setUserStatus((prevState) => ({
         ...prevState,
         isNameEmpty: true,
-        errMsg: "Name is required*",
+        errMsg: "Name and date are required*",
       }));
     } else {
       let user = {
         name: userDetails.name,
         description: userDetails.description,
         MaxSlots: userDetails.MaxSlots,
+        date: userDetails.date,
       };
-
       const AddNewUser = await AddUserInfo(user);
       if (AddNewUser.result) {
         setUserStatus((prevState) => ({
@@ -51,6 +54,7 @@ const AdduserInfo = () => {
           description: "",
           id: "",
           MaxSlots: 0,
+          date: [], // Clear the selected dates after booking
         });
         setUserStatus((prevState) => ({
           ...prevState,
@@ -79,8 +83,19 @@ const AdduserInfo = () => {
 
   const handleDeleteUser = async (id) => {
     let deleteResult = await DeleteUSer(id);
-    if (deleteResult.deletedCount > 0) {
+    // console.log(deleteResult.result === 'User deleted successfully' );
+    if (deleteResult.result === "User deleted successfully") {
+      setUserStatus((preval) => ({
+        ...preval,
+        errMsg: deleteResult.result,
+        isNameEmpty: true,
+      }));
       fetchAllUsers();
+      setUserStatus((preval) => ({
+        ...preval,
+        errMsg: "",
+        isNameEmpty: false,
+      }));
     }
   };
 
@@ -104,7 +119,10 @@ const AdduserInfo = () => {
       MaxSlots: userDetails.MaxSlots,
     };
 
+    console.log("updateUserInfo", updateUserInfo);
+
     let updateResult = await updateUser(userDetails.id, updateUserInfo);
+    console.log("updateResult", updateResult);
     if (updateResult.modifiedCount === 1) {
       setUserDetails({
         name: "",
@@ -142,16 +160,25 @@ const AdduserInfo = () => {
             <tr key={index}>
               <td>{index + 1}</td>
               <td>{user.name}</td>
-              <td>{user.description}</td>
+              {user.description === "" ? (
+                <td>-</td>
+              ) : (
+                <td>{user.description}</td>
+              )}
               <td>{user.MaxSlots}</td>
               <td>
                 <button
-                  style={{ marginRight: "5px" }}
+                  style={{
+                    marginRight: "5px",
+                    backgroundColor: "red",
+                    color: "black",
+                  }}
                   onClick={() => handleDeleteUser(user._id)}
                 >
                   Delete
                 </button>
                 <button
+                  style={{ marginRight: "5px", color: "black" }}
                   onClick={() =>
                     updateUserDetails(
                       user._id,
@@ -170,6 +197,38 @@ const AdduserInfo = () => {
       </table>
     </>
   );
+
+  const handleGridDetailChange = (field, value) => {
+    // Check if the selected date already exists in the array
+    const dateExists = userDetails.date.includes(value);
+
+    if (dateExists) {
+      // If the date exists, remove it from the array
+      setUserDetails((prevUserDetails) => ({
+        ...prevUserDetails,
+        date: prevUserDetails.date.filter((date) => date !== value),
+      }));
+    } else {
+      // If the date does not exist, add it to the array
+      setUserDetails((prevUserDetails) => ({
+        ...prevUserDetails,
+        date: [...prevUserDetails.date, value],
+      }));
+    }
+  };
+
+  // console.log("userDetails", userDetails.date);
+
+  const AddMoreDates = () => {
+    setAdditionalDates([...additionalDates, ""]);
+  };
+
+  const handleAdditionalDateChange = (index, value) => {
+    // Update the additional date at the specified index
+    const updatedDates = [...additionalDates];
+    updatedDates[index] = value;
+    setAdditionalDates(updatedDates);
+  };
 
   return (
     <>
@@ -217,6 +276,26 @@ const AdduserInfo = () => {
               }))
             }
           />
+          <label htmlFor={`date`}>Date:</label>
+          <input
+            type="date"
+            id={`date`}
+            value={userDetails.date}
+            onChange={(e) => handleGridDetailChange("date", e.target.value)}
+            required
+          />
+          {additionalDates.map((date, index) => (
+            <input
+              key={index}
+              type="date"
+              value={date}
+              onChange={(e) =>
+                handleAdditionalDateChange(index, e.target.value)
+              }
+              required
+            />
+          ))}
+          <button onClick={AddMoreDates}>Add Dates</button>
           {userStatus.isUpdate ? (
             <button onClick={saveUpdate}>Save Update</button>
           ) : (
