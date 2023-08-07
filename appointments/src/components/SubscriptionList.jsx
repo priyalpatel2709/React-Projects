@@ -77,8 +77,13 @@ const SubscriptionList = () => {
 
   const handleRemoveDate = async (subscriptionId, dateId) => {
     try {
-      await deleteSubscriptionDate(subscriptionId, dateId);
-      loadData();
+     let result =  await deleteSubscriptionDate(subscriptionId, dateId);
+     console.log(result);
+     console.log(result.deletedCount===1);
+      if(result.deletedCount===1){
+        loadData();
+      }
+      
     } catch (err) {
       console.log(err);
     }
@@ -86,8 +91,14 @@ const SubscriptionList = () => {
 
   const handleRemoveUser = async (id) => {
     try {
-      await deleteSubscription(id);
-      loadData();
+      
+      let result = await deleteSubscription(id); 
+      if (result.data.deletedCount === 1 ) {
+        loadData();
+      }else{
+        console.log(result.data);
+      }
+      
     } catch (err) {
       console.log(err);
     }

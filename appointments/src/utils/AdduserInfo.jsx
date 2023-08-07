@@ -38,7 +38,7 @@ const AdduserInfo = () => {
         name: userDetails.name,
         description: userDetails.description,
         MaxSlots: userDetails.MaxSlots,
-        date: userDetails.date,
+        date: [...userDetails.date, ...additionalDates], // Combine existing and additional dates
       };
       const AddNewUser = await AddUserInfo(user);
       if (AddNewUser.result) {
@@ -56,6 +56,7 @@ const AdduserInfo = () => {
           MaxSlots: 0,
           date: [], // Clear the selected dates after booking
         });
+        setAdditionalDates([]); // Clear additional dates
         setUserStatus((prevState) => ({
           ...prevState,
           isNameEmpty: false,
@@ -220,6 +221,7 @@ const AdduserInfo = () => {
   // console.log("userDetails", userDetails.date);
 
   const AddMoreDates = () => {
+    console.log('when ?s');
     setAdditionalDates([...additionalDates, ""]);
   };
 
@@ -229,6 +231,9 @@ const AdduserInfo = () => {
     updatedDates[index] = value;
     setAdditionalDates(updatedDates);
   };
+
+  console.log('additionalDates',additionalDates);
+  console.log(userDetails.date,'userDetails');
 
   return (
     <>
