@@ -85,12 +85,15 @@ const AdduserInfo = () => {
   const handleDeleteUser = async (id) => {
     let deleteResult = await DeleteUSer(id);
     // console.log(deleteResult.result === 'User deleted successfully' );
-    if (deleteResult.result === "User deleted successfully") {
+    console.log(deleteResult.status === 203);
+    if (deleteResult.status === 203) {
+      console.log(deleteResult.data.result, "deleteResult.data.result");
       setUserStatus((preval) => ({
         ...preval,
-        errMsg: deleteResult.result,
+        errMsg: deleteResult.data.result,
         isNameEmpty: true,
       }));
+    } else {
       fetchAllUsers();
       setUserStatus((preval) => ({
         ...preval,
@@ -221,7 +224,7 @@ const AdduserInfo = () => {
   // console.log("userDetails", userDetails.date);
 
   const AddMoreDates = () => {
-    console.log('when ?s');
+    console.log("when ?s");
     setAdditionalDates([...additionalDates, ""]);
   };
 
@@ -232,8 +235,8 @@ const AdduserInfo = () => {
     setAdditionalDates(updatedDates);
   };
 
-  console.log('additionalDates',additionalDates);
-  console.log(userDetails.date,'userDetails');
+  // console.log('additionalDates',additionalDates);
+  // console.log(userDetails.date,'userDetails');
 
   return (
     <>

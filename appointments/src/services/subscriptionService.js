@@ -101,7 +101,7 @@ export const AddUserInfo = async (user) => {
 export const DeleteUSer = async (id) =>{
   try{
     let result = await axios.delete(`${BASE_URL}/delete-user/${id}`);
-    return result.data;
+    return result;
   }catch (err){
     throw err;
   }
