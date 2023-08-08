@@ -3,7 +3,6 @@ import { Link } from "react-router-dom";
 import "../style/SubscriptionList.css";
 import {
   fetchSubscriptions,
-  deleteSubscriptionDate,
   deleteSubscription,
   updateSubscription,
 } from "../services/subscriptionService";
@@ -75,23 +74,9 @@ const SubscriptionList = () => {
     }
   };
 
-  const handleRemoveDate = async (subscriptionId, dateId) => {
-    try {
-      let result = await deleteSubscriptionDate(subscriptionId, dateId);
-      console.log(result);
-      console.log(result.deletedCount === 1);
-      if (result.deletedCount === 1) {
-        loadData();
-      }
-    } catch (err) {
-      console.log(err);
-    }
-  };
-
   const handleRemoveUser = async (id) => {
     try {
       let result = await deleteSubscription(id);
-      console.log(result.data.result === "Subscription deleted successfully.");
       if (result.data.result === "Subscription deleted successfully.") {
         loadData();
       } else {
@@ -121,12 +106,6 @@ const SubscriptionList = () => {
         subscriptions?.map((subscription) => (
           <div key={subscription._id} className="subscription-container">
             <h3>{subscription.name}</h3>
-            <button
-              className="remove-button"
-              onClick={() => handleRemoveUser(subscription._id)}
-            >
-              Remove
-            </button>
             <ul>
               {subscription.gridDetails.map((gridDetail, index) => (
                 <li key={gridDetail._id}>
@@ -142,7 +121,7 @@ const SubscriptionList = () => {
                   <button
                     className="remove-button"
                     onClick={() =>
-                      handleRemoveDate(subscription._id, gridDetail._id)
+                      handleRemoveUser(subscription._id)
                     }
                   >
                     Remove
