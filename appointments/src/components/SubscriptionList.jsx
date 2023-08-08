@@ -93,7 +93,8 @@ const SubscriptionList = () => {
     try {
       
       let result = await deleteSubscription(id); 
-      if (result.data.deletedCount === 1 ) {
+      console.log(result.data.result === 'Subscription deleted successfully.');
+      if (result.data.result === 'Subscription deleted successfully.' ) {
         loadData();
       }else{
         console.log(result.data);

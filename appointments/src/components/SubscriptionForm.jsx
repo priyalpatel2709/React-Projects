@@ -8,7 +8,7 @@ import DropDown from "../utils/DropDown";
 const SubscriptionForm = ({ SelectslotName, UpdateSlotName }) => {
   const [subscriptionName, setSubscriptionName] = useState("");
   const [gridDetails, setGridDetails] = useState([]);
-  // const [slotName, setSlotName] = useState(SelectslotName);
+  const [RestOfDates, setRestofDates] = useState([]);
   const [error, setError] = useState({
     msg: "",
     showErr: false,
@@ -61,14 +61,21 @@ const SubscriptionForm = ({ SelectslotName, UpdateSlotName }) => {
       // Call the createSubscription function to make the API request
       const newSubscription = await createSubscription(subscription);
 
-      console.log("New Subscription:", newSubscription);
+      // console.log("New Subscription:", newSubscription);
       setGridDetails([]);
       setSubscriptionName("");
       setError({
         msg: "",
         showErr: false,
       });
-      alert(`${newSubscription.name} your bookling is done`);
+      if (newSubscription.name) {
+        alert(`${newSubscription.name} your bookling is done`);
+      } else {
+        console.log(newSubscription.result);
+        let { message, dates } = newSubscription.result;
+        setRestofDates([...dates.RestOfDates,]);
+        alert(message);
+      }
     } catch (error) {
       console.error("Error creating subscription:", error);
       setError((preval) => ({
@@ -76,11 +83,15 @@ const SubscriptionForm = ({ SelectslotName, UpdateSlotName }) => {
         msg: error.response.data.error,
         showErr: true,
       }));
-
-      // Handle any error that occurred during API call
     }
   };
 
+  const restOfDates = RestOfDates.map((date) => (
+    <ui>
+      <li>{date}</li>
+    </ui>
+  ));
+  console.log(RestOfDates);
   return (
     <div className="subscription-form-container">
       <h2>Subscription Form</h2>
@@ -157,6 +168,12 @@ const SubscriptionForm = ({ SelectslotName, UpdateSlotName }) => {
           <button type="submit">Submit</button>
         </div>
       </form>
+      {RestOfDates.length > 0 && (
+        <div>
+          <h3>you can book on</h3>
+          {restOfDates}
+        </div>
+      )}
       <span>
         Go To <Link to="/list">subscribers List</Link>
       </span>

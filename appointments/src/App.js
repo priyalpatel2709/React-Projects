@@ -30,7 +30,7 @@ function App() {
     fetchInitialSlotName();
   }, []);
 
-  console.log(slotName);
+  // console.log(slotName);
   return (
     <BrowserRouter>
       <Routes>

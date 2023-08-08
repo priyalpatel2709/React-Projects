@@ -7,7 +7,7 @@ const DropDown = ({ SelectslotName, UpdateSlotName }) => {
     try {
       let users = await fetchUser();
       setData(users);
-      console.log("user", users);
+      // console.log("user", users);
     } catch (error) {
       console.error("Error fetching users:", error);
     }
