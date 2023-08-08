@@ -120,9 +120,7 @@ const SubscriptionList = () => {
                   </button>
                   <button
                     className="remove-button"
-                    onClick={() =>
-                      handleRemoveUser(subscription._id)
-                    }
+                    onClick={() => handleRemoveUser(subscription._id)}
                   >
                     Remove
                   </button>
@@ -151,19 +149,6 @@ const SubscriptionList = () => {
                 name="editName"
                 value={editedSubscription.name || ""}
                 onChange={handleNameChange}
-                required
-              />
-              <label htmlFor="editDate">Date:</label>
-              <input
-                type="date"
-                name="editDate"
-                value={editedGridDetail.date || ""}
-                onChange={(e) =>
-                  setEditedGridDetail({
-                    ...editedGridDetail,
-                    date: e.target.value,
-                  })
-                }
                 required
               />
               <label htmlFor="editStartTime">Start Time:</label>

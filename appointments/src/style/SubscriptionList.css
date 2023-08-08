@@ -28,6 +28,7 @@
     font-size: 16px;
     border-radius: 4px;
     margin-left: 10px;
+    color: rgb(26, 24, 24);
 }
 
 .remove-button {
@@ -36,6 +37,7 @@
     font-size: 16px;
     border-radius: 4px;
     padding: 5px 10px;
+    color: rgb(26, 24, 24);
 }
 
 .modal-overlay {
@@ -83,4 +85,5 @@
 .close-button {
     background-color: #f53044 !important;
     margin-left: 10px;
+    color: rgb(26, 24, 24);
 }
