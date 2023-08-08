@@ -1,6 +1,6 @@
 import React, { useState } from "react";
 import "../style/SubscriptionForm.css";
-import { validateGridDetails } from "../utils/utils";
+import { validateGridDetails, convertTo12HourFormat } from "../utils/utils";
 import { createSubscription } from "../services/subscriptionService";
 import { Link } from "react-router-dom";
 import DropDown from "../utils/DropDown";
@@ -51,6 +51,8 @@ const SubscriptionForm = ({ SelectslotName, UpdateSlotName }) => {
         gridDetails: gridDetails,
         slotname: SelectslotName,
       };
+
+
 
       // Call the createSubscription function to make the API request
       const newSubscription = await createSubscription(subscription);
@@ -109,7 +111,7 @@ const SubscriptionForm = ({ SelectslotName, UpdateSlotName }) => {
     <>
       <ui>
         <li>
-          startTime:-{time.startTime} - endTime:-{time.endTime}
+          startTime:-{ convertTo12HourFormat(time.startTime) } - endTime:-{convertTo12HourFormat(time.endTime)}
         </li>
         <br />
       </ui>
@@ -200,7 +202,7 @@ const SubscriptionForm = ({ SelectslotName, UpdateSlotName }) => {
               <div className="popup">
                 <h3>You can Try on</h3>
                 {restOfDates}
-                <button onClick={() => setShowPopup(false)}>Cancel</button>
+                <button style={{backgroundColor:'red'}}  onClick={() => setShowPopup(false)}>Cancel</button>
               </div>
             )}
           </div>
@@ -212,7 +214,7 @@ const SubscriptionForm = ({ SelectslotName, UpdateSlotName }) => {
               <div className="popup">
                 <h3>Booked Time Slots</h3>
                 {BookedTime}
-                <button onClick={() => setShowPopup(false)}>Cancel</button>
+                <button style={{backgroundColor:'red'}} onClick={() => setShowPopup(false)}>Cancel</button>
               </div>
             )}
           </div>

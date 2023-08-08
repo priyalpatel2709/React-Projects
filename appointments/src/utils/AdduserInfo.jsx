@@ -150,8 +150,8 @@ const AdduserInfo = () => {
   };
 
   const AllUsersInfoTable = (
-    <>
-      <table>
+    <div className="table-container">
+      <table >
         <thead>
           <th>Sr.No</th>
           <th>Name</th>
@@ -199,7 +199,7 @@ const AdduserInfo = () => {
           ))}
         </tbody>
       </table>
-    </>
+    </div>
   );
 
   const handleGridDetailChange = (field, value) => {

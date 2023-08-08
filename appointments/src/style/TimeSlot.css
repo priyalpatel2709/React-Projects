@@ -1,0 +1,60 @@
+/* TimeSlot.css */
+.App-time {
+    text-align: center;
+    margin: auto;
+    padding: 20px;
+    max-width: 800px;
+    background-color: #fff;
+    border: 1px solid #ccc;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+  }
+  
+  .App-time h1 {
+    font-size: 24px;
+    margin-bottom: 20px;
+  }
+  
+  .App-time input[type="date"] {
+    padding: 8px;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+    margin-bottom: 10px;
+  }
+  
+  .App-time button {
+    background-color: #007bff;
+    color: #fff;
+    border: none;
+    padding: 8px 12px;
+    margin-left: 5px;
+    cursor: pointer;
+  }
+  
+  .App-time button:hover {
+    background-color: #0056b3;
+  }
+  
+  .App-time ul {
+    list-style-type: none;
+    padding: 0;
+  }
+  
+  .App-time li {
+    margin-bottom: 10px;
+  }
+  
+  .App-time span {
+    display: block;
+    margin-top: 10px;
+  }
+  
+  .App-time a {
+    margin-top: 10px;
+    color: #007bff;
+    text-decoration: none;
+  }
+  
+  .App-time a:hover {
+    text-decoration: underline;
+  }
+  

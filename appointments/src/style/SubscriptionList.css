@@ -1,46 +1,60 @@
-/* src/components/SubscriptionList.css */
-
-.subscription-container {
+/* SubscriptionList.css */
+.subscription-list-container {
+    max-width: 800px;
+    margin: 0 auto;
+    padding: 20px;
+    background-color: #f7f7f7;
     border: 1px solid #ccc;
-    padding: 10px;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+  }
+  
+  .subscription-list-container h2 {
+    font-size: 24px;
     margin-bottom: 20px;
-}
-
-.subscription-container h3 {
-    margin-top: 0;
-}
-
-.subscription-container ul {
+  }
+  
+  .subscription-container {
+    margin: 20px 0;
+    padding: 10px;
+    background-color: #fff;
+    border: 1px solid #ddd;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+  }
+  
+  .subscription-container h3 {
+    font-size: 20px;
+    margin-bottom: 10px;
+  }
+  
+  .subscription-container ul {
     list-style-type: none;
     padding: 0;
-}
-
-.subscription-container li {
-    margin-bottom: 5px;
-}
-
-.edit-button {
+    margin: 0;
+  }
+  
+  .subscription-container li {
+    margin-bottom: 10px;
+    padding: 10px;
+    background-color: #f9f9f9;
+    border: 1px solid #eee;
+  }
+  
+  .edit-button,
+  .remove-button {
     background-color: #007bff;
     color: #fff;
     border: none;
+    padding: 5px 10px;
+    margin-left: 10px;
     cursor: pointer;
-    padding: 5px 10px;
-    font-size: 16px;
-    border-radius: 4px;
-    margin-left: 10px;
-    color: rgb(26, 24, 24);
-}
-
-.remove-button {
-    background-color: #dc3545;
-    margin-left: 10px;
-    font-size: 16px;
-    border-radius: 4px;
-    padding: 5px 10px;
-    color: rgb(26, 24, 24);
-}
-
-.modal-overlay {
+  }
+  
+  .edit-button:hover,
+  .remove-button:hover {
+    background-color: #0056b3;
+  }
+  
+  .modal-overlay {
     position: fixed;
     top: 0;
     left: 0;
@@ -50,40 +64,66 @@
     display: flex;
     justify-content: center;
     align-items: center;
-    z-index: 999;
-}
-
-.modal-content {
+  }
+  
+  .modal-content {
     background-color: #fff;
-    border-radius: 5px;
     padding: 20px;
-    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);
-    width: 300px;
-}
-
-.modal-content label {
-    display: block;
-    margin-bottom: 5px;
-}
-
-.modal-content input {
-    width: 100%;
-    padding: 5px;
+    border-radius: 5px;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+  }
+  
+  .modal-content h3 {
+    font-size: 20px;
     margin-bottom: 10px;
-}
-
-.modal-content button {
+  }
+  
+  .modal-content label {
+    display: block;
+    font-weight: bold;
+    margin-bottom: 5px;
+  }
+  
+  .modal-content input {
+    width: 100%;
+    padding: 8px;
+    margin-bottom: 10px;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+  }
+  
+  .modal-content button {
     background-color: #007bff;
     color: #fff;
     border: none;
+    padding: 8px 12px;
+    margin-top: 10px;
     cursor: pointer;
-    padding: 5px 10px;
-    font-size: 16px;
-    border-radius: 4px;
-}
+  }
+  
+  .modal-content button.close-button {
+    background-color: #ccc;
+  }
+  
+  .modal-content button:hover {
+    background-color: #0056b3;
+  }
 
-.close-button {
-    background-color: #f53044 !important;
-    margin-left: 10px;
-    color: rgb(26, 24, 24);
-}
+  body {
+    margin: 0;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    min-height: 100vh;
+    background-color: #f2f2f2;
+  }
+  
+  .subscription-list-container {
+    width: 80%;
+    max-width: 800px;
+    padding: 20px;
+    background-color: #f7f7f7;
+    border: 1px solid #ccc;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+  }
+  

@@ -1,7 +1,8 @@
-import React, { useEffect, useState, useCallback } from "react";
+import React, {  useState  } from "react";
 import { Link } from "react-router-dom";
 import DropDown from "../utils/DropDown";
 import { fetchUserAppointments } from "../services/subscriptionService";
+import '../style/TimeSlot.css'
 
 const TimeSlot = ({ UpdateSlotName, SelectslotName }) => {
   const timestamp = new Date().toISOString();

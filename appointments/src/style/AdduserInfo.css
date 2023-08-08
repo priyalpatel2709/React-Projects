@@ -1,63 +1,92 @@
 /* AdduserInfo.css */
-
 .input-container {
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    /* height: 100vh; */
-    padding-top: 30px;
-  }
-  
-  .input-column {
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    padding: 20px;
-    border: 1px solid #ccc;
-    border-radius: 5px;
-  }
-  
-  h1 {
-    margin-bottom: 20px;
-  }
-  
-  input {
-    padding: 8px;
-    margin-bottom: 10px;
-    width: 250px;
-    border: 1px solid #ccc;
-    border-radius: 5px;
-  }
-  
-  button {
-    padding: 10px 20px;
-    background-color: #007bff;
-    color: #fff;
-    border: none;
-    border-radius: 5px;
-    cursor: pointer;
-  }
-  
-  button:hover {
-    background-color: #0056b3;
-  }
-  
-  table {
-    margin-top: 30px;
-    border-collapse: collapse;
-    width: 30%;
-    margin-left: 35%;
-    margin-bottom: 15px;
-  }
-  
-  th,
-  td {
-    padding: 10px;
-    border: 1px solid #ccc;
-    text-align: center;
-  }
-  
-  thead {
-    background-color: #f2f2f2;
-  }
-  
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: auto;
+}
+
+.input-column {
+  width: 100%;
+  max-width: 454px;
+  padding: 20px;
+  background-color: #fff;
+  border: 1px solid #ccc;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+}
+
+.input-column h1 {
+  font-size: 24px;
+  margin-bottom: 20px;
+}
+
+.input-column input[type="text"],
+.input-column input[type="date"] {
+  width: 100%;
+  padding: 8px;
+  margin-bottom: 10px;
+  border: 1px solid #ccc;
+  border-radius: 4px;
+}
+
+.input-column button {
+  background-color: #007bff;
+  color: #fff;
+  border: none;
+  padding: 8px 12px;
+  margin: 5px;
+  cursor: pointer;
+}
+
+.input-column button.cancel-button {
+  background-color: red;
+}
+
+.input-column button:hover {
+  background-color: #0056b3;
+}
+
+.input-column span {
+  display: block;
+  margin-top: 10px;
+  text-align: center;
+}
+
+.table-container {
+  max-width: 800px;
+  margin: 20px auto;
+  padding: 20px;
+  background-color: #fff;
+  border: 1px solid #ccc;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+}
+
+.table-container table {
+  width: 100%;
+  border-collapse: collapse;
+}
+
+.table-container th,
+.table-container td {
+  padding: 8px;
+  text-align: left;
+  border-bottom: 1px solid #ccc;
+}
+
+.table-container th {
+  background-color: #f2f2f2;
+  font-weight: bold;
+}
+
+.table-container button {
+  margin-left: 5px;
+  background-color: red;
+  color: #fff;
+  border: none;
+  padding: 5px 8px;
+  cursor: pointer;
+}
+
+.table-container button:hover {
+  background-color: #b30000;
+}

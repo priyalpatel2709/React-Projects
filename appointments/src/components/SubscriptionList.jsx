@@ -6,6 +6,7 @@ import {
   deleteSubscription,
   updateSubscription,
 } from "../services/subscriptionService";
+import { validateGridDetails, convertTo12HourFormat } from "../utils/utils";
 
 const SubscriptionList = () => {
   const [subscriptions, setSubscriptions] = useState([]);
@@ -48,27 +49,30 @@ const SubscriptionList = () => {
         gridDetails: updatedGridDetailsArray, // Update the grid details
       };
 
-      // Make the API call to update the subscription
-      const updatedSubscriptionData = await updateSubscription(
-        updatedSubscription,
-        editedGridDetail._id
-      );
+      const validationErrors = validateGridDetails(updatedGridDetailsArray);
 
-      // Find the index of the subscription in the array
-      const subscriptionIndex = subscriptions.findIndex(
-        (subscription) => subscription._id === updatedSubscriptionData._id
-      );
-
-      // Create a new subscriptions array with the updated subscription at the correct index
-      const updatedSubscriptions = [...subscriptions];
-      updatedSubscriptions[subscriptionIndex] = updatedSubscriptionData;
-
-      // Update the state with the modified subscriptions array
-      setSubscriptions(updatedSubscriptions);
-
-      // Hide the edit modal and reload the data
-      setShowEditModal(false);
-      loadData();
+      if (validationErrors.length > 0) {
+        // If there are validation errors, display them and prevent form submission
+        console.log("Validation errors:", validationErrors);
+        alert(validationErrors);
+        return;
+      }
+      try {
+        const updatedSubscriptionData = await updateSubscription(
+          updatedSubscription,
+          editedGridDetail._id
+        );
+        const subscriptionIndex = subscriptions.findIndex(
+          (subscription) => subscription._id === updatedSubscriptionData._id
+        );
+        const updatedSubscriptions = [...subscriptions];
+        updatedSubscriptions[subscriptionIndex] = updatedSubscriptionData;
+        setSubscriptions(updatedSubscriptions);
+        setShowEditModal(false);
+        loadData();
+      } catch (err) {
+        console.log(err);
+      }
     } catch (err) {
       console.log(err);
     }
@@ -91,13 +95,13 @@ const SubscriptionList = () => {
     setEditedSubscription({ ...editedSubscription, name: event.target.value });
   };
 
-  const convertTo12HourFormat = (time) => {
-    const [hours, minutes] = time.split(":");
-    const parsedHours = parseInt(hours, 10);
-    const suffix = parsedHours >= 12 ? "PM" : "AM";
-    const formattedHours = parsedHours % 12 || 12;
-    return `${formattedHours}:${minutes} ${suffix}`;
-  };
+  // const convertTo12HourFormat = (time) => {
+  //   const [hours, minutes] = time.split(":");
+  //   const parsedHours = parseInt(hours, 10);
+  //   const suffix = parsedHours >= 12 ? "PM" : "AM";
+  //   const formattedHours = parsedHours % 12 || 12;
+  //   return `${formattedHours}:${minutes} ${suffix}`;
+  // };
 
   return (
     <div>
