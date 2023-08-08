@@ -7,27 +7,18 @@ import DropDown from "../utils/DropDown";
 
 const SubscriptionForm = ({ SelectslotName, UpdateSlotName }) => {
   const [subscriptionName, setSubscriptionName] = useState("");
-  const [gridDetails, setGridDetails] = useState([]);
+  const [gridDetails, setGridDetails] = useState([
+    {
+      date: "",
+      startTime: "",
+      endTime: "",
+    },
+  ]);
   const [RestOfDates, setRestofDates] = useState([]);
   const [error, setError] = useState({
     msg: "",
     showErr: false,
   });
-
-  // Function to handle adding a new row to the grid details
-  const handleAddGridRow = () => {
-    setGridDetails((prevGridDetails) => [
-      ...prevGridDetails,
-      { date: "", startTime: "", endTime: "" },
-    ]);
-  };
-
-  // Function to handle removing a row from the grid details
-  const handleRemoveGridRow = (indexToRemove) => {
-    setGridDetails((prevGridDetails) =>
-      prevGridDetails.filter((_, index) => index !== indexToRemove)
-    );
-  };
 
   // Function to handle changes in grid details
   const handleGridDetailChange = (index, field, value) => {
@@ -73,7 +64,7 @@ const SubscriptionForm = ({ SelectslotName, UpdateSlotName }) => {
       } else {
         console.log(newSubscription.result);
         let { message, dates } = newSubscription.result;
-        setRestofDates([...dates.RestOfDates,]);
+        setRestofDates([...dates.RestOfDates]);
         alert(message);
       }
     } catch (error) {
@@ -91,7 +82,7 @@ const SubscriptionForm = ({ SelectslotName, UpdateSlotName }) => {
       <li>{date}</li>
     </ui>
   ));
-  console.log(RestOfDates);
+
   return (
     <div className="subscription-form-container">
       <h2>Subscription Form</h2>
@@ -150,20 +141,10 @@ const SubscriptionForm = ({ SelectslotName, UpdateSlotName }) => {
               }
               required
             />
-
-            {/* Remove Row Button */}
-            <button type="button" onClick={() => handleRemoveGridRow(index)}>
-              Remove Row
-            </button>
           </div>
         ))}
 
         <div>
-          {/* Add New Row Button */}
-          <button type="button" onClick={handleAddGridRow}>
-            Add New Row
-          </button>
-
           {/* Submit Button */}
           <button type="submit">Submit</button>
         </div>

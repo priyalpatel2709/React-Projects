@@ -77,13 +77,12 @@ const SubscriptionList = () => {
 
   const handleRemoveDate = async (subscriptionId, dateId) => {
     try {
-     let result =  await deleteSubscriptionDate(subscriptionId, dateId);
-     console.log(result);
-     console.log(result.deletedCount===1);
-      if(result.deletedCount===1){
+      let result = await deleteSubscriptionDate(subscriptionId, dateId);
+      console.log(result);
+      console.log(result.deletedCount === 1);
+      if (result.deletedCount === 1) {
         loadData();
       }
-      
     } catch (err) {
       console.log(err);
     }
@@ -91,15 +90,13 @@ const SubscriptionList = () => {
 
   const handleRemoveUser = async (id) => {
     try {
-      
-      let result = await deleteSubscription(id); 
-      console.log(result.data.result === 'Subscription deleted successfully.');
-      if (result.data.result === 'Subscription deleted successfully.' ) {
+      let result = await deleteSubscription(id);
+      console.log(result.data.result === "Subscription deleted successfully.");
+      if (result.data.result === "Subscription deleted successfully.") {
         loadData();
-      }else{
+      } else {
         console.log(result.data);
       }
-      
     } catch (err) {
       console.log(err);
     }
