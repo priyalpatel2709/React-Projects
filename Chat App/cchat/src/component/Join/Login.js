@@ -2,6 +2,7 @@ import React, { useState, useEffect } from "react";
 import { Link, useNavigate } from "react-router-dom";
 import "./Login.css";
 import axios from "axios";
+import Loading from "../Loading";
 let user;
 
 const Login = () => {
@@ -14,6 +15,7 @@ const Login = () => {
     email: "",
   });
   const navigate = useNavigate();
+  const [isLoading, setIsLoading] = useState(false);
 
   const handleChange = (e) => {
     const { name, value } = e.target;
@@ -24,6 +26,7 @@ const Login = () => {
   };
 
   const collectData = async () => {
+    setIsLoading(true)
     try {
       const response = await axios.post(
         "https://srever-ecomm.vercel.app/login",
@@ -41,11 +44,13 @@ const Login = () => {
       const result = response.data;
 
       if (result.user && result.auth) {
+        setIsLoading(false)
         localStorage.setItem("user", JSON.stringify(result.user));
         localStorage.setItem("token", JSON.stringify(result.auth));
         user = result.user.name;
         navigate("/chat", { state: { name: result.user.name } });
       } else {
+        setIsLoading(false)
         if (result.result_user) {
           setErrorMsg((prevState) => ({
             ...prevState,
@@ -53,6 +58,7 @@ const Login = () => {
             message: result.result,
           }));
         } else {
+            setIsLoading(false)
           setErrorMsg((prevState) => ({
             ...prevState,
             value: true,
@@ -61,6 +67,7 @@ const Login = () => {
         }
       }
     } catch (error) {
+        setIsLoading(false)
       alert(`Something went wrong, please try again later. ${error.message}`);
     }
   };
@@ -78,6 +85,7 @@ const Login = () => {
 
   return (
     <div className="JoinPage">
+        {isLoading ? <Loading /> : null}
       <div className="JoinContainer">
         <h1>Log In</h1>
 

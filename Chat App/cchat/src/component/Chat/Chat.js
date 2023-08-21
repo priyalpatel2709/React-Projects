@@ -6,7 +6,8 @@ import ReactScrollToBottom from "react-scroll-to-bottom";
 import { useLocation, Link,  } from "react-router-dom";
 let socket;
 
-const ENDPOINT = "http://localhost:4500/";
+// const ENDPOINT = "http://localhost:4500/";
+const ENDPOINT = "https://ordinary-material-trigonometry.glitch.me/";
 
 const Chat = () => {
   const location = useLocation();

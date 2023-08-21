@@ -3,6 +3,7 @@ import { Link, useNavigate } from "react-router-dom";
 import "./SingUp.css";
 import axios from "axios";
 import * as yup from "yup";
+import Loading from "../Loading";
 
 const SignUp = () => {
   const navigate = useNavigate();
@@ -13,6 +14,7 @@ const SignUp = () => {
     email: "",
   });
   const [errors, setErrors] = useState([]);
+  const [isLoading, setIsLoading] = useState(false);
 
   const validationSchema = yup.object().shape({
     name: yup.string().required("Name is required."),
@@ -40,6 +42,7 @@ const SignUp = () => {
   };
 
   const collectData = async () => {
+    setIsLoading(true)
     try {
       if (await validateForm()) {
         const response = await axios.post(
@@ -59,11 +62,13 @@ const SignUp = () => {
         const result = response.data;
         console.log(result.user);
         if (result.user) {
+            setIsLoading(false)
           localStorage.setItem("user", JSON.stringify(result.user));
           localStorage.setItem("token", JSON.stringify(result.auth));
           console.log("File: SingUp.js", "Line 64:", result.user.name);
           navigate("/chat", { state: { name: result.user.name } });
         } else {
+            setIsLoading(false)
           console.log(result.result);
           setErrorMsg((prevState) => ({
             ...prevState,
@@ -73,6 +78,7 @@ const SignUp = () => {
         }
       }
     } catch (error) {
+        setIsLoading(false)
       alert(`Something went wrong, please try again later. ${error.message}`);
     }
   };
@@ -93,6 +99,7 @@ const SignUp = () => {
 
   return (
     <div className="JoinPage">
+        {isLoading ? <Loading /> : null}
       <div className="JoinContainer">
         <h1>Sign Up</h1>
           <input
