@@ -21,3 +21,10 @@
     background-color: rgb(196, 255, 184);
     
 }
+
+.center{
+    float: center;
+    text-align: center;
+    background-color: rgb(196, 255, 184);
+    
+}

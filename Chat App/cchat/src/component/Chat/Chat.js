@@ -27,18 +27,23 @@ const Chat = () => {
   useEffect(() => {
     socket = socketIO(ENDPOINT, { transports: ["websocket"] });
     socket.on("connect", () => {
+      // console.log("connect");
       setID(socket.id);
     });
     socket.emit("joined", { user });
     const eventHandler = () => setConnected(true);
     socket.on("welcome", (data) => {
       setMessage([...message, data]);
+      // console.log(data.message);
     });
     socket.on("userJoined", (data) => {
       setMessage([...message, data]);
+
+      // console.log(data.user,data.message);
     });
     socket.on("leave", (data) => {
       setMessage([...message, data]);
+      console.log(data.message);
     });
     return () => {
       socket.off("disconnect", eventHandler);
@@ -47,7 +52,7 @@ const Chat = () => {
   }, []);
   useEffect(() => {
     socket.on("sentMessage", (data) => {
-      setMessage((prevMessages) => [...prevMessages, data]);
+      setMessage([...message, data]);
     });
     socket.on("joinandleft", (data) => {
       if (!joinLeaveMessages.some((msg) => msg.message === data.message)) {
@@ -58,11 +63,14 @@ const Chat = () => {
           return prevMessages;
         });
       }
+
+      
     });
     return () => {
-      socket.off("joinandleft");
+      socket.off();
     };
-  }, []);
+  }, [message]);
+  console.log("File: Chat.js", "Line 64:", joinLeaveMessages);
   return (
     <div className="chatPage ">
       <div className="chatContainer">
@@ -72,17 +80,13 @@ const Chat = () => {
             <h3>X</h3>{" "}
           </a>
         </div>
-        {joinLeaveMessages.map((item, i) => (
-          <div key={i} className="joinLeaveMessage">
-            {item.message}
-          </div>
-        ))}
         <ReactScrollToBottom className="chatBox">
           {message.map((item, i) => (
             <Message
               user={item.id === id ? "" : item.user}
               message={item.message}
               classs={item.id === id ? "right" : "left"}
+              joinLeaveMessages={joinLeaveMessages}
             />
           ))}
         </ReactScrollToBottom>

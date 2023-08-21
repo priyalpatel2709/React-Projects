@@ -1,35 +1,26 @@
-import React from 'react'
+import React from "react";
 import "./Message.css";
 
-
-const Message = ({ user, message, classs }) => {
-    if (user) {
-        return (
-            <div className={`messageBox ${classs}`}  >
-                {`${user}: ${message}`}
+const Message = ({ user, message, classs, joinLeaveMessages }) => {
+  return (
+    <div>
+      {/* {joinLeaveMessages.length > 0 && (
+        <div className="joinLeaveMessageCenter">
+          {joinLeaveMessages.map((item, i) => (
+            <div key={i} className="joinLeaveMessage">
+              <p className="center">{item.message}</p>
             </div>
-        )
-    }
-    else {
+          ))}
+        </div>
+      )} */}
 
+      {user ? (
+        <div className={`messageBox ${classs}`}>{`${user}: ${message}`}</div>
+      ) : (
+        <div className={`messageBox ${classs}`}>{`You: ${message}`}</div>
+      )}
+    </div>
+  );
+};
 
-        return (
-            <div className={`messageBox ${classs}`}>
-                {`You: ${message}`}
-            </div>
-        )
-    }
-}
-
-export default Message
-// import React from 'react'
-
-// const Message = ({message}) => { 
-//   return (
-//     <div>
-//       <h1>{message}</h1>
-//     </div>
-//   )
-// }
-
-// export default Message
+export default Message;
