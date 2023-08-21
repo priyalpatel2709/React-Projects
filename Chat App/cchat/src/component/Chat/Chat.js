@@ -6,6 +6,7 @@ import Message from "../Message/Message";
 import ReactScrollToBottom from "react-scroll-to-bottom";
 let socket;
 // const ENDPOINT = "https://react-app-chat2709.herokuapp.com/";
+// const ENDPOINT = "http://localhost:4500/";
 const ENDPOINT = "http://localhost:4500/";
 
 const Chat = () => {
@@ -14,7 +15,6 @@ const Chat = () => {
   const inputElement = useRef();
   const [id, setID] = useState("");
   const [message, setMessage] = useState([]);
-  const [joinLeaveMessages, setJoinLeaveMessages] = useState([]);
   const send = () => {
     const message = document.getElementById("chatInput").value;
     socket.emit("message", { message, id });
@@ -55,22 +55,19 @@ const Chat = () => {
       setMessage([...message, data]);
     });
     socket.on("joinandleft", (data) => {
-      if (!joinLeaveMessages.some((msg) => msg.message === data.message)) {
-        setJoinLeaveMessages((prevMessages) => {
+      if (!message.some((msg) => msg.message === data.message)) {
+        setMessage((prevMessages) => {
           if (!prevMessages.some((msg) => msg.message === data.message)) {
             return [...prevMessages, data];
           }
           return prevMessages;
         });
       }
-
-      
     });
     return () => {
       socket.off();
     };
   }, [message]);
-  console.log("File: Chat.js", "Line 64:", joinLeaveMessages);
   return (
     <div className="chatPage ">
       <div className="chatContainer">
@@ -86,7 +83,7 @@ const Chat = () => {
               user={item.id === id ? "" : item.user}
               message={item.message}
               classs={item.id === id ? "right" : "left"}
-              joinLeaveMessages={joinLeaveMessages}
+              key={i}
             />
           ))}
         </ReactScrollToBottom>
