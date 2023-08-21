@@ -29,10 +29,10 @@ const Login = () => {
     setIsLoading(true)
     try {
       const response = await axios.post(
-        "https://srever-ecomm.vercel.app/login",
+        "http://127.0.0.1:5000/login",
         {
           password: value.password,
-          email: value.email,
+          name: value.email
         },
         {
           headers: {
@@ -92,7 +92,7 @@ const Login = () => {
         <input
           className="input-box"
           type="text"
-          placeholder="Enter Your Email"
+          placeholder="Enter Your Name"
           name="email"
           id="joinInput"
           onChange={handleChange}

@@ -50,7 +50,7 @@ const Login = ({isAdminLogin}) => {
       }
       const response = await axios.post('https://srever-ecomm.vercel.app/login', {
         password: value.password,
-        email: value.email,
+        name: value.email,
       }, {
         headers: {
           'Content-Type': 'application/json',
@@ -94,7 +94,7 @@ const Login = ({isAdminLogin}) => {
         <input
           className="input-box"
           type="text"
-          placeholder="Enter Your Email"
+          placeholder="Enter Your Name"
           name="email"
           id="email"
           onChange={handleChange}
