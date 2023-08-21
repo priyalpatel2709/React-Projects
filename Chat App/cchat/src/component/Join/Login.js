@@ -29,7 +29,7 @@ const Login = () => {
     setIsLoading(true)
     try {
       const response = await axios.post(
-        "http://127.0.0.1:5000/login",
+        "https://srever-ecomm.vercel.app/login",
         {
           password: value.password,
           name: value.email
