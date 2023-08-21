@@ -43,7 +43,7 @@ const Chat = () => {
     });
     socket.on("leave", (data) => {
       setMessage([...message, data]);
-      console.log(data.message);
+      // console.log(data.message);
     });
     return () => {
       socket.off("disconnect", eventHandler);
@@ -52,15 +52,22 @@ const Chat = () => {
   }, []);
   useEffect(() => {
     socket.on("sentMessage", (data) => {
-      setMessage([...message, data]);
+      setMessage((prevMessages) => [...prevMessages, data]);
     });
     socket.on("joinandleft", (data) => {
-      setJoinLeaveMessages((prevMessages) => [...prevMessages, data]);
+      if (!joinLeaveMessages.some((msg) => msg.message === data.message)) {
+        setJoinLeaveMessages((prevMessages) => {
+          if (!prevMessages.some((msg) => msg.message === data.message)) {
+            return [...prevMessages, data];
+          }
+          return prevMessages;
+        });
+      }
     });
     return () => {
-      socket.off();
+      socket.off("joinandleft");
     };
-  }, [message]);
+  }, []);
   console.log("File: Chat.js", "Line 64:", joinLeaveMessages);
   return (
     <div className="chatPage ">
@@ -71,6 +78,11 @@ const Chat = () => {
             <h3>X</h3>{" "}
           </a>
         </div>
+        {joinLeaveMessages.map((item, i) => (
+          <div key={i} className="joinLeaveMessage">
+            {item.message}
+          </div>
+        ))}
         <ReactScrollToBottom className="chatBox">
           {message.map((item, i) => (
             <Message
