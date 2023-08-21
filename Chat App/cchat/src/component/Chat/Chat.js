@@ -15,12 +15,10 @@ const Chat = () => {
   const inputElement = useRef();
   const [id, setID] = useState("");
   const [message, setMessage] = useState([]);
-  const [userMessage,setuserMessage] = useState('')
   const send = () => {
-    if (userMessage.trim() !== "") {
-      socket.emit("message", { userMessage, id });
-      setuserMessage("");
-    }
+    const message = document.getElementById("chatInput").value;
+    socket.emit("message", { message, id });
+    document.getElementById("chatInput").value = "";
   };
   const focusInput = () => {
     inputElement.current.focus();
@@ -94,7 +92,6 @@ const Chat = () => {
             type="text"
             id="chatInput"
             ref={inputElement}
-            onChange={e=>setuserMessage(e.target.value)}
             onKeyDown={(e) => (e.key === "Enter" ? send() : null)}
           />
           <button onClick={send} className="sendBtn">
