@@ -27,23 +27,18 @@ const Chat = () => {
   useEffect(() => {
     socket = socketIO(ENDPOINT, { transports: ["websocket"] });
     socket.on("connect", () => {
-      // console.log("connect");
       setID(socket.id);
     });
     socket.emit("joined", { user });
     const eventHandler = () => setConnected(true);
     socket.on("welcome", (data) => {
       setMessage([...message, data]);
-      // console.log(data.message);
     });
     socket.on("userJoined", (data) => {
       setMessage([...message, data]);
-
-      // console.log(data.user,data.message);
     });
     socket.on("leave", (data) => {
       setMessage([...message, data]);
-      // console.log(data.message);
     });
     return () => {
       socket.off("disconnect", eventHandler);
@@ -68,7 +63,6 @@ const Chat = () => {
       socket.off("joinandleft");
     };
   }, []);
-  console.log("File: Chat.js", "Line 64:", joinLeaveMessages);
   return (
     <div className="chatPage ">
       <div className="chatContainer">
