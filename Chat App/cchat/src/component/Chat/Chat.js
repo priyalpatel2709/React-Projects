@@ -14,6 +14,7 @@ const Chat = () => {
   const inputElement = useRef();
   const [id, setID] = useState("");
   const [message, setMessage] = useState([]);
+  const [joinLeaveMessages, setJoinLeaveMessages] = useState([]);
   const send = () => {
     const message = document.getElementById("chatInput").value;
     socket.emit("message", { message, id });
@@ -53,10 +54,14 @@ const Chat = () => {
     socket.on("sentMessage", (data) => {
       setMessage([...message, data]);
     });
+    socket.on("joinandleft", (data) => {
+      setJoinLeaveMessages((prevMessages) => [...prevMessages, data]);
+    });
     return () => {
       socket.off();
     };
   }, [message]);
+  console.log("File: Chat.js", "Line 64:", joinLeaveMessages);
   return (
     <div className="chatPage ">
       <div className="chatContainer">
