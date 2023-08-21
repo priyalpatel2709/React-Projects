@@ -15,6 +15,7 @@ const Chat = () => {
   const inputElement = useRef();
   const [id, setID] = useState("");
   const [message, setMessage] = useState([]);
+  const [time, setTime] = useState(new Date().toLocaleTimeString([], { hour: "2-digit", minute: "2-digit" })); //for time
   const send = () => {
     const message = document.getElementById("chatInput").value;
     socket.emit("message", { message, id });
@@ -80,6 +81,7 @@ const Chat = () => {
         <ReactScrollToBottom className="chatBox">
           {message.map((item, i) => (
             <Message
+            time={time}
               user={item.id === id ? "" : item.user}
               message={item.message}
               classs={item.id === id ? "right" : "left"}
