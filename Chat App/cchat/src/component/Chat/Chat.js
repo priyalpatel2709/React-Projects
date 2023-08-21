@@ -1,26 +1,29 @@
 import React, { useEffect, useState, useRef } from "react";
 import socketIO from "socket.io-client";
-import { user } from "../Join/Join";
 import "./Chat.css";
 import Message from "../Message/Message";
 import ReactScrollToBottom from "react-scroll-to-bottom";
+import { useLocation, Link,  } from "react-router-dom";
 let socket;
-// const ENDPOINT = "https://react-app-chat2709.herokuapp.com/";
-// const ENDPOINT = "http://localhost:4500/";
+
 const ENDPOINT = "http://localhost:4500/";
 
 const Chat = () => {
-  const [connected, setConnected] = useState(false);
-
+  const location = useLocation();
+  const user = location.state && location.state.name;
   const inputElement = useRef();
   const [id, setID] = useState("");
   const [message, setMessage] = useState([]);
-  const [time, setTime] = useState(new Date().toLocaleTimeString([], { hour: "2-digit", minute: "2-digit" })); //for time
+  const [time, setTime] = useState(
+    new Date().toLocaleTimeString([], { hour: "2-digit", minute: "2-digit" })
+  );
+
   const send = () => {
     const message = document.getElementById("chatInput").value;
     socket.emit("message", { message, id });
     document.getElementById("chatInput").value = "";
   };
+
   const focusInput = () => {
     inputElement.current.focus();
   };
@@ -28,29 +31,33 @@ const Chat = () => {
   useEffect(() => {
     socket = socketIO(ENDPOINT, { transports: ["websocket"] });
     socket.on("connect", () => {
-      // console.log("connect");
       setID(socket.id);
     });
     socket.emit("joined", { user });
-    const eventHandler = () => setConnected(true);
+
+    const eventHandler = () => {
+      console.log("File: Chat.js", "Line 38:", "when ?");
+      // Event handler logic if needed
+    };
+
     socket.on("welcome", (data) => {
       setMessage([...message, data]);
-      // console.log(data.message);
     });
     socket.on("userJoined", (data) => {
       setMessage([...message, data]);
-
-      // console.log(data.user,data.message);
     });
     socket.on("leave", (data) => {
       setMessage([...message, data]);
-      console.log(data.message);
     });
+
+    // Focus input element here
+    focusInput();
+
     return () => {
       socket.off("disconnect", eventHandler);
-      focusInput();
     };
   }, []);
+
   useEffect(() => {
     socket.on("sentMessage", (data) => {
       setMessage([...message, data]);
@@ -65,23 +72,30 @@ const Chat = () => {
         });
       }
     });
+
     return () => {
       socket.off();
     };
   }, [message]);
+
+  const clearLocalStorageAndNavigate = () => {
+    localStorage.clear(); // Clear local storage
+    
+  };
+
   return (
-    <div className="chatPage ">
+    <div className="chatPage">
       <div className="chatContainer">
         <div className="header">
-          <h2>Drevol </h2>
-          <a href="/">
-            <h3>X</h3>{" "}
-          </a>
+          <h2>Drevol</h2>
+          <Link to="/" onClick={clearLocalStorageAndNavigate}>
+            <h3>X</h3>
+          </Link>
         </div>
         <ReactScrollToBottom className="chatBox">
           {message.map((item, i) => (
             <Message
-            time={time}
+              time={time}
               user={item.id === id ? "" : item.user}
               message={item.message}
               classs={item.id === id ? "right" : "left"}

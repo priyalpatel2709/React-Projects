@@ -21,7 +21,7 @@ const Join = () => {
           name=""
           id="joinInput"
         />
-
+  
         <Link
           onClick={(event) => (!name ? event.preventDefault() : null)}
           to="/chat"

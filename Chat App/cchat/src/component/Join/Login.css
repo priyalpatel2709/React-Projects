@@ -1,0 +1,138 @@
+/* Login.css */
+
+.container {
+    background-color: rgb(31, 29, 29);
+    width: 100vw;
+    height: 100vh;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+  }
+  
+  .input-container {
+    width: 50%;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+  }
+  
+  .input-box {
+    width: 25vmax;
+    padding: 1.5vmax;
+    border: none;
+    outline: none;
+    font-size: 1.2vmax;
+    margin: 2vmax;
+    box-sizing: border-box;
+    background-color: rgba(255, 255, 255, 0.1);
+    color: white;
+  }
+  
+  .login-btn {
+    width: 25vmax;
+    padding: 1.5vmax;
+    border: none;
+    color: white;
+    font-family: "Roboto";
+    outline: none;
+    font-size: 1.2vmax;
+    background-color: crimson;
+    box-sizing: border-box;
+    transition: all 0.3s;
+    cursor: pointer;
+  }
+  
+  .login-btn:hover {
+    background-color: rgb(180, 27, 58);
+  }
+  
+  .error-msg {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    color: white;
+    font-size: 1.2vmax;
+  }
+  
+  .error-text {
+    margin-top: 1vmax;
+  }
+  
+  span > a {
+    color: white;
+    text-decoration: underline;
+  }
+  
+  /* Additional styles for your existing components */
+  .JoinContainer {
+    width: 50%;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+  }
+  
+  .JoinContainer > img {
+    width: 10vmax;
+  }
+  
+  .JoinContainer > h1 {
+    color: white;
+    font-size: 2.5vmax;
+    width: 25vmax;
+    border-bottom: 0.2vmax solid white;
+    text-align: center;
+    padding: 1vmax;
+    font-family: "Roboto";
+    box-sizing: border-box;
+  }
+  
+  #joinInput {
+    width: 25vmax;
+    padding: 1.5vmax;
+    border: none;
+    outline: none;
+    font-size: 1.2vmax;
+    margin: 2vmax;
+    box-sizing: border-box;
+  }
+  
+  .joinbtn {
+    width: 25vmax;
+    padding: 1.5vmax;
+    border: none;
+    color: white;
+    font-family: "Roboto";
+    outline: none;
+    font-size: 1.2vmax;
+    background-color: crimson;
+    box-sizing: border-box;
+    transition: all 0.3s;
+    cursor: pointer;
+  }
+  
+  .joinbtn:hover {
+    background-color: rgb(180, 27, 58);
+  }
+
+  .error-msg {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    color: white;
+    font-size: 1.2vmax;
+  }
+  
+  .error-text { 
+    margin-top: 1vmax;
+  }
+  
+  span > a {
+    color: rgb(13, 129, 238);
+    text-decoration: underline;
+  }
+
+  span  {
+    color: rgb(255, 255, 255);
+    text-decoration: none;
+  }
+  
