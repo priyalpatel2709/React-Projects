@@ -3,11 +3,11 @@ import socketIO from "socket.io-client";
 import "./Chat.css";
 import Message from "../Message/Message";
 import ReactScrollToBottom from "react-scroll-to-bottom";
-import { useLocation, Link,  } from "react-router-dom";
+import { useLocation, Link } from "react-router-dom";
 let socket;
 
-// const ENDPOINT = "http://localhost:4500/";
-const ENDPOINT = "https://ordinary-material-trigonometry.glitch.me/";
+const ENDPOINT = "http://localhost:4500/";
+// const ENDPOINT = "https://ordinary-material-trigonometry.glitch.me/";
 
 const Chat = () => {
   const location = useLocation();
@@ -15,9 +15,14 @@ const Chat = () => {
   const inputElement = useRef();
   const [id, setID] = useState("");
   const [message, setMessage] = useState([]);
-  const [time, setTime] = useState(
-    new Date().toLocaleTimeString([], { hour: "2-digit", minute: "2-digit" })
-  );
+  // const [time, setTime] = useState(
+  //   new Date().toLocaleTimeString([], { hour: "2-digit", minute: "2-digit" })
+  // );
+
+  const time = new Date().toLocaleTimeString([], {
+    hour: "2-digit",
+    minute: "2-digit",
+  });
 
   const send = () => {
     const message = document.getElementById("chatInput").value;
@@ -80,8 +85,8 @@ const Chat = () => {
   }, [message]);
 
   const clearLocalStorageAndNavigate = () => {
+    socket.emit("disconnectUser"); // Emit custom event to disconnect user
     localStorage.clear(); // Clear local storage
-    
   };
 
   return (
@@ -105,22 +110,23 @@ const Chat = () => {
           ))}
         </ReactScrollToBottom>
         <div className="inputBox">
-          {
-            message.length === 0 ? <input
-            placeholder="Please Wait..."
-            type="text"
-            id="chatInput"
-            disabled={message.length === 0}
-            ref={inputElement}
-            onKeyDown={(e) => (e.key === "Enter" ? send() : null)}
-          /> :
-          <input
-            type="text"
-            id="chatInput"
-            ref={inputElement}
-            onKeyDown={(e) => (e.key === "Enter" ? send() : null)}
-          />
-          }
+          {message.length === 0 ? (
+            <input
+              placeholder="Please Wait..."
+              type="text"
+              id="chatInput"
+              disabled={message.length === 0}
+              ref={inputElement}
+              onKeyDown={(e) => (e.key === "Enter" ? send() : null)}
+            />
+          ) : (
+            <input
+              type="text"
+              id="chatInput"
+              ref={inputElement}
+              onKeyDown={(e) => (e.key === "Enter" ? send() : null)}
+            />
+          )}
           <button onClick={send} className="sendBtn">
             SEND
           </button>
