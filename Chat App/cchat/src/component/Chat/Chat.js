@@ -7,7 +7,6 @@ import { useLocation, Link } from "react-router-dom";
 let socket;
 
 const ENDPOINT = "http://localhost:4500/";
-// const ENDPOINT = "https://ordinary-material-trigonometry.glitch.me/";
 
 const Chat = () => {
   const location = useLocation();
@@ -15,18 +14,15 @@ const Chat = () => {
   const inputElement = useRef();
   const [id, setID] = useState("");
   const [message, setMessage] = useState([]);
-  // const [time, setTime] = useState(
-  //   new Date().toLocaleTimeString([], { hour: "2-digit", minute: "2-digit" })
-  // );
-
+  
   const time = new Date().toLocaleTimeString([], {
     hour: "2-digit",
     minute: "2-digit",
   });
 
   const send = () => {
-    const message = document.getElementById("chatInput").value;
-    socket.emit("message", { message, id });
+    const messageText = document.getElementById("chatInput").value;
+    socket.emit("message", { message: messageText, id });
     document.getElementById("chatInput").value = "";
   };
 
@@ -35,16 +31,11 @@ const Chat = () => {
   };
 
   useEffect(() => {
-    socket = socketIO(ENDPOINT, { transports: ["websocket"] });
+    socket = socketIO(ENDPOINT, { transports: ["websocket"], query: { device: 'react' } });
     socket.on("connect", () => {
       setID(socket.id);
     });
     socket.emit("joined", { user });
-
-    const eventHandler = () => {
-      console.log("File: Chat.js", "Line 38:", "when ?");
-      // Event handler logic if needed
-    };
 
     socket.on("welcome", (data) => {
       setMessage([...message, data]);
@@ -56,11 +47,10 @@ const Chat = () => {
       setMessage([...message, data]);
     });
 
-    // Focus input element here
     focusInput();
 
     return () => {
-      socket.off("disconnect", eventHandler);
+      socket.disconnect(); // Disconnect the socket
     };
   }, []);
 
@@ -80,13 +70,13 @@ const Chat = () => {
     });
 
     return () => {
-      socket.off();
+      socket.off(); // Remove event listeners
     };
   }, [message]);
 
   const clearLocalStorageAndNavigate = () => {
-    socket.emit("disconnectUser"); // Emit custom event to disconnect user
-    localStorage.clear(); // Clear local storage
+    localStorage.clear();
+    socket.emit("disconnect");
   };
 
   return (
@@ -121,6 +111,7 @@ const Chat = () => {
             />
           ) : (
             <input
+            placeholder="Type..."
               type="text"
               id="chatInput"
               ref={inputElement}

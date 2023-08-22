@@ -3,7 +3,8 @@ import "./Message.css";
 
 const Message = ({ user, message, classs ,time  }) => {
   const style = {
-    fontSize: "0.7em"
+    fontSize: "0.7em",
+    color: "black"
   };
   const [oldtime, setOldTime] = useState(time);
   useEffect(() => {
