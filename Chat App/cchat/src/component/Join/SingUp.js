@@ -42,7 +42,7 @@ const SignUp = () => {
   };
 
   const collectData = async () => {
-    setIsLoading(true)
+    setIsLoading(true);
     try {
       if (await validateForm()) {
         const response = await axios.post(
@@ -62,13 +62,13 @@ const SignUp = () => {
         const result = response.data;
         console.log(result.user);
         if (result.user) {
-            setIsLoading(false)
+          setIsLoading(false);
           localStorage.setItem("user", JSON.stringify(result.user));
           localStorage.setItem("token", JSON.stringify(result.auth));
           console.log("File: SingUp.js", "Line 64:", result.user.name);
           navigate("/chat", { state: { name: result.user.name } });
         } else {
-            setIsLoading(false)
+          setIsLoading(false);
           console.log(result.result);
           setErrorMsg((prevState) => ({
             ...prevState,
@@ -78,8 +78,12 @@ const SignUp = () => {
         }
       }
     } catch (error) {
-        setIsLoading(false)
-      alert(`Something went wrong, please try again later. ${error.message}`);
+      setErrorMsg((prevState) => ({
+        ...prevState,
+        value: true,
+        message: error.response.data.result,
+      }));
+      setIsLoading(false);
     }
   };
 
@@ -99,35 +103,35 @@ const SignUp = () => {
 
   return (
     <div className="JoinPage">
-        {isLoading ? <Loading /> : null}
+      {isLoading ? <Loading /> : null}
       <div className="JoinContainer">
         <h1>Sign Up</h1>
-          <input
-            className="input-box"
-            type="text"
-            placeholder="Enter Your Name"
-            name="name"
-            id="joinInput"
-            onChange={handleChange}
-          />
-          
-          <input
-            className="input-box"
-            type="text"
-            placeholder="Enter Your Email"
-            name="email"
-            id="joinInput"
-            onChange={handleChange}
-          />
-          <input
-            className="input-box"
-            type="password"
-            placeholder="Enter Your Password"
-            name="password"
-            id="joinInput"
-            onChange={handleChange}
-          />
-       
+        <input
+          className="input-box"
+          type="text"
+          placeholder="Enter Your Name"
+          name="name"
+          id="joinInput"
+          onChange={handleChange}
+        />
+
+        <input
+          className="input-box"
+          type="text"
+          placeholder="Enter Your Email"
+          name="email"
+          id="joinInput"
+          onChange={handleChange}
+        />
+        <input
+          className="input-box"
+          type="password"
+          placeholder="Enter Your Password"
+          name="password"
+          id="joinInput"
+          onChange={handleChange}
+        />
+
         {errors && (
           <>
             <ul>
