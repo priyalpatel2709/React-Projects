@@ -1,10 +1,22 @@
-import './App.css';
+import "./App.css";
+import { Heading } from "@chakra-ui/react";
+import { BrowserRouter, Routes, Route } from "react-router-dom";
+import HomePage from "./pages/HomePage";
+import ChatPage from "./ChatPage";
 
 function App() {
   return (
-    <div className="App">
-        <h1>hello's</h1>
-    </div>
+    <>
+      <BrowserRouter>
+        <Routes>
+          <Route
+            path="/"
+            element={<HomePage />}
+          />
+          <Route path="/chat" element={<ChatPage />} />
+        </Routes>
+      </BrowserRouter>
+    </>
   );
 }
 
