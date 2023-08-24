@@ -6,7 +6,8 @@ import ReactScrollToBottom from "react-scroll-to-bottom";
 import { useLocation, Link } from "react-router-dom";
 let socket;
 
-const ENDPOINT = "http://localhost:4500/";
+// const ENDPOINT = "http://localhost:4500/";
+const ENDPOINT = "https://chat-app-srever.onrender.com/";
 
 const Chat = () => {
   const location = useLocation();
