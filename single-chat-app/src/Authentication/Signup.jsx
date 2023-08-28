@@ -26,9 +26,9 @@ const Signup = () => {
         toast({
           title: "Please Fill all the Feilds",
           status: "warning",
-          duration: 5000,
+          duration: 2000,
           isClosable: true,
-          position: "bottom",
+          position: "top",
         });
         setPicLoading(false);
         return;
@@ -37,10 +37,11 @@ const Signup = () => {
         toast({
           title: "Passwords Do Not Match",
           status: "warning",
-          duration: 5000,
+          duration: 2000,
           isClosable: true,
-          position: "bottom",
+          position: "top",
         });
+        setPicLoading(false);
         return;
       }
       console.log(name, email, password, pic);
@@ -64,9 +65,9 @@ const Signup = () => {
         toast({
           title: "Registration Successful",
           status: "success",
-          duration: 5000,
+          duration: 2000,
           isClosable: true,
-          position: "bottom",
+          position: "top",
         });
         localStorage.setItem("userInfo", JSON.stringify(data));
         setPicLoading(false);
@@ -77,9 +78,9 @@ const Signup = () => {
           title: "Error Occured!",
           description: error.response.data.message,
           status: "error",
-          duration: 5000,
+          duration: 2000,
           isClosable: true,
-          position: "bottom",
+          position: "top",
         });
         setPicLoading(false);
       }
@@ -92,9 +93,9 @@ const Signup = () => {
       toast({
         title: "Please Select an Image!",
         status: "warning",
-        duration: 5000,
+        duration: 2000,
         isClosable: true,
-        position: "bottom",
+        position: "top",
       });
       setPicLoading(false);
       return;
@@ -123,9 +124,9 @@ const Signup = () => {
         toast({
           title: "Please Select an Image!",
           status: "warning",
-          duration: 5000,
+          duration: 2000,
           isClosable: true,
-          position: "bottom",
+          position: "top",
         });
         setPicLoading(false);
         return;
@@ -135,9 +136,9 @@ const Signup = () => {
       toast({
         title: "An error occurred while uploading the image.",
         status: "error",
-        duration: 5000,
+        duration: 2000,
         isClosable: true,
-        position: "bottom",
+        position: "top",
       });
       setPicLoading(false);
     }
