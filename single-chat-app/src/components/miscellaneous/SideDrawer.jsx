@@ -34,7 +34,7 @@ import UserListItem from "../userAvatar/UserListItem";
 import { ChatState } from "../../Context/ChatProvider";
 
 function SideDrawer() {
-  const { user } = ChatState();
+  const { user,setSelectedChat,chats,setChats } = ChatState();
   const [search, setSearch] = useState("");
   const [searchResult, setSearchResult] = useState([]);
   const [loading, setLoading] = useState(false);
@@ -92,30 +92,30 @@ function SideDrawer() {
   const accessChat = async (userId) => {
     console.log(userId);
 
-    //   try {
-    //     setLoadingChat(true);
-    //     const config = {
-    //       headers: {
-    //         "Content-type": "application/json",
-    //         Authorization: `Bearer ${user.token}`,
-    //       },
-    //     };
-    //     const { data } = await axios.post(`/api/chat`, { userId }, config);
+      try {
+        setLoadingChat(true);
+        const config = {
+          headers: {
+            "Content-type": "application/json",
+            Authorization: `Bearer ${user.token}`,
+          },
+        };
+        const { data } = await axios.post(`http://localhost:2709/api/chat`, { userId }, config);
 
-    //     if (!chats.find((c) => c._id === data._id)) setChats([data, ...chats]);
-    //     setSelectedChat(data);
-    //     setLoadingChat(false);
-    //     onClose();
-    //   } catch (error) {
-    //     toast({
-    //       title: "Error fetching the chat",
-    //       description: error.message,
-    //       status: "error",
-    //       duration: 5000,
-    //       isClosable: true,
-    //       position: "bottom-left",
-    //     });
-    //   }
+        if (!chats.find((c) => c._id === data._id)) setChats([data, ...chats]);
+        setSelectedChat(data);
+        setLoadingChat(false);
+        onClose();
+      } catch (error) {
+        toast({
+          title: "Error fetching the chat",
+          description: error.message,
+          status: "error",
+          duration: 5000,
+          isClosable: true,
+          position: "bottom-left",
+        });
+      }
   };
 
   // console.log(user);
@@ -212,7 +212,6 @@ function SideDrawer() {
             {loading ? (
               <ChatLoading />
             ) : (
-              // <h1> loading</h1>
               searchResult?.map((user) => (
                 <UserListItem
                   key={user._id}
