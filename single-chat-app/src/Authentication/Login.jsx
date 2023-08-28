@@ -2,7 +2,7 @@ import { Button } from "@chakra-ui/button";
 import { FormControl, FormLabel } from "@chakra-ui/form-control";
 import { Input, InputGroup, InputRightElement } from "@chakra-ui/input";
 import { VStack } from "@chakra-ui/layout";
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import axios from "axios";
 import { useToast } from "@chakra-ui/react";
 import { useNavigate } from "react-router-dom";
@@ -17,7 +17,14 @@ const Login = () => {
   const [loading, setLoading] = useState(false);
 
   const navigate = useNavigate();
-//   const { setUser } = ChatState();
+  //   const { setUser } = ChatState();
+
+  useEffect(() => {
+    const userInfo = JSON.parse(localStorage.getItem("userInfo"));
+    if (userInfo) {
+      navigate("/chat");
+    }
+  }, []);
 
   const submitHandler = async () => {
     setLoading(true);
@@ -57,7 +64,7 @@ const Login = () => {
       console.log(data);
       localStorage.setItem("userInfo", JSON.stringify(data));
       setLoading(false);
-      navigate('/chat')
+      navigate("/chat");
     } catch (error) {
       toast({
         title: "Error Occured!",

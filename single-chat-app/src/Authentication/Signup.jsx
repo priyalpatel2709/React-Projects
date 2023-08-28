@@ -20,71 +20,71 @@ const Signup = () => {
   const [pic, setPic] = useState();
   const [picLoading, setPicLoading] = useState(false);
 
-    const submitHandler = async () => {
-      setPicLoading(true);
-      if (!name || !email || !password || !confirmpassword) {
-        toast({
-          title: "Please Fill all the Feilds",
-          status: "warning",
-          duration: 2000,
-          isClosable: true,
-          position: "top",
-        });
-        setPicLoading(false);
-        return;
-      }
-      if (password !== confirmpassword) {
-        toast({
-          title: "Passwords Do Not Match",
-          status: "warning",
-          duration: 2000,
-          isClosable: true,
-          position: "top",
-        });
-        setPicLoading(false);
-        return;
-      }
-      console.log(name, email, password, pic);
-      try {
-        const config = {
-          headers: {
-            "Content-type": "application/json",
-          },
-        };
-        const { data } = await axios.post(
-          "http://localhost:2709/api/user",
-          {
-            name,
-            email,
-            password,
-            pic,
-          },
-          config
-        );
-        console.log(data);
-        toast({
-          title: "Registration Successful",
-          status: "success",
-          duration: 2000,
-          isClosable: true,
-          position: "top",
-        });
-        localStorage.setItem("userInfo", JSON.stringify(data));
-        setPicLoading(false);
+  const submitHandler = async () => {
+    setPicLoading(true);
+    if (!name || !email || !password || !confirmpassword) {
+      toast({
+        title: "Please Fill all the Feilds",
+        status: "warning",
+        duration: 2000,
+        isClosable: true,
+        position: "top",
+      });
+      setPicLoading(false);
+      return;
+    }
+    if (password !== confirmpassword) {
+      toast({
+        title: "Passwords Do Not Match",
+        status: "warning",
+        duration: 2000,
+        isClosable: true,
+        position: "top",
+      });
+      setPicLoading(false);
+      return;
+    }
+    console.log("ayo", name, email, password, pic);
+    try {
+      const config = {
+        headers: {
+          "Content-type": "application/json",
+        },
+      };
+      const { data } = await axios.post(
+        "http://localhost:2709/api/user",
+        {
+          name,
+          email,
+          password,
+          pic,
+        },
+        config
+      );
+      console.log(data);
+      toast({
+        title: "Registration Successful",
+        status: "success",
+        duration: 2000,
+        isClosable: true,
+        position: "top",
+      });
+      localStorage.setItem("userInfo", JSON.stringify(data));
+      setPicLoading(false);
 
-        navigate('/chat')
-      } catch (error) {
-        toast({
-          title: "Error Occured!",
-          description: error.response.data.message,
-          status: "error",
-          duration: 2000,
-          isClosable: true,
-          position: "top",
-        });
-        setPicLoading(false);
-      }
-    };
+      navigate("/chat");
+    } catch (error) {
+      toast({
+        title: "Error Occured!",
+        description: error.response.data.message,
+        status: "error",
+        duration: 2000,
+        isClosable: true,
+        position: "top",
+      });
+      setPicLoading(false);
+    }
+  };
 
   const postDetails = async (pics) => {
     setPicLoading(true);
@@ -204,7 +204,7 @@ const Signup = () => {
         colorScheme="blue"
         width="100%"
         style={{ marginTop: 15 }}
-        onClick={()=>submitHandler()}
+        onClick={() => submitHandler()}
         isLoading={picLoading}
       >
         Sign Up
