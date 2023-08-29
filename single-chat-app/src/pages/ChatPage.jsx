@@ -9,7 +9,7 @@ import { Flex } from "@chakra-ui/react";
 const ChatPage = () => {
   const [fetchAgain, setFetchAgain] = useState(false);
   const { user } = ChatState();
-  console.log(user?.name);
+
   return (
     <>
       <div style={{ width: "100%" }}>

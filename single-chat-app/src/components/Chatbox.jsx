@@ -7,9 +7,6 @@ const Chatbox = ({ fetchAgain, setFetchAgain }) => {
   const { selectedChat } = ChatState();
 
   return (
-    // <>
-    // chatd
-    // </>
     <Box
       d={{ base: selectedChat ? "flex" : "none", md: "flex" }}
       alignItems="center"
