@@ -52,7 +52,7 @@ const Signup = () => {
         },
       };
       const { data } = await axios.post(
-        "http://localhost:2709/api/user",
+        "https://single-chat-app.onrender.com/api/user",
         {
           name,
           email,

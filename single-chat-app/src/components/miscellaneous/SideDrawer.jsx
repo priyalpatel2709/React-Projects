@@ -78,7 +78,7 @@ function SideDrawer() {
       };
 
       const { data } = await axios.get(
-        `http://localhost:2709/api/user?search=${search}`,
+        `https://single-chat-app.onrender.com/api/user?search=${search}`,
         config
       );
 
@@ -108,7 +108,7 @@ function SideDrawer() {
         },
       };
       const { data } = await axios.post(
-        `http://localhost:2709/api/chat`,
+        `https://single-chat-app.onrender.com/api/chat`,
         { userId },
         config
       );
