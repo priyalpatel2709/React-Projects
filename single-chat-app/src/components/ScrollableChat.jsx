@@ -8,9 +8,27 @@ import {
   isSameUser,
 } from "../config/ChatLogics";
 import { ChatState } from "../Context/ChatProvider";
+import axios from "axios";
 
 const ScrollableChat = ({ messages }) => {
   const { user } = ChatState();
+
+  const config = {
+    headers: {
+      Authorization: `Bearer ${user.token}`,
+    },
+  };
+
+  const delteMsg= async(SenderId,messageId)=>{
+    console.log('SenderId',SenderId);
+    console.log('messageId',messageId);
+    try {
+      let result = await axios.delete(`http://localhost:2709/api/message/${messageId}/${SenderId}`,config)
+      console.log(result);
+    } catch (error) {
+      console.log(error);
+    }
+  }
 
   return (
     <ScrollableFeed>
@@ -31,6 +49,7 @@ const ScrollableChat = ({ messages }) => {
               </Tooltip>
             )}
             <span
+              onDoubleClick={()=>delteMsg(m.sender._id,m._id)}
               style={{
                 backgroundColor: `${
                   m.sender._id === user._id ? "#BEE3F8" : "#B9F5D0"
