@@ -43,6 +43,15 @@ const ScrollableChat = ({ messages }) => {
               }}
             >
               {m.content}
+
+              <span style={{fontSize:'0.8rem',paddingLeft:'0.3rem'}}>
+                {new Date(m.createdAt).toLocaleTimeString("en-IN", {
+                  timeZone: "Asia/Kolkata",
+                  hour12: true,
+                  hour: "numeric",
+                  minute: "numeric",
+                })}
+              </span>
             </span>
           </div>
         ))}
