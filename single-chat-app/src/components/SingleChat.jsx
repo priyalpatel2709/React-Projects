@@ -160,7 +160,7 @@ const SingleChat = ({ fetchAgain, setFetchAgain }) => {
 
   return (
     <>
-      {selectedChat ? (
+      {/* {selectedChat ? (
         <>
           <Text
             fontSize={{ base: "28px", md: "30px" }}
@@ -261,7 +261,7 @@ const SingleChat = ({ fetchAgain, setFetchAgain }) => {
             Click on a user to start chatting
           </Text>
         </Box>
-      )}
+      )} */}
     </>
   );
 };
