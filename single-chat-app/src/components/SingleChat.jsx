@@ -1,14 +1,14 @@
 import { FormControl } from "@chakra-ui/form-control";
 import { Input } from "@chakra-ui/input";
 import { Box, Text } from "@chakra-ui/layout";
-// import "./styles.css";
+import "./styles.css";
 import { IconButton, Spinner, useToast } from "@chakra-ui/react";
 import { getSender, getSenderFull } from "../config/ChatLogics";
 import { useEffect, useState } from "react";
 import axios from "axios";
 import { ArrowBackIcon } from "@chakra-ui/icons";
 import ProfileModal from "./miscellaneous/ProfileModal";
-// import ScrollableChat from "./ScrollableChat";
+import ScrollableChat from "./ScrollableChat";
 // import Lottie from "react-lottie";
 // import animationData from "../animations/typing.json";
 
@@ -27,16 +27,16 @@ const SingleChat = ({ fetchAgain, setFetchAgain }) => {
   const [istyping, setIsTyping] = useState(false);
   const toast = useToast();
 
-//   const defaultOptions = {
-//     loop: true,
-//     autoplay: true,
-//     animationData: animationData,
-//     rendererSettings: {
-//       preserveAspectRatio: "xMidYMid slice",
-//     },
-//   };
-  const { selectedChat, setSelectedChat, user, notification, setNotification } = ChatState();
-    
+  //   const defaultOptions = {
+  //     loop: true,
+  //     autoplay: true,
+  //     animationData: animationData,
+  //     rendererSettings: {
+  //       preserveAspectRatio: "xMidYMid slice",
+  //     },
+  //   };
+  const { selectedChat, setSelectedChat, user, notification, setNotification } =
+    ChatState();
 
   const fetchMessages = async () => {
     if (!selectedChat) return;
@@ -56,7 +56,11 @@ const SingleChat = ({ fetchAgain, setFetchAgain }) => {
       );
 
       // console.log(messages.map((msg)=>msg.content));
-      console.log(`${messages.map((msg)=>msg.sender.name)} :${messages.map((msg)=>msg.content)}`);
+      // console.log(
+      //   `${messages.map((msg) => msg.sender.name)} :${messages.map(
+      //     (msg) => msg.content
+      //   )}`
+      // );
       // console.log(messages);
       setMessages(data);
       setLoading(false);
@@ -93,7 +97,7 @@ const SingleChat = ({ fetchAgain, setFetchAgain }) => {
           },
           config
         );
-        console.log('data',data.content);
+        console.log("data", data.content);
         // var s = new Date(data.updatedAt).toLocaleString(undefined, {timeZone: 'Asia/Kolkata'});
         // const istTime = new Date(data.updatedAt).toLocaleTimeString("en-IN", { timeZone: "Asia/Kolkata", hour12: true, hour: "numeric", minute: "numeric" });
 
@@ -113,15 +117,15 @@ const SingleChat = ({ fetchAgain, setFetchAgain }) => {
     }
   };
 
-//   useEffect(() => {
-//     socket = io(ENDPOINT);
-//     socket.emit("setup", user);
-//     socket.on("connected", () => setSocketConnected(true));
-//     socket.on("typing", () => setIsTyping(true));
-//     socket.on("stop typing", () => setIsTyping(false));
+  //   useEffect(() => {
+  //     socket = io(ENDPOINT);
+  //     socket.emit("setup", user);
+  //     socket.on("connected", () => setSocketConnected(true));
+  //     socket.on("typing", () => setIsTyping(true));
+  //     socket.on("stop typing", () => setIsTyping(false));
 
-//     // eslint-disable-next-line
-//   }, []);
+  //     // eslint-disable-next-line
+  //   }, []);
 
   useEffect(() => {
     fetchMessages();
@@ -130,21 +134,21 @@ const SingleChat = ({ fetchAgain, setFetchAgain }) => {
     // eslint-disable-next-line
   }, [selectedChat]);
 
-//   useEffect(() => {
-//     socket.on("message recieved", (newMessageRecieved) => {
-//       if (
-//         !selectedChatCompare || // if chat is not selected or doesn't match current chat
-//         selectedChatCompare._id !== newMessageRecieved.chat._id
-//       ) {
-//         if (!notification.includes(newMessageRecieved)) {
-//           setNotification([newMessageRecieved, ...notification]);
-//           setFetchAgain(!fetchAgain);
-//         }
-//       } else {
-//         setMessages([...messages, newMessageRecieved]);
-//       }
-//     });
-//   });
+  //   useEffect(() => {
+  //     socket.on("message recieved", (newMessageRecieved) => {
+  //       if (
+  //         !selectedChatCompare || // if chat is not selected or doesn't match current chat
+  //         selectedChatCompare._id !== newMessageRecieved.chat._id
+  //       ) {
+  //         if (!notification.includes(newMessageRecieved)) {
+  //           setNotification([newMessageRecieved, ...notification]);
+  //           setFetchAgain(!fetchAgain);
+  //         }
+  //       } else {
+  //         setMessages([...messages, newMessageRecieved]);
+  //       }
+  //     });
+  //   });
 
   const typingHandler = (e) => {
     setNewMessage(e.target.value);
@@ -167,13 +171,11 @@ const SingleChat = ({ fetchAgain, setFetchAgain }) => {
     // }, timerLength);
   };
 
-// console.log(selectedChat);
+  // console.log(selectedChat);
   return (
     <>
-    
       {selectedChat ? (
         <>
-        
           <Text
             fontSize={{ base: "28px", md: "30px" }}
             pb={3}
@@ -201,7 +203,7 @@ const SingleChat = ({ fetchAgain, setFetchAgain }) => {
                 <>
                   {selectedChat.chatName.toUpperCase()}
                   <UpdateGroupChatModal
-                    // fetchMessages={fetchMessages}
+                    fetchMessages={fetchMessages}
                     fetchAgain={fetchAgain}
                     setFetchAgain={setFetchAgain}
                   />
@@ -229,7 +231,7 @@ const SingleChat = ({ fetchAgain, setFetchAgain }) => {
               />
             ) : (
               <div className="messages">
-                {/* <ScrollableChat messages={messages} /> */}
+                <ScrollableChat messages={messages} />
               </div>
             )}
 
