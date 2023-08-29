@@ -55,13 +55,6 @@ const SingleChat = ({ fetchAgain, setFetchAgain }) => {
         config
       );
 
-      // console.log(messages.map((msg)=>msg.content));
-      // console.log(
-      //   `${messages.map((msg) => msg.sender.name)} :${messages.map(
-      //     (msg) => msg.content
-      //   )}`
-      // );
-      // console.log(messages);
       setMessages(data);
       setLoading(false);
 
@@ -135,19 +128,10 @@ const SingleChat = ({ fetchAgain, setFetchAgain }) => {
         !selectedChatCompare || // if chat is not selected or doesn't match current chat
         selectedChatCompare._id !== newMessageRecieved.chat._id
       ) {
-        toast({
-          title: "Error Occured!",
-          description: `Failed to send the Message`,
-          status: "success",
-          duration: 1000,
-          isClosable: true,
-          position: "bottom",
-        });
-
-        // if (!notification.includes(newMessageRecieved)) {
-        //   setNotification([newMessageRecieved, ...notification]);
-        //   setFetchAgain(!fetchAgain);
-        // }
+        if (!notification.includes(newMessageRecieved)) {
+          setNotification([newMessageRecieved, ...notification]);
+          setFetchAgain(!fetchAgain);
+        }
       } else {
         setMessages([...messages, newMessageRecieved]);
       }
@@ -245,7 +229,7 @@ const SingleChat = ({ fetchAgain, setFetchAgain }) => {
               isRequired
               mt={3}
             >
-              {istyping ? (
+              {false ? (
                 <div>
                   <Lottie
                     options={defaultOptions}
