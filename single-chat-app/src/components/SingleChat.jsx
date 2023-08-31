@@ -218,7 +218,7 @@ const SingleChat = ({ fetchAgain, setFetchAgain }) => {
               />
             ) : (
               <div className="messages">
-                <ScrollableChat messages={messages} />
+                <ScrollableChat messages={messages} fetchMessages={fetchMessages} />
               </div>
             )}
 

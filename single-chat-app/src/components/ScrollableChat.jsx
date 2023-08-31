@@ -9,26 +9,48 @@ import {
 } from "../config/ChatLogics";
 import { ChatState } from "../Context/ChatProvider";
 import axios from "axios";
+import { useToast } from "@chakra-ui/react";
 
-const ScrollableChat = ({ messages }) => {
+const ScrollableChat = ({ messages,fetchMessages }) => {
   const { user } = ChatState();
-
+  const toast = useToast();
   const config = {
     headers: {
       Authorization: `Bearer ${user.token}`,
     },
   };
 
-  const delteMsg= async(SenderId,messageId)=>{
-    console.log('SenderId',SenderId);
-    console.log('messageId',messageId);
+  const delteMsg = async (SenderId, messageId) => {
+    console.log("SenderId", SenderId);
+    console.log("messageId", messageId);
     try {
-      let result = await axios.delete(`http://localhost:2709/api/message/${messageId}/${SenderId}`,config)
-      console.log(result);
+      let result = await axios.delete(
+        `https://single-chat-app.onrender.com/api/message/${messageId}/${SenderId}`,
+        config
+      );
+      if(result.data.deletedCount ===1){
+        toast({
+          title: "Chat Deleted...!",
+          status: "success",
+          duration: 2000,
+          isClosable: true,
+          position: "bottom",
+        });
+        fetchMessages()
+      }else{
+        toast({
+          title: `${result.data.messages}`,
+          status: "error",
+          duration: 2000,
+          isClosable: true,
+          position: "bottom",
+        });
+      }
+      
     } catch (error) {
       console.log(error);
     }
-  }
+  };
 
   return (
     <ScrollableFeed>
@@ -49,7 +71,7 @@ const ScrollableChat = ({ messages }) => {
               </Tooltip>
             )}
             <span
-              onDoubleClick={()=>delteMsg(m.sender._id,m._id)}
+              onDoubleClick={() => delteMsg(m.sender._id, m._id)}
               style={{
                 backgroundColor: `${
                   m.sender._id === user._id ? "#BEE3F8" : "#B9F5D0"
@@ -63,7 +85,7 @@ const ScrollableChat = ({ messages }) => {
             >
               {m.content}
 
-              <span style={{fontSize:'0.8rem',paddingLeft:'0.3rem'}}>
+              <span style={{ fontSize: "0.8rem", paddingLeft: "0.3rem" }}>
                 {new Date(m.createdAt).toLocaleTimeString("en-IN", {
                   timeZone: "Asia/Kolkata",
                   hour12: true,
