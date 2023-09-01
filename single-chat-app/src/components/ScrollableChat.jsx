@@ -11,7 +11,7 @@ import { ChatState } from "../Context/ChatProvider";
 import axios from "axios";
 import { useToast } from "@chakra-ui/react";
 
-const ScrollableChat = ({ messages,fetchMessages }) => {
+const ScrollableChat = ({ messages, fetchMessages }) => {
   const { user } = ChatState();
   const toast = useToast();
   const config = {
@@ -28,7 +28,7 @@ const ScrollableChat = ({ messages,fetchMessages }) => {
         `https://single-chat-app.onrender.com/api/message/${messageId}/${SenderId}`,
         config
       );
-      if(result.data.deletedCount ===1){
+      if (result.data.deletedCount === 1) {
         toast({
           title: "Chat Deleted...!",
           status: "success",
@@ -36,8 +36,8 @@ const ScrollableChat = ({ messages,fetchMessages }) => {
           isClosable: true,
           position: "bottom",
         });
-        fetchMessages()
-      }else{
+        fetchMessages();
+      } else {
         toast({
           title: `${result.data.messages}`,
           status: "error",
@@ -46,7 +46,6 @@ const ScrollableChat = ({ messages,fetchMessages }) => {
           position: "bottom",
         });
       }
-      
     } catch (error) {
       console.log(error);
     }
@@ -93,9 +92,22 @@ const ScrollableChat = ({ messages,fetchMessages }) => {
                   minute: "numeric",
                 })}
               </span>
+
             </span>
           </div>
         ))}
+        {
+         
+
+         
+          <>
+          <img width="20"  src="https://img.icons8.com/ios-filled/50/double-tick.png" alt="double-tick"/>
+          
+          </>
+          
+        }{
+          <img width="20"  src="https://img.icons8.com/color/48/double-tick.png" alt="double-tick"/>
+        }
     </ScrollableFeed>
   );
 };
