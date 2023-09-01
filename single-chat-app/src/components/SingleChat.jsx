@@ -146,7 +146,7 @@ const SingleChat = ({ fetchAgain, setFetchAgain }) => {
       } else {
         setMessages([...messages, newMessageRecieved]);
         // console.log('or mt?',selectedChat);
-        console.log("or mt =id?");
+        console.log("or me =id?");
       }
     });
   });
@@ -236,7 +236,7 @@ const SingleChat = ({ fetchAgain, setFetchAgain }) => {
   };
 
   // console.log('newMessage',newMessage);
-  console.log('selectedFile',selectedFile);
+  // console.log('selectedFile',selectedFile);
 
   return (
     <>
