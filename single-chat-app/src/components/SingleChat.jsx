@@ -31,6 +31,7 @@ const SingleChat = ({ fetchAgain, setFetchAgain }) => {
   const [selectedFile, setSelectedFile] = useState(null);
   const [typing, setTyping] = useState(false);
   const [istyping, setIsTyping] = useState(false);
+  const [picLoading, setPicLoading] = useState(false);
   const toast = useToast();
 
   const defaultOptions = {
@@ -174,7 +175,7 @@ const SingleChat = ({ fetchAgain, setFetchAgain }) => {
   
 
   const postDetails = async (pics) => {
-    // setPicLoading(true);
+    setPicLoading(true);
 
     if (pics === undefined) {
       toast({
@@ -184,7 +185,7 @@ const SingleChat = ({ fetchAgain, setFetchAgain }) => {
         isClosable: true,
         position: "top",
       });
-      // setPicLoading(false);
+      setPicLoading(false);
       return;
     }
 
@@ -209,7 +210,7 @@ const SingleChat = ({ fetchAgain, setFetchAgain }) => {
         setNewMessage(responseData.url.toString());
         setSelectedFile(responseData.url.toString());
         // setPic(responseData.url.toString());
-        // setPicLoading(false);
+        setPicLoading(false);
       } else {
         toast({
           title: "Please Select an Image!",
@@ -218,7 +219,7 @@ const SingleChat = ({ fetchAgain, setFetchAgain }) => {
           isClosable: true,
           position: "top",
         });
-        // setPicLoading(false);
+        setPicLoading(false);
         return;
       }
     } catch (error) {
@@ -230,7 +231,7 @@ const SingleChat = ({ fetchAgain, setFetchAgain }) => {
         isClosable: true,
         position: "top",
       });
-      // setPicLoading(false);
+      setPicLoading(false);
     }
   };
 
@@ -300,6 +301,7 @@ const SingleChat = ({ fetchAgain, setFetchAgain }) => {
                   messages={messages}
                   fetchMessages={fetchMessages}
                   selectedFile={selectedFile}
+                  picLoading={picLoading}
                 />
               </div>
             )}

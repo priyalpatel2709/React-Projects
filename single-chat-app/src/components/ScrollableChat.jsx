@@ -10,8 +10,9 @@ import {
 import { ChatState } from "../Context/ChatProvider";
 import axios from "axios";
 import { useToast, Flex, Image } from "@chakra-ui/react";
+import ImgLoading from "./ImgLoading";
 
-const ScrollableChat = ({ messages, fetchMessages, selectedFile }) => {
+const ScrollableChat = ({ messages, fetchMessages, selectedFile ,picLoading}) => {
   const { user } = ChatState();
   const toast = useToast();
   const config = {
@@ -107,6 +108,7 @@ const ScrollableChat = ({ messages, fetchMessages, selectedFile }) => {
             </span>
           </div>
         ))}
+        {picLoading && <ImgLoading/>}
       {selectedFile && (
         <Flex
           alignItems="center"
