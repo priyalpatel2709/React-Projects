@@ -228,7 +228,7 @@ const SingleChat = ({ fetchAgain, setFetchAgain }) => {
               isRequired
               mt={3}
             >
-              {false ? (
+              {istyping ? (
                 <div>
                   <Lottie
                     options={defaultOptions}
