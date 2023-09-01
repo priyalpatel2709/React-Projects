@@ -1,12 +1,12 @@
 import { FormControl } from "@chakra-ui/form-control";
-import { Input } from "@chakra-ui/input";
+import { Input, InputGroup,InputRightElement } from "@chakra-ui/input";
 import { Box, Text } from "@chakra-ui/layout";
 import "./styles.css";
-import { IconButton, Spinner, useToast } from "@chakra-ui/react";
+import { IconButton, Spinner, useToast,Button } from "@chakra-ui/react";
 import { getSender, getSenderFull } from "../config/ChatLogics";
 import { useEffect, useState } from "react";
 import axios from "axios";
-import { ArrowBackIcon } from "@chakra-ui/icons";
+import { ArrowBackIcon,ArrowRightIcon } from "@chakra-ui/icons";
 import ProfileModal from "./miscellaneous/ProfileModal";
 import ScrollableChat from "./ScrollableChat";
 import Lottie from "react-lottie";
@@ -28,14 +28,14 @@ const SingleChat = ({ fetchAgain, setFetchAgain }) => {
   const [istyping, setIsTyping] = useState(false);
   const toast = useToast();
 
-    const defaultOptions = {
-      loop: true,
-      autoplay: true,
-      animationData: animationData,
-      rendererSettings: {
-        preserveAspectRatio: "xMidYMid slice",
-      },
-    };
+  const defaultOptions = {
+    loop: true,
+    autoplay: true,
+    animationData: animationData,
+    rendererSettings: {
+      preserveAspectRatio: "xMidYMid slice",
+    },
+  };
   const { selectedChat, setSelectedChat, user, notification, setNotification } =
     ChatState();
 
@@ -73,7 +73,7 @@ const SingleChat = ({ fetchAgain, setFetchAgain }) => {
   };
 
   const sendMessage = async (event) => {
-    if (event.key === "Enter" && newMessage) {
+    if (newMessage) {
       socket.emit("stop typing", selectedChat._id);
       try {
         const config = {
@@ -92,7 +92,7 @@ const SingleChat = ({ fetchAgain, setFetchAgain }) => {
           config
         );
         socket.emit("new message", data);
-        console.log('me j 6u');
+        console.log("me j 6u");
         setMessages([...messages, data]);
       } catch (error) {
         toast({
@@ -133,12 +133,12 @@ const SingleChat = ({ fetchAgain, setFetchAgain }) => {
         if (!notification.includes(newMessageRecieved)) {
           setNotification([newMessageRecieved, ...notification]);
           setFetchAgain(!fetchAgain);
-          console.log('me');
-        } 
+          console.log("me");
+        }
       } else {
         setMessages([...messages, newMessageRecieved]);
         // console.log('or mt?',selectedChat);
-        console.log('or mt =id?');
+        console.log("or mt =id?");
       }
     });
   });
@@ -226,12 +226,16 @@ const SingleChat = ({ fetchAgain, setFetchAgain }) => {
               />
             ) : (
               <div className="messages">
-                <ScrollableChat messages={messages} fetchMessages={fetchMessages} />
+                <ScrollableChat
+                  messages={messages}
+                  fetchMessages={fetchMessages}
+                />
               </div>
             )}
 
             <FormControl
-              onKeyDown={sendMessage}
+              
+              onKeyDown={(e)=> e.key === "Enter" ?sendMessage():null}
               id="first-name"
               isRequired
               mt={3}
@@ -248,13 +252,20 @@ const SingleChat = ({ fetchAgain, setFetchAgain }) => {
               ) : (
                 <></>
               )}
-              <Input
-                variant="filled"
-                bg="#E0E0E0"
-                placeholder="Enter a message.."
-                value={newMessage}
-                onChange={typingHandler}
-              />
+              <InputGroup>
+                <Input
+                  variant="filled"
+                  bg="#E0E0E0"
+                  placeholder="Enter a message.."
+                  value={newMessage}
+                  onChange={typingHandler}
+                />
+                <InputRightElement width="4.5rem">
+                  <Button h="1.75rem" size="sm" onClick={()=>sendMessage()} variant='ghost'>
+                    <ArrowRightIcon/>
+                  </Button>
+                </InputRightElement>
+              </InputGroup>
             </FormControl>
           </Box>
         </>
