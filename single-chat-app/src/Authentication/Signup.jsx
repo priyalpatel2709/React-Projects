@@ -107,7 +107,8 @@ const Signup = () => {
         data.append("file", pics);
         data.append("upload_preset", "Chat-app-user");
         data.append("cloud_name", "dtzrtlyuu");
-
+        data.append("folder","chat-app");
+        
         const response = await fetch(
           "https://api.cloudinary.com/v1_1/dtzrtlyuu/image/upload",
           {
