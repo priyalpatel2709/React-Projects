@@ -1,12 +1,16 @@
 import { FormControl } from "@chakra-ui/form-control";
-import { Input, InputGroup,InputRightElement } from "@chakra-ui/input";
+import { Input, InputGroup, InputRightElement } from "@chakra-ui/input";
 import { Box, Text } from "@chakra-ui/layout";
 import "./styles.css";
-import { IconButton, Spinner, useToast,Button } from "@chakra-ui/react";
+import { IconButton, Spinner, useToast, Button } from "@chakra-ui/react";
 import { getSender, getSenderFull } from "../config/ChatLogics";
-import { useEffect, useState } from "react";
+import { useEffect, useState, useRef } from "react";
 import axios from "axios";
-import { ArrowBackIcon,ArrowRightIcon } from "@chakra-ui/icons";
+import {
+  ArrowBackIcon,
+  ArrowRightIcon,
+  AttachmentIcon,
+} from "@chakra-ui/icons";
 import ProfileModal from "./miscellaneous/ProfileModal";
 import ScrollableChat from "./ScrollableChat";
 import Lottie from "react-lottie";
@@ -20,10 +24,12 @@ const ENDPOINT = "http://localhost:2709";
 var socket, selectedChatCompare;
 
 const SingleChat = ({ fetchAgain, setFetchAgain }) => {
+  const fileInputRef = useRef(null);
   const [messages, setMessages] = useState([]);
   const [loading, setLoading] = useState(false);
   const [newMessage, setNewMessage] = useState("");
   const [socketConnected, setSocketConnected] = useState(false);
+  const [selectedFile, setSelectedFile] = useState(null);
   const [typing, setTyping] = useState(false);
   const [istyping, setIsTyping] = useState(false);
   const toast = useToast();
@@ -164,6 +170,68 @@ const SingleChat = ({ fetchAgain, setFetchAgain }) => {
     }, timerLength);
   };
 
+  
+
+  const postDetails = async (pics) => {
+    // setPicLoading(true);
+
+    if (pics === undefined) {
+      toast({
+        title: "Please Select an Image!",
+        status: "warning",
+        duration: 2000,
+        isClosable: true,
+        position: "top",
+      });
+      // setPicLoading(false);
+      return;
+    }
+
+    try {
+      if (pics.type === "image/jpeg" || pics.type === "image/png") {
+        const data = new FormData();
+        data.append("file", pics);
+        data.append("upload_preset", "Chat-app-user");
+        data.append("cloud_name", "dtzrtlyuu");
+
+        const response = await fetch(
+          "https://api.cloudinary.com/v1_1/dtzrtlyuu/image/upload",
+          {
+            method: "post",
+            body: data,
+          }
+        );
+
+        const responseData = await response.json();
+        console.log(responseData.url.toString());
+        setNewMessage(responseData.url.toString());
+        setSelectedFile(responseData.url.toString());
+        // setPic(responseData.url.toString());
+        // setPicLoading(false);
+      } else {
+        toast({
+          title: "Please Select an Image!",
+          status: "warning",
+          duration: 2000,
+          isClosable: true,
+          position: "top",
+        });
+        // setPicLoading(false);
+        return;
+      }
+    } catch (error) {
+      console.error("Error:", error);
+      toast({
+        title: "An error occurred while uploading the image.",
+        status: "error",
+        duration: 2000,
+        isClosable: true,
+        position: "top",
+      });
+      // setPicLoading(false);
+    }
+  };
+
   // console.log('newMessage',newMessage);
   // console.log('msgRead',msgRead);
 
@@ -229,13 +297,12 @@ const SingleChat = ({ fetchAgain, setFetchAgain }) => {
                 <ScrollableChat
                   messages={messages}
                   fetchMessages={fetchMessages}
+                  selectedFile={selectedFile}
                 />
               </div>
             )}
-
             <FormControl
-              
-              onKeyDown={(e)=> e.key === "Enter" ?sendMessage():null}
+              onKeyDown={(e) => (e.key === "Enter" ? sendMessage() : null)}
               id="first-name"
               isRequired
               mt={3}
@@ -253,16 +320,46 @@ const SingleChat = ({ fetchAgain, setFetchAgain }) => {
                 <></>
               )}
               <InputGroup>
-                <Input
-                  variant="filled"
-                  bg="#E0E0E0"
-                  placeholder="Enter a message.."
-                  value={newMessage}
-                  onChange={typingHandler}
-                />
+                <div
+                  style={{ width:'95%',display: "flex", alignItems: "center" }}
+                >
+                  <Input
+                    variant="filled"
+                    bg="#E0E0E0"
+                    placeholder="Enter a message.."
+                    value={newMessage}
+                    onChange={typingHandler}
+                    width="90%"
+                    className="message__input"
+                  />
+                  
+                  
+                </div>
+                {/* <AttachmentIcon w="20px" h="20px" color="gray.500" /> */}
                 <InputRightElement width="4.5rem">
-                  <Button h="1.75rem" size="sm" onClick={()=>sendMessage()} variant='ghost'>
-                    <ArrowRightIcon/>
+                <input
+                    type="file"
+                    accept="image/*"
+                    style={{
+                      opacity: 0,
+                      width: "50%",
+                      cursor: "pointer",
+                    }}
+                    onChange={(e) => postDetails(e.target.files[0])}
+                  />
+                <AttachmentIcon
+                    w="20px"
+                    h="20px"
+                    color="gray.500"
+                    style={{ marginLeft: "-30px" }}
+                  />
+                  <Button
+                    h="1.75rem"
+                    size="sm"
+                    onClick={() => sendMessage()}
+                    variant="ghost"
+                  >
+                    <ArrowRightIcon />
                   </Button>
                 </InputRightElement>
               </InputGroup>

@@ -9,9 +9,9 @@ import {
 } from "../config/ChatLogics";
 import { ChatState } from "../Context/ChatProvider";
 import axios from "axios";
-import { useToast } from "@chakra-ui/react";
+import { useToast ,Flex,Image} from "@chakra-ui/react";
 
-const ScrollableChat = ({ messages, fetchMessages }) => {
+const ScrollableChat = ({ messages, fetchMessages,selectedFile }) => {
   const { user } = ChatState();
   const toast = useToast();
   const config = {
@@ -96,18 +96,27 @@ const ScrollableChat = ({ messages, fetchMessages }) => {
             </span>
           </div>
         ))}
-        {
-         
-
-         
-          <>
-          <img width="20"  src="https://img.icons8.com/ios-filled/50/double-tick.png" alt="double-tick"/>
-          
-          </>
-          
-        }{
-          <img width="20"  src="https://img.icons8.com/color/48/double-tick.png" alt="double-tick"/>
-        }
+        {selectedFile && (
+              <Flex alignItems="center" 
+               style={{
+                // marginLeft: 33,
+               }}
+              >
+                <Image
+                  src={`${selectedFile}`}
+                  alt="Selected File"
+                  boxSize="30px"
+                  objectFit="cover"
+                  borderRadius="md"
+                  width='100px'
+                  height='100px'
+                  
+                />
+                {/* <Text ml="5px" fontSize="sm" color="gray.500">
+                  {selectedFile.size / 1024} KB
+                </Text> */}
+              </Flex>
+            )}
     </ScrollableFeed>
   );
 };
