@@ -47,7 +47,8 @@ const SingleChat = ({ fetchAgain, setFetchAgain }) => {
 
   const fetchMessages = async () => {
     if (!selectedChat) return;
-
+    setNewMessage("");
+    setSelectedFile('')
     try {
       const config = {
         headers: {
@@ -89,6 +90,7 @@ const SingleChat = ({ fetchAgain, setFetchAgain }) => {
           },
         };
         setNewMessage("");
+        setSelectedFile('')
         const { data } = await axios.post(
           "https://single-chat-app.onrender.com/api/message",
           {

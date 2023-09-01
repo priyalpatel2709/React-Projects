@@ -9,9 +9,9 @@ import {
 } from "../config/ChatLogics";
 import { ChatState } from "../Context/ChatProvider";
 import axios from "axios";
-import { useToast ,Flex,Image} from "@chakra-ui/react";
+import { useToast, Flex, Image } from "@chakra-ui/react";
 
-const ScrollableChat = ({ messages, fetchMessages,selectedFile }) => {
+const ScrollableChat = ({ messages, fetchMessages, selectedFile }) => {
   const { user } = ChatState();
   const toast = useToast();
   const config = {
@@ -82,7 +82,19 @@ const ScrollableChat = ({ messages, fetchMessages,selectedFile }) => {
                 maxWidth: "75%",
               }}
             >
-              {m.content}
+              {m.content.includes(
+                "http://res.cloudinary.com/dtzrtlyuu/image/upload/"
+              ) ? (
+                <Image
+                  src={m.content}
+                  alt="Image"
+                  boxSize="100px"
+                  objectFit="cover"
+                  borderRadius="md"
+                />
+              ) : (
+                m.content
+              )}
 
               <span style={{ fontSize: "0.8rem", paddingLeft: "0.3rem" }}>
                 {new Date(m.createdAt).toLocaleTimeString("en-IN", {
@@ -92,31 +104,32 @@ const ScrollableChat = ({ messages, fetchMessages,selectedFile }) => {
                   minute: "numeric",
                 })}
               </span>
-
             </span>
           </div>
         ))}
-        {selectedFile && (
-              <Flex alignItems="center" 
-               style={{
-                // marginLeft: 33,
-               }}
-              >
-                <Image
-                  src={`${selectedFile}`}
-                  alt="Selected File"
-                  boxSize="30px"
-                  objectFit="cover"
-                  borderRadius="md"
-                  width='100px'
-                  height='100px'
-                  
-                />
-                {/* <Text ml="5px" fontSize="sm" color="gray.500">
+      {selectedFile && (
+        <Flex
+          alignItems="center"
+          style={
+            {
+              // marginLeft: 33,
+            }
+          }
+        >
+          <Image
+            src={`${selectedFile}`}
+            alt="Selected File"
+            boxSize="30px"
+            objectFit="cover"
+            borderRadius="md"
+            width="100px"
+            height="100px"
+          />
+          {/* <Text ml="5px" fontSize="sm" color="gray.500">
                   {selectedFile.size / 1024} KB
                 </Text> */}
-              </Flex>
-            )}
+        </Flex>
+      )}
     </ScrollableFeed>
   );
 };
