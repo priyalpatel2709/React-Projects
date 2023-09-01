@@ -26,7 +26,6 @@ const SingleChat = ({ fetchAgain, setFetchAgain }) => {
   const [socketConnected, setSocketConnected] = useState(false);
   const [typing, setTyping] = useState(false);
   const [istyping, setIsTyping] = useState(false);
-  const [msgRead, setMegRead] = useState(false);
   const toast = useToast();
 
     const defaultOptions = {
@@ -135,16 +134,11 @@ const SingleChat = ({ fetchAgain, setFetchAgain }) => {
           setNotification([newMessageRecieved, ...notification]);
           setFetchAgain(!fetchAgain);
           console.log('me');
-          // setMegRead(false)
         } 
       } else {
         setMessages([...messages, newMessageRecieved]);
         // console.log('or mt?',selectedChat);
         console.log('or mt =id?');
-        socket.emit("Msg Read", {
-          chatId: selectedChat?._id,
-          messageId: Math.random().toString(36).substring(2, 10),
-        });
       }
     });
   });
@@ -171,7 +165,7 @@ const SingleChat = ({ fetchAgain, setFetchAgain }) => {
   };
 
   // console.log('newMessage',newMessage);
-  console.log('msgRead',msgRead);
+  // console.log('msgRead',msgRead);
 
   return (
     <>
