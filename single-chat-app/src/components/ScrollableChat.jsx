@@ -9,10 +9,15 @@ import {
 } from "../config/ChatLogics";
 import { ChatState } from "../Context/ChatProvider";
 import axios from "axios";
-import { useToast, Flex, Image } from "@chakra-ui/react";
+import { useToast, Flex, Image, Text } from "@chakra-ui/react";
 import ImgLoading from "./ImgLoading";
 
-const ScrollableChat = ({ messages, fetchMessages, selectedFile ,picLoading}) => {
+const ScrollableChat = ({
+  messages,
+  fetchMessages,
+  selectedFile,
+  picLoading,
+}) => {
   const { user } = ChatState();
   const toast = useToast();
   const config = {
@@ -108,16 +113,13 @@ const ScrollableChat = ({ messages, fetchMessages, selectedFile ,picLoading}) =>
             </span>
           </div>
         ))}
-        {picLoading && <ImgLoading/>}
+      {picLoading && <ImgLoading />}
       {selectedFile && (
-        <Flex
-          alignItems="center"
-          style={
-            {
-              // marginLeft: 33,
-            }
-          }
+        <
         >
+          <Text ml="5px" fontSize="sm" color="gray.500">
+            Privew
+          </Text>
           <Image
             src={`${selectedFile}`}
             alt="Selected File"
@@ -127,10 +129,8 @@ const ScrollableChat = ({ messages, fetchMessages, selectedFile ,picLoading}) =>
             width="100px"
             height="100px"
           />
-          {/* <Text ml="5px" fontSize="sm" color="gray.500">
-                  {selectedFile.size / 1024} KB
-                </Text> */}
-        </Flex>
+          
+        </>
       )}
     </ScrollableFeed>
   );
