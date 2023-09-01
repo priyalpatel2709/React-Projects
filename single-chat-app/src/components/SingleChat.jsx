@@ -48,7 +48,7 @@ const SingleChat = ({ fetchAgain, setFetchAgain }) => {
   const fetchMessages = async () => {
     if (!selectedChat) return;
     setNewMessage("");
-    setSelectedFile('')
+    setSelectedFile("");
     try {
       const config = {
         headers: {
@@ -62,7 +62,7 @@ const SingleChat = ({ fetchAgain, setFetchAgain }) => {
         `https://single-chat-app.onrender.com/api/message/${selectedChat._id}`,
         config
       );
-
+      CheckMesAndNoti();
       setMessages(data);
       setLoading(false);
 
@@ -90,7 +90,7 @@ const SingleChat = ({ fetchAgain, setFetchAgain }) => {
           },
         };
         setNewMessage("");
-        setSelectedFile('')
+        setSelectedFile("");
         const { data } = await axios.post(
           "https://single-chat-app.onrender.com/api/message",
           {
@@ -99,8 +99,9 @@ const SingleChat = ({ fetchAgain, setFetchAgain }) => {
           },
           config
         );
+        // CheckMesAndNoti();
         socket.emit("new message", data);
-        console.log("me j 6u");
+        // console.log("me j 6u");
         setMessages([...messages, data]);
       } catch (error) {
         toast({
@@ -127,8 +128,7 @@ const SingleChat = ({ fetchAgain, setFetchAgain }) => {
 
   useEffect(() => {
     fetchMessages();
-
-    selectedChatCompare = selectedChat;
+        selectedChatCompare = selectedChat;
     // eslint-disable-next-line
   }, [selectedChat]);
 
@@ -141,12 +141,12 @@ const SingleChat = ({ fetchAgain, setFetchAgain }) => {
         if (!notification.includes(newMessageRecieved)) {
           setNotification([newMessageRecieved, ...notification]);
           setFetchAgain(!fetchAgain);
-          console.log("me");
+          socket.on("New message recieved", (data) => {
+          });
         }
       } else {
         setMessages([...messages, newMessageRecieved]);
-        // console.log('or mt?',selectedChat);
-        console.log("or me =id?");
+        
       }
     });
   });
@@ -172,8 +172,6 @@ const SingleChat = ({ fetchAgain, setFetchAgain }) => {
     }, timerLength);
   };
 
-  
-
   const postDetails = async (pics) => {
     setPicLoading(true);
 
@@ -195,7 +193,7 @@ const SingleChat = ({ fetchAgain, setFetchAgain }) => {
         data.append("file", pics);
         data.append("upload_preset", "Chat-app-user");
         data.append("cloud_name", "dtzrtlyuu");
-        data.append("folder","chat-app");
+        data.append("folder", "chat-app");
 
         const response = await fetch(
           "https://api.cloudinary.com/v1_1/dtzrtlyuu/image/upload",
@@ -206,7 +204,7 @@ const SingleChat = ({ fetchAgain, setFetchAgain }) => {
         );
 
         const responseData = await response.json();
-        console.log(responseData.url.toString());
+        // console.log(responseData.url.toString());
         setNewMessage(responseData.url.toString());
         setSelectedFile(responseData.url.toString());
         // setPic(responseData.url.toString());
@@ -235,8 +233,49 @@ const SingleChat = ({ fetchAgain, setFetchAgain }) => {
     }
   };
 
-  // console.log('newMessage',newMessage);
-  // console.log('selectedFile',selectedFile);
+
+  function getCommonStrings(array1, array2) {
+    // Initialize an empty array to store common strings
+    const commonStrings = [];
+
+    // Sort both arrays to ensure elements are in the same order
+    const sortedArray1 = array1.slice().sort();
+    const sortedArray2 = array2.slice().sort();
+
+    // Iterate through both sorted arrays and find common strings
+    let i = 0;
+    let j = 0;
+    while (i < sortedArray1.length && j < sortedArray2.length) {
+      if (sortedArray1[i] === sortedArray2[j]) {
+        commonStrings.push(sortedArray1[i]);
+        i++;
+        j++;
+      } else if (sortedArray1[i] < sortedArray2[j]) {
+        i++;
+      } else {
+        j++;
+      }
+    }
+
+    return commonStrings;
+  }
+
+  const CheckMesAndNoti = () => {
+    let notificationChatId = notification?.map((e) => e?._id);
+    let messafesChatId = messages?.map((e) => e?._id);
+    const commonValues = getCommonStrings(messafesChatId, notificationChatId);
+    if (commonValues.length > 0) {
+      console.log("Common strings:", commonValues);
+      const filteredMessages = notification.filter((message) => {
+        // Check if the message's content is NOT in the commonValues array
+        return !commonValues.includes(message?._id);
+      });
+      setNotification(filteredMessages)
+      console.log('filteredMessages',filteredMessages);
+    } else {
+      console.log("No common strings found.");
+    }
+  };
 
   return (
     <>
@@ -325,24 +364,26 @@ const SingleChat = ({ fetchAgain, setFetchAgain }) => {
               )}
               <InputGroup>
                 <div
-                  style={{ width:'95%',display: "flex", alignItems: "center" }}
+                  style={{
+                    width: "95%",
+                    display: "flex",
+                    alignItems: "center",
+                  }}
                 >
                   <Input
                     variant="filled"
                     bg="#E0E0E0"
                     placeholder="Enter a message.."
-                    value={!selectedFile ? newMessage : ''}
+                    value={!selectedFile ? newMessage : ""}
                     onChange={typingHandler}
                     width="90%"
                     className="message__input"
                     disabled={!selectedFile ? false : true}
                   />
-                  
-                  
                 </div>
                 {/* <AttachmentIcon w="20px" h="20px" color="gray.500" /> */}
                 <InputRightElement width="4.5rem">
-                <input
+                  <input
                     type="file"
                     accept="image/*"
                     style={{
@@ -352,7 +393,7 @@ const SingleChat = ({ fetchAgain, setFetchAgain }) => {
                     }}
                     onChange={(e) => postDetails(e.target.files[0])}
                   />
-                <AttachmentIcon
+                  <AttachmentIcon
                     w="20px"
                     h="20px"
                     color="gray.500"
