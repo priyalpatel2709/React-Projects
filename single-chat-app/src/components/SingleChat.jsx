@@ -24,7 +24,6 @@ const ENDPOINT = "http://localhost:2709";
 var socket, selectedChatCompare;
 
 const SingleChat = ({ fetchAgain, setFetchAgain }) => {
-  const fileInputRef = useRef(null);
   const [messages, setMessages] = useState([]);
   const [loading, setLoading] = useState(false);
   const [newMessage, setNewMessage] = useState("");
@@ -235,7 +234,7 @@ const SingleChat = ({ fetchAgain, setFetchAgain }) => {
   };
 
   // console.log('newMessage',newMessage);
-  // console.log('msgRead',msgRead);
+  console.log('selectedFile',selectedFile);
 
   return (
     <>
@@ -329,10 +328,11 @@ const SingleChat = ({ fetchAgain, setFetchAgain }) => {
                     variant="filled"
                     bg="#E0E0E0"
                     placeholder="Enter a message.."
-                    value={newMessage}
+                    value={!selectedFile ? newMessage : ''}
                     onChange={typingHandler}
                     width="90%"
                     className="message__input"
+                    disabled={!selectedFile ? false : true}
                   />
                   
                   
