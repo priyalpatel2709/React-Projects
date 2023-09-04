@@ -45,3 +45,28 @@ export const isSameSenderMargin = (messages, m, i, userId) => {
 export const isSameUser = (messages, m, i) => {
   return i > 0 && messages[i - 1].sender._id === m.sender._id;
 };
+
+export const isSameDate = (messages, m, i) => {
+  const messagescreatedAtDate = messages[messages.length - 1].createdAt.slice(
+    0,
+    10
+  );
+  const mcreatedAtDate = m.createdAt.slice(0, 10);
+  if (messagescreatedAtDate === mcreatedAtDate) {
+    return mcreatedAtDate;
+  } else {
+    return mcreatedAtDate;
+  }
+};
+
+// export const isSameDate1 = (messages, m) => {
+//   if (messages.length === 0) {
+//     return false; 
+//   }
+  
+//   const lastMessageDate = messages[messages.length - 1].createdAt.slice(0, 10);
+//   const currentMessageDate = m.createdAt.slice(0, 10);
+  
+//   return lastMessageDate === currentMessageDate;
+// };
+

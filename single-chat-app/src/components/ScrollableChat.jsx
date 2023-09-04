@@ -6,12 +6,14 @@ import {
   isSameSender,
   isSameSenderMargin,
   isSameUser,
+  isSameDate,
 } from "../config/ChatLogics";
 import { ChatState } from "../Context/ChatProvider";
 import axios from "axios";
 import { useToast, Flex, Image, Text } from "@chakra-ui/react";
 import ImgLoading from "./ImgLoading";
-import { useState } from "react";
+import { useEffect, useState } from "react";
+import Today from "./miscellaneous/Today";
 
 const ScrollableChat = ({
   messages,
@@ -30,8 +32,8 @@ const ScrollableChat = ({
   const [printedToday, setPrintedToday] = useState(false);
 
   const delteMsg = async (SenderId, messageId) => {
-    console.log("SenderId", SenderId);
-    console.log("messageId", messageId);
+    // console.log("SenderId", SenderId);
+    // console.log("messageId", messageId);
     try {
       let result = await axios.delete(
         `https://single-chat-app.onrender.com/api/message/${messageId}/${SenderId}`,
@@ -74,14 +76,20 @@ const ScrollableChat = ({
     return createdAtDate === currentDate ? "Today" : createdAtDate;
   };
 
+  let temp = [];
+  messages &&
+    messages.forEach((m, i) => {
+      temp.push(isSameDate(messages, m, i));
+    });
+
+  // console.log('temp',temp);
+
   return (
     <ScrollableFeed>
       {messages &&
         messages.map((m, i) => (
           <>
-            <Text ml="5px" fontSize="sm" textAlign="center" color="gray.500">
-              {printToday(m.createdAt)}
-            </Text>
+            <Today messages={messages} m={m} i={i} temp={temp} />
             <div style={{ display: "flex" }} key={m._id}>
               {(isSameSender(messages, m, i, user._id) ||
                 isLastMessage(messages, i, user._id)) && (
