@@ -27,7 +27,7 @@ const ScrollableChat = ({
     },
   };
 
-  const [printedToday, setPrintedToday] = useState(false); 
+  const [printedToday, setPrintedToday] = useState(false);
 
   const delteMsg = async (SenderId, messageId) => {
     console.log("SenderId", SenderId);
@@ -63,17 +63,16 @@ const ScrollableChat = ({
   const getCurrentDate = () => {
     const currentDate = new Date();
     const year = currentDate.getFullYear();
-    const month = String(currentDate.getMonth() + 1).padStart(2, '0');
-    const day = String(currentDate.getDate()).padStart(2, '0');
+    const month = String(currentDate.getMonth() + 1).padStart(2, "0");
+    const day = String(currentDate.getDate()).padStart(2, "0");
     return `${year}-${month}-${day}`;
   };
-  
+
   const printToday = (date) => {
     const createdAtDate = date.slice(0, 10);
     const currentDate = getCurrentDate();
     return createdAtDate === currentDate ? "Today" : createdAtDate;
   };
-
 
   return (
     <ScrollableFeed>
@@ -82,7 +81,6 @@ const ScrollableChat = ({
           <>
             <Text ml="5px" fontSize="sm" textAlign="center" color="gray.500">
               {printToday(m.createdAt)}
-              
             </Text>
             <div style={{ display: "flex" }} key={m._id}>
               {(isSameSender(messages, m, i, user._id) ||
