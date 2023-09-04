@@ -19,8 +19,8 @@ import animationData from "../animations/typing.json";
 import io from "socket.io-client";
 import UpdateGroupChatModal from "./miscellaneous/UpdateGroupChatModal";
 import { ChatState } from "../Context/ChatProvider";
-// const ENDPOINT = "https://single-chat-app.onrender.com";
-const ENDPOINT = "http://localhost:2709";
+const ENDPOINT = "https://single-chat-app.onrender.com";
+// const ENDPOINT = "http://localhost:2709";
 var socket, selectedChatCompare;
 
 const SingleChat = ({ fetchAgain, setFetchAgain }) => {
