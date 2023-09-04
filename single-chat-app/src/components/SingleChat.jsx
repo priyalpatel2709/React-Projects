@@ -128,7 +128,7 @@ const SingleChat = ({ fetchAgain, setFetchAgain }) => {
 
   useEffect(() => {
     fetchMessages();
-        selectedChatCompare = selectedChat;
+    selectedChatCompare = selectedChat;
     // eslint-disable-next-line
   }, [selectedChat]);
 
@@ -141,12 +141,10 @@ const SingleChat = ({ fetchAgain, setFetchAgain }) => {
         if (!notification.includes(newMessageRecieved)) {
           setNotification([newMessageRecieved, ...notification]);
           setFetchAgain(!fetchAgain);
-          socket.on("New message recieved", (data) => {
-          });
+          socket.on("New message recieved", (data) => {});
         }
       } else {
         setMessages([...messages, newMessageRecieved]);
-        
       }
     });
   });
@@ -233,7 +231,6 @@ const SingleChat = ({ fetchAgain, setFetchAgain }) => {
     }
   };
 
-
   function getCommonStrings(array1, array2) {
     // Initialize an empty array to store common strings
     const commonStrings = [];
@@ -270,8 +267,8 @@ const SingleChat = ({ fetchAgain, setFetchAgain }) => {
         // Check if the message's content is NOT in the commonValues array
         return !commonValues.includes(message?._id);
       });
-      setNotification(filteredMessages)
-      console.log('filteredMessages',filteredMessages);
+      setNotification(filteredMessages);
+      console.log("filteredMessages", filteredMessages);
     } else {
       console.log("No common strings found.");
     }
@@ -336,6 +333,7 @@ const SingleChat = ({ fetchAgain, setFetchAgain }) => {
               />
             ) : (
               <div className="messages">
+                
                 <ScrollableChat
                   messages={messages}
                   fetchMessages={fetchMessages}
