@@ -26,7 +26,7 @@ const Today = ({ messages, m, i, temp }) => {
 
   const value = indexMap[mcreatedAtDate];
 
-  console.log("Value for key", mcreatedAtDate, "is", value);
+//   console.log("Value for key", mcreatedAtDate, "is", value);
 
   const returnDarte = () => {
     const cuttentDate = getCurrentDate();
