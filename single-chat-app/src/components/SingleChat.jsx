@@ -268,9 +268,9 @@ const SingleChat = ({ fetchAgain, setFetchAgain }) => {
         return !commonValues.includes(message?._id);
       });
       setNotification(filteredMessages);
-      console.log("filteredMessages", filteredMessages);
+      // console.log("filteredMessages", filteredMessages);
     } else {
-      console.log("No common strings found.");
+      // console.log("No common strings found.");
     }
   };
 

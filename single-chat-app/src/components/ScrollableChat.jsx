@@ -62,6 +62,40 @@ const ScrollableChat = ({
     }
   };
 
+  const deleteImage = async (publicId) => {
+    try {
+      // Set your Cloudinary credentials
+      const cloudName = 'dtzrtlyuu';
+      const apiKey = '527636931343465';
+      const apiSecret = '14EcuwEgGHw6F0hqdBIz7KKIMJo';
+  
+      // Construct the URL for deleting the image
+      const url = `https://api.cloudinary.com/v1_1/${cloudName}/delete_by_token`;
+  
+      // Create an Axios instance with Cloudinary authentication headers
+      const instance = axios.create({
+        baseURL: url,
+        auth: {
+          username: apiKey,
+          password: apiSecret,
+        },
+      });
+  
+      // Send a DELETE request to delete the image by public ID
+      const response = await instance.delete(`/${publicId}`);
+  
+      // Check if the image was successfully deleted
+      if (response.status === 200) {
+        console.log('Image deleted successfully.');
+      } else {
+        console.error('Failed to delete image:', response.data);
+      }
+    } catch (error) {
+      console.error('Error deleting image:', error);
+    }
+  };
+  
+
   let temp = [];
   messages &&
     messages.forEach((m, i) => {
@@ -139,6 +173,7 @@ const ScrollableChat = ({
           <Text ml="5px" fontSize="sm" color="gray.500">
             Privew
           </Text>
+          <button onClick={()=>deleteImage('chat-app/zpvmphy9aey7u4d4e7af')} > delete</button>
           <Image
             src={`${selectedFile}`}
             alt="Selected File"

@@ -61,7 +61,7 @@ const Login = () => {
         position: "top",
       });
       // setUser(data);
-      console.log(data);
+      // console.log(data);
       localStorage.setItem("userInfo", JSON.stringify(data));
       setLoading(false);
       navigate("/chat");
