@@ -2,7 +2,7 @@ import React from "react";
 import { Text } from "@chakra-ui/react";
 import { Divider, Box, Center } from "@chakra-ui/react";
 
-const Today = ({ messages, m, i, temp }) => {
+const Today = ({  m, i, temp }) => {
   const uniqueElements = [...new Set(temp)];
 
   const indexMap = {};

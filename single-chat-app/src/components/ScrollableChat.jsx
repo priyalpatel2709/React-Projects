@@ -29,7 +29,6 @@ const ScrollableChat = ({
     },
   };
 
-  const [printedToday, setPrintedToday] = useState(false);
 
   const delteMsg = async (SenderId, messageId) => {
     // console.log("SenderId", SenderId);

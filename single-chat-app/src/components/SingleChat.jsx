@@ -101,7 +101,6 @@ const SingleChat = ({ fetchAgain, setFetchAgain }) => {
         );
         // CheckMesAndNoti();
         socket.emit("new message", data);
-        // console.log("me j 6u");
         setMessages([...messages, data]);
       } catch (error) {
         toast({
@@ -118,12 +117,20 @@ const SingleChat = ({ fetchAgain, setFetchAgain }) => {
 
   useEffect(() => {
     socket = io(ENDPOINT);
-    socket.emit("setup", user);
+    const onlineUserInfo ={
+      'userId' : user._id,
+      'chatId': selectedChat?._id
+    };
+    socket.emit("setup", onlineUserInfo);
     socket.on("connected", () => setSocketConnected(true));
     socket.on("typing", () => setIsTyping(true));
     socket.on("stop typing", () => setIsTyping(false));
 
     // eslint-disable-next-line
+
+    return (()=>{
+      socket.disconnect()
+    })
   }, []);
 
   useEffect(() => {
